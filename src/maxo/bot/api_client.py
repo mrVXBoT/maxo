@@ -6,7 +6,7 @@ from aiohttp import ClientResponse
 from retejo.http.clients.aiohttp import AiohttpClient
 from retejo.http.entities import HttpResponse
 from retejo.http.markers import QueryParamMarker
-from retejo.utils.for_marker import for_marker
+from retejo.marker_tools import for_marker
 
 from maxo._internal._adaptix.concat_provider import concat_provider
 from maxo._internal._adaptix.has_tag_provider import has_tag_provider

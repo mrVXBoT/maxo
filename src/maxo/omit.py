@@ -1,8 +1,7 @@
 from typing import TypeAlias, TypeVar
 
-# TODO: придумать, как избавиться от этого костыля.
-from retejo.core.markers import (
-    Omitted as OriginOmitted,
+from retejo.core import Omitted as OriginOmitted
+from retejo.marker_tools import (
     is_defined as origin_is_defined,
     is_not_defined as origin_is_not_defined,
     is_not_omittable_tp as origin_is_not_omittable_tp,
