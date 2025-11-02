@@ -22,3 +22,7 @@ class MessageBody(MaxoType):
     text: str | None = None
     attachments: list[Attachments] | None = None
     markup: Omittable[list[MarkupElements] | None] = Omitted()
+
+    @property
+    def id(self) -> str:
+        return self.mid

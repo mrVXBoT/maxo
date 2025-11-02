@@ -4,14 +4,14 @@ from typing import Any
 
 from maxo import Bot, Ctx, Dispatcher
 from maxo.routing.filters.base import BaseFilter
-from maxo.routing.interfaces.middleware import Middleware, NextMiddleware
+from maxo.routing.interfaces.middleware import BaseMiddleware, NextMiddleware
 from maxo.routing.updates.message_created import MessageCreated
 from maxo.routing.utils.inline_ctx import inline_ctx
 from maxo.tools.facades import MessageCreatedFacade
 from maxo.tools.long_polling.long_polling import LongPolling
 
 
-class OuterMiddleware(Middleware[MessageCreated]):
+class OuterMiddleware(BaseMiddleware[MessageCreated]):
     async def execute(
         self,
         update: MessageCreated,
@@ -24,7 +24,7 @@ class OuterMiddleware(Middleware[MessageCreated]):
         return result
 
 
-class InnerMiddleware(Middleware[MessageCreated]):
+class InnerMiddleware(BaseMiddleware[MessageCreated]):
     async def execute(
         self,
         update: MessageCreated,

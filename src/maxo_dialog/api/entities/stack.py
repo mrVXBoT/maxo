@@ -40,7 +40,7 @@ def new_id():
 class Stack:
     _id: str = field(compare=True, default_factory=new_id)
     intents: list[str] = field(compare=False, default_factory=list)
-    last_message_id: Optional[int] = field(compare=False, default=None)
+    last_message_id: Optional[str] = field(compare=False, default=None)
     last_reply_keyboard: bool = field(compare=False, default=False)
     last_media_id: Optional[str] = field(compare=False, default=None)
     last_media_unique_id: Optional[str] = field(compare=False, default=None)

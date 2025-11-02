@@ -2,7 +2,7 @@ from typing import Any, Final
 
 from maxo.omit import is_defined
 from maxo.routing.ctx import Ctx
-from maxo.routing.interfaces.middleware import Middleware, NextMiddleware
+from maxo.routing.interfaces.middleware import BaseMiddleware, NextMiddleware
 from maxo.routing.signals.update import Update
 from maxo.routing.updates.bot_added import BotAdded
 from maxo.routing.updates.bot_removed import BotRemoved
@@ -19,7 +19,7 @@ from maxo.types.update_context import UpdateContext
 UPDATE_CONTEXT_ATTR: Final = "update_context"
 
 
-class UpdateContextMiddleware(Middleware[Update[Any]]):
+class UpdateContextMiddleware(BaseMiddleware[Update[Any]]):
     async def execute(
         self,
         update: Update[Any],

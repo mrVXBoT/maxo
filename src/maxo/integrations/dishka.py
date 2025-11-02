@@ -4,7 +4,7 @@ from dishka import AsyncContainer
 
 from maxo.routing.handlers.signal import SignalHandlerFn
 from maxo.routing.handlers.update import UpdateHandlerFn
-from maxo.routing.interfaces.middleware import Middleware, NextMiddleware
+from maxo.routing.interfaces.middleware import BaseMiddleware, NextMiddleware
 from maxo.routing.signals.base import BaseSignal
 from maxo.routing.signals.update import Update
 
@@ -63,7 +63,7 @@ def setup_dishka(
     )
 
 
-class DishkaMiddleware(Middleware[Update[Any]]):
+class DishkaMiddleware(BaseMiddleware[Update[Any]]):
     __slots__ = ("_container", "_extra_context")
 
     def __init__(

@@ -5,7 +5,7 @@ from typing import (
 )
 
 from maxo.fsm import State
-from maxo.types import Callback, Message
+from maxo.tools.facades import MessageCallbackFacade, MessageCreatedFacade
 from maxo_dialog.api.entities import Data, NewMessage
 from maxo_dialog.api.protocols import DialogProtocol
 
@@ -16,7 +16,7 @@ class WindowProtocol(Protocol):
     @abstractmethod
     async def process_message(
         self,
-        message: Message,
+        message: MessageCreatedFacade,
         dialog: "DialogProtocol",
         manager: DialogManager,
     ) -> bool:
@@ -26,7 +26,7 @@ class WindowProtocol(Protocol):
     @abstractmethod
     async def process_callback(
         self,
-        callback: Callback,
+        callback: MessageCallbackFacade,
         dialog: "DialogProtocol",
         manager: DialogManager,
     ) -> bool:

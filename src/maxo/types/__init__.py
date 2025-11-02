@@ -1,5 +1,6 @@
 from maxo.types.audio_attachment import AudioAttachment
 from maxo.types.audio_attachment_request import AudioAttachmentRequest
+from maxo.types.base import MaxoType
 from maxo.types.bot_command import BotCommand
 from maxo.types.bot_info import BotInfo
 from maxo.types.callback import Callback
@@ -102,6 +103,7 @@ __all__ = (
     "LinkedMessage",
     "LocationAttachment",
     "LocationAttachmentRequest",
+    "MaxoType",
     "MediaAttachmentPayload",
     "Message",
     "MessageBody",

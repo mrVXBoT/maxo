@@ -2,9 +2,10 @@ from abc import abstractmethod
 from collections.abc import Awaitable, Callable, Sequence
 from typing import Any, Optional, Union
 
-from maxo import F
 from maxo.dispatcher.event.handler import FilterObject
-from maxo.types import AttachmentType, Message
+from maxo.enums import AttachmentType
+from maxo.integrations.magic_filter import F
+from maxo.types import Message
 from maxo_dialog.api.internal import InputWidget
 from maxo_dialog.api.protocols import (
     DialogManager,

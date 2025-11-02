@@ -28,7 +28,7 @@ class DefaultAccessValidator(StackAccessValidator):
         if not access_settings:
             return True
         chat = data["event_chat"]
-        if chat.type is ChatType.PRIVATE:
+        if chat.type is ChatType.DIALOG:
             return True
         if access_settings.user_ids:
             user = data["event_from_user"]

@@ -33,3 +33,7 @@ class User(MaxoType):
     is_bot: bool
     last_activity_time: datetime
     description: Omittable[str | None] = Omitted()
+
+    @property
+    def id(self) -> int:
+        return self.user_id

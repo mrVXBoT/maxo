@@ -1,4 +1,4 @@
-from maxo import Router
+from maxo.routing.interfaces import Router
 from maxo_dialog.api.entities import ChatEvent
 from maxo_dialog.api.internal import DialogManagerFactory
 from maxo_dialog.api.protocols import (

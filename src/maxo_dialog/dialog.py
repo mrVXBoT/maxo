@@ -187,7 +187,7 @@ class Dialog(Router, DialogProtocol):
             # something happened
             return True
         event_chat: Chat = dialog_manager.middleware_data["event_chat"]
-        if event_chat.type == ChatType.PRIVATE:
+        if event_chat.type == ChatType.DIALOG:
             # for private chats we can ensure dialog is visible
             return True
         return False

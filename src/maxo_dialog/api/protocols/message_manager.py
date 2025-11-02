@@ -2,7 +2,8 @@ from abc import abstractmethod
 from typing import Optional, Protocol
 
 from maxo import Bot
-from maxo.types import Callback, Message
+from maxo.routing.updates import MessageEdited
+from maxo.tools.facades import MessageCallbackFacade
 from maxo_dialog import ShowMode
 from maxo_dialog.api.entities import NewMessage, OldMessage
 from maxo_dialog.api.exceptions import DialogsError
@@ -19,7 +20,7 @@ class MessageManagerProtocol(Protocol):
         bot: Bot,
         show_mode: ShowMode,
         old_message: Optional[OldMessage],
-    ) -> Optional[Message]:
+    ) -> Optional[MessageEdited]:
         raise NotImplementedError
 
     @abstractmethod
@@ -35,6 +36,6 @@ class MessageManagerProtocol(Protocol):
     async def answer_callback(
         self,
         bot: Bot,
-        callback_query: Callback,
+        callback_query: MessageCallbackFacade,
     ) -> None:
         raise NotImplementedError

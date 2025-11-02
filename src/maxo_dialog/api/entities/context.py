@@ -1,11 +1,11 @@
 from dataclasses import dataclass, field
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 from maxo.fsm import State
 
 from .access import AccessSettings
 
-Data = Union[dict, list, int, str, float, None]
+Data = Union[dict[Any, Any], list[Any], int, str, float, None]
 DataDict = dict[str, Data]
 
 

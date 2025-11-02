@@ -1,13 +1,13 @@
 from typing import Any
 
 from maxo.routing.ctx import Ctx
-from maxo.routing.interfaces.middleware import Middleware, NextMiddleware
+from maxo.routing.interfaces.middleware import BaseMiddleware, NextMiddleware
 from maxo.routing.interfaces.router import Router
 from maxo.routing.sentinels import UNHANDLED
 from maxo.routing.signals.exception import ExceptionEvent
 
 
-class ErrorMiddleware(Middleware[Any]):
+class ErrorMiddleware(BaseMiddleware[Any]):
     __slots__ = ("_router",)
 
     def __init__(self, router: Router) -> None:

@@ -1,7 +1,7 @@
 from pathlib import Path
 from typing import Optional, Union
 
-from maxo.types import AttachmentType
+from maxo.enums import AttachmentType
 from maxo_dialog.api.entities import MediaAttachment
 from maxo_dialog.api.protocols import DialogManager
 from maxo_dialog.widgets.common import WhenCondition

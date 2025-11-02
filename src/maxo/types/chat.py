@@ -52,3 +52,7 @@ class Chat(MaxoType):
     messages_count: Omittable[int | None] = Omitted()
     chat_message_id: Omittable[str | None] = Omitted()
     pinned_message: Omittable[Message | None] = Omitted()
+
+    @property
+    def id(self) -> int:
+        return self.chat_id

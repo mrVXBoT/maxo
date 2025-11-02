@@ -3,22 +3,12 @@ from enum import Enum
 from typing import Optional, Union
 
 from maxo.enums import AttachmentType
-from maxo.types import (
-    Chat,
-    ForceReply,
-    InlineKeyboardMarkup,
-    LinkPreviewOptions,
-    ReplyKeyboardMarkup,
-    ReplyKeyboardRemove,
-)
+from maxo.types import Chat
+from maxo.types.keyboard_buttons import KeyboardButtons
 from maxo_dialog.api.entities import MediaAttachment, ShowMode
+from maxo_dialog.api.entities.link_preview import LinkPreviewOptions
 
-MarkupVariant = Union[
-    ForceReply,
-    InlineKeyboardMarkup,
-    ReplyKeyboardMarkup,
-    ReplyKeyboardRemove,
-]
+MarkupVariant = list[list[KeyboardButtons]]
 
 
 class UnknownText(Enum):
@@ -28,7 +18,7 @@ class UnknownText(Enum):
 @dataclass
 class OldMessage:
     chat: Chat
-    message_id: int
+    message_id: str
     media_id: Optional[str]
     media_uniq_id: Optional[str]
     text: Union[str, None, UnknownText] = None

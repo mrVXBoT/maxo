@@ -1,26 +1,21 @@
 from dataclasses import dataclass
-from typing import Optional, Union
+from typing import Any, Union
 
 from maxo import Bot
-from maxo.types import (
-    Callback,
-    Chat,
-    ChatJoinRequest,
-    ChatMemberUpdated,
-    ErrorEvent,
-    Message,
-    User,
-)
+from maxo.routing.signals.exception import ExceptionEvent
+from maxo.routing.updates import UserAdded, UserRemoved
+from maxo.tools.facades import MessageCallbackFacade, MessageCreatedFacade
+from maxo.types import Chat, User
 
 from .update_event import DialogUpdateEvent
 
 ChatEvent = Union[
-    Callback,
-    ChatJoinRequest,
-    ChatMemberUpdated,
+    MessageCallbackFacade,
+    UserAdded,
+    UserRemoved,
     DialogUpdateEvent,
-    ErrorEvent,
-    Message,
+    ExceptionEvent[Any],
+    MessageCreatedFacade,
 ]
 
 
@@ -29,8 +24,6 @@ class EventContext:
     bot: Bot
     chat: Chat
     user: User
-    thread_id: Optional[int]
-    business_connection_id: Optional[str]
 
 
 EVENT_CONTEXT_KEY = "aiogd_event_context"

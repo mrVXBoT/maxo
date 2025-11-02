@@ -1,6 +1,6 @@
 import time
 from types import TracebackType
-from typing import Self, TypeVar
+from typing import Any, Self, TypeVar
 
 from retejo.core.method_binder import bind_method
 
@@ -43,6 +43,7 @@ from maxo.bot.state import (
     EmptyBotState,
     InitialBotState,
 )
+from maxo.types import ChatMember
 from maxo.types.base import MaxoType
 
 _MethodResultT = TypeVar("_MethodResultT", bound=MaxoType)
@@ -69,15 +70,12 @@ class Bot:
 
     async def start(self) -> None:
         if self.state.started:
-            return None
+            return
 
         time.perf_counter()
         api_client = MaxApiClient(self._token, self._warming_up)
         info = await api_client.send_method(GetBotInfo())
-        self._state = InitialBotState(
-            info=info,
-            api_client=api_client,
-        )
+        self._state = InitialBotState(info=info, api_client=api_client)
 
     async def __aenter__(self) -> Self:
         await self.start()
@@ -99,7 +97,7 @@ class Bot:
 
     async def close(self) -> None:
         if self.state.closed or not self.state.started:
-            return None
+            return
 
         await self.state.api_client.close()
         self._state = ClosedBotState()
@@ -137,6 +135,10 @@ class Bot:
     get_chat_members = bind_method(GetChatMembers)
     add_chat_members = bind_method(AddChatMembers)
     delete_chat_member = bind_method(DeleteChatMember)
+
+    async def get_chat_member(self, *args: Any, **kwargs: Any) -> ChatMember | None:
+        # TODO: Сделать
+        pass
 
     # uploads
 

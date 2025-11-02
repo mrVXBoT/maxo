@@ -17,7 +17,7 @@ class NextMiddleware(Protocol[_UpdateT]):
 
 
 @runtime_checkable
-class Middleware(Protocol[_UpdateT]):
+class BaseMiddleware(Protocol[_UpdateT]):
     __slots__ = ()
 
     @abstractmethod
@@ -28,3 +28,11 @@ class Middleware(Protocol[_UpdateT]):
         next: NextMiddleware[_UpdateT],
     ) -> Any:
         raise NotImplementedError
+
+    async def __call__(
+        self,
+        update: _UpdateT,
+        ctx: Ctx[_UpdateT],
+        next: NextMiddleware[_UpdateT],
+    ) -> Any:
+        return self.execute(update, ctx, next)

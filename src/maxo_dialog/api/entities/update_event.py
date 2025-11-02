@@ -1,20 +1,11 @@
 from enum import Enum
 from typing import Any, Optional
 
-from pydantic import ConfigDict
-
 from maxo.fsm import State
-from maxo.types import (
-    Chat,
-    TelegramObject,
-    Update,
-    User,
-)
+from maxo.routing.updates.base import MaxUpdate
+from maxo.types import Chat, MaxoType, User
 
-from .modes import (
-    ShowMode,
-    StartMode,
-)
+from .modes import ShowMode, StartMode
 from .stack import AccessSettings
 
 DIALOG_EVENT_NAME = "aiogd_update"
@@ -27,11 +18,7 @@ class DialogAction(Enum):
     SWITCH = "SWITCH"
 
 
-class DialogUpdateEvent(TelegramObject):
-    model_config = ConfigDict(
-        arbitrary_types_allowed=True,
-        use_enum_values=False,
-    )
+class DialogUpdateEvent(MaxoType):
     from_user: User
     chat: Chat
     action: DialogAction
@@ -53,14 +40,11 @@ class DialogSwitchEvent(DialogUpdateEvent):
     new_state: State
 
 
-class DialogUpdate(Update):
+class DialogUpdate(MaxUpdate):
     aiogd_update: DialogUpdateEvent
 
-    def __init__(self, aiogd_update: DialogUpdateEvent):
-        super().__init__(update_id=0, aiogd_update=aiogd_update)
-
     @property
-    def event_type(self) -> str:
+    def type(self) -> str:
         return DIALOG_EVENT_NAME
 
     @property

@@ -1,7 +1,7 @@
 from typing import Optional
 
-from maxo.types import LinkPreviewOptions
 from maxo_dialog import DialogManager
+from maxo_dialog.api.entities.link_preview import LinkPreviewOptions
 from maxo_dialog.api.internal import LinkPreviewWidget, TextWidget
 from maxo_dialog.widgets.common import BaseWidget, WhenCondition, Whenable
 

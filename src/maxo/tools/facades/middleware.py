@@ -2,7 +2,7 @@ from collections.abc import Mapping
 from typing import Any, final
 
 from maxo.routing.ctx import Ctx
-from maxo.routing.interfaces.middleware import Middleware, NextMiddleware
+from maxo.routing.interfaces.middleware import BaseMiddleware, NextMiddleware
 from maxo.routing.signals.update import Update
 from maxo.routing.updates.base import BaseUpdate
 from maxo.routing.updates.message_callback import MessageCallback
@@ -17,7 +17,7 @@ _FACEDS_MAP: Mapping[type[Any], type[BaseUpdateFacade[Any]]] = {
 }
 
 
-class FacadeMiddleware(Middleware[Update[Any]]):
+class FacadeMiddleware(BaseMiddleware[Update[Any]]):
     @final
     async def execute(
         self,

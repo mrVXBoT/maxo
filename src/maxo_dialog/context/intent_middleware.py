@@ -4,9 +4,9 @@ from typing import Any, Optional
 
 from maxo.fsm.event_isolations.base import BaseEventIsolation
 from maxo.fsm.storages.base import BaseStorage
-from maxo.routing.interfaces import Middleware, Router
+from maxo.routing.interfaces import BaseMiddleware, Router
 from maxo.routing.sentinels import UNHANDLED
-from maxo.types.api import Callback, Message
+from maxo.types import Callback, Message
 from maxo_dialog.api.entities import (
     DEFAULT_STACK_ID,
     EVENT_CONTEXT_KEY,
@@ -383,7 +383,7 @@ async def context_unlocker_middleware(handler, event, data):
     return result
 
 
-class IntentErrorMiddleware(Middleware):
+class IntentErrorMiddleware(BaseMiddleware):
     def __init__(
         self,
         registry: DialogRegistryProtocol,

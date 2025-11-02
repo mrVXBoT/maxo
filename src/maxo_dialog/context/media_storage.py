@@ -3,7 +3,7 @@ from typing import NamedTuple, Optional, cast
 
 from cachetools import LRUCache
 
-from maxo.types import AttachmentType
+from maxo.enums import AttachmentType
 from maxo_dialog.api.entities import MediaId
 from maxo_dialog.api.protocols import MediaIdStorageProtocol
 
