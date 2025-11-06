@@ -1,7 +1,7 @@
 from typing import Generic, TypeVar
 
-from retejo.http.markers import Header
 from retejo.http.entities import HttpMethod
+from retejo.http.markers import Header
 
 from maxo.omit import Omittable, Omitted
 

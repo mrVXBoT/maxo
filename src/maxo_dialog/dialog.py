@@ -12,7 +12,7 @@ from maxo import SimpleRouter
 from maxo.enums import ChatType
 from maxo.fsm import State, StatesGroup
 from maxo.routing.interfaces import Router
-from maxo.tools.facades import MessageCallbackFacade, MessageCreatedFacade
+from maxo.tools.facades import MessageCallbackFacade
 from maxo.types import Callback, Chat
 from maxo.types.message import Message
 from maxo_dialog.api.entities import Context, Data, LaunchMode, NewMessage
@@ -135,7 +135,7 @@ class Dialog(SimpleRouter, DialogProtocol):
 
     async def _message_handler(
         self,
-        message: MessageCreatedFacade,
+        message: Message,
         dialog_manager: DialogManager,
     ):
         old_context = dialog_manager.current_context()
@@ -153,7 +153,7 @@ class Dialog(SimpleRouter, DialogProtocol):
 
     async def _callback_handler(
         self,
-        callback: MessageCallbackFacade,
+        callback: Callback,
         dialog_manager: DialogManager,
     ):
         old_context = dialog_manager.current_context()

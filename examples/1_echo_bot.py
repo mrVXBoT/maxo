@@ -4,7 +4,6 @@ import os
 from maxo import Bot, Dispatcher
 from maxo.routing.ctx import Ctx
 from maxo.routing.updates.message_created import MessageCreated
-from maxo.routing.utils.inline_ctx import inline_ctx
 from maxo.tools.facades.updates.message_created import MessageCreatedFacade
 from maxo.tools.long_polling.long_polling import LongPolling
 
@@ -13,7 +12,6 @@ dispatcher = Dispatcher()
 
 
 @dispatcher.message_created()
-@inline_ctx
 async def echo_handler(
     update: MessageCreated,
     ctx: Ctx[MessageCreated],

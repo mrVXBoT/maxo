@@ -1,7 +1,11 @@
+from asyncio import Lock
+from collections import defaultdict
 from collections.abc import MutableMapping
+from contextlib import asynccontextmanager
 from copy import copy
-from typing import Any
+from typing import Any, AsyncIterator, Hashable
 
+from maxo.fsm.event_isolations import BaseEventIsolation
 from maxo.fsm.key_builder import (
     DefaultKeyBuilder,
     KeyBuilder,
@@ -9,7 +13,7 @@ from maxo.fsm.key_builder import (
     StorageKeyType,
 )
 from maxo.fsm.state import State
-from maxo.fsm.storages.base import BaseStorage
+from maxo.fsm.storages.base import BaseEventIsolation, BaseStorage
 
 
 class MemoryStorage(BaseStorage):
@@ -52,3 +56,37 @@ class MemoryStorage(BaseStorage):
     async def close(self) -> None:
         self._data.clear()
         self._state.clear()
+
+
+class SimpleEventIsolation(BaseEventIsolation):
+    __slots__ = ("_key_builder", "_locks")
+
+    def __init__(
+        self,
+        key_builder: KeyBuilder | None = None,
+    ) -> None:
+        if key_builder is None:
+            key_builder = DefaultKeyBuilder()
+        self._key_builder = key_builder
+
+        self._locks: defaultdict[Hashable, Lock] = defaultdict(Lock)
+
+    @asynccontextmanager
+    async def lock(self, key: StorageKey) -> AsyncIterator[None]:
+        built_key = self._key_builder.build(key, StorageKeyType.LOCK)
+
+        lock = self._locks[built_key]
+        async with lock:
+            yield
+
+    async def close(self) -> None:
+        self._locks.clear()
+
+
+class DisabledEventIsolation(BaseEventIsolation):
+    @asynccontextmanager
+    async def lock(self, key: StorageKey) -> AsyncIterator[None]:
+        yield
+
+    async def close(self) -> None:
+        pass

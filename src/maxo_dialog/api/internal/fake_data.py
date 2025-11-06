@@ -1,16 +1,16 @@
 from typing import Any, Literal
 
 from maxo.bot.methods import CallbackAnswer
-from maxo.tools.facades import MessageCreatedFacade
 from maxo.types import (
     Callback,
     Chat,
+    Message,
     User,
 )
 
 
 class ReplyCallback(Callback):
-    original_message: MessageCreatedFacade
+    original_message: Message
 
     def answer(self, *args: Any, **kwargs: Any) -> CallbackAnswer:
         raise ValueError(

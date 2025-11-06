@@ -10,7 +10,6 @@ from maxo.integrations.magic_filter import MagicFilter
 from maxo.routing.ctx import Ctx
 from maxo.routing.filters import CommandStart
 from maxo.routing.updates.message_created import MessageCreated
-from maxo.routing.utils import inline_ctx
 from maxo.tools.facades import MessageCreatedFacade
 from maxo.tools.long_polling.long_polling import LongPolling
 
@@ -23,7 +22,6 @@ class UserRegistatorStatesGroup(StatesGroup):
 
 
 @router.message_created(CommandStart())
-@inline_ctx
 async def start_handler(
     update: MessageCreated,
     ctx: Ctx[MessageCreated],
@@ -36,7 +34,6 @@ async def start_handler(
 
 
 @router.message_created(MagicFilter(F.message.body.text) & StateFilter(UserRegistatorStatesGroup.INPUT_NAME))
-@inline_ctx
 async def input_name_handler(
     update: MessageCreated,
     ctx: Ctx[MessageCreated],
@@ -61,7 +58,6 @@ async def input_name_handler(
 
 
 @router.message_created(MagicFilter(F.message.body.text) & StateFilter(UserRegistatorStatesGroup.INPUT_AGE))
-@inline_ctx
 async def input_age_handler(
     update: MessageCreated,
     ctx: Ctx[MessageCreated],
@@ -73,13 +69,13 @@ async def input_age_handler(
     text = update.message.unsafe_body.text
     if text is None:
         await facade.answer_text("Отправь текстовое сообщение")
-        return None
+        return
 
     try:
         age = int(text)
     except TypeError:
         await facade.answer_text("Ты отправил не возраст. Попробуй еще раз")
-        return None
+        return
 
     name = await state.get_value("name")
 

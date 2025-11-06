@@ -11,7 +11,7 @@ from maxo.tools.facades.updates.base import BaseUpdateFacade
 from maxo.tools.facades.updates.message_callback import MessageCallbackFacade
 from maxo.tools.facades.updates.message_created import MessageCreatedFacade
 
-_FACEDS_MAP: Mapping[type[Any], type[BaseUpdateFacade[Any]]] = {
+_FACADES_MAP: Mapping[type[Any], type[BaseUpdateFacade[Any]]] = {
     MessageCreated: MessageCreatedFacade,
     MessageCallback: MessageCallbackFacade,
 }
@@ -34,4 +34,4 @@ class FacadeMiddleware(BaseMiddleware[Update[Any]]):
         self,
         update_tp: type[BaseUpdate],
     ) -> type[BaseUpdateFacade[Any]]:
-        return _FACEDS_MAP[update_tp]
+        return _FACADES_MAP[update_tp]

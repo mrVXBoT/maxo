@@ -7,7 +7,6 @@ from maxo import Bot, Ctx, Dispatcher, SimpleRouter
 from maxo.integrations.magic_filter import MagicFilter
 from maxo.routing.filters import CommandStart
 from maxo.routing.updates import MessageCallback, MessageCreated
-from maxo.routing.utils import inline_ctx
 from maxo.tools.builders import KeyboardBuilder
 from maxo.tools.facades import MessageCallbackFacade, MessageCreatedFacade
 from maxo.tools.long_polling.long_polling import LongPolling
@@ -16,7 +15,6 @@ router = SimpleRouter()
 
 
 @router.message_created(CommandStart())
-@inline_ctx
 async def start_handler(
     update: MessageCreated,
     ctx: Ctx[MessageCreated],
@@ -45,7 +43,6 @@ async def start_handler(
 
 
 @router.message_callback(MagicFilter(F.callback_id == "click_me"))
-@inline_ctx
 async def click_me_handler(
     update: MessageCallback,
     ctx: Ctx[MessageCallback],

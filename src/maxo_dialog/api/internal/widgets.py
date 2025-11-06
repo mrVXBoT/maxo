@@ -8,8 +8,7 @@ from typing import (
     runtime_checkable,
 )
 
-from maxo.tools.facades import MessageCallbackFacade, MessageCreatedFacade
-from maxo.types import CallbackKeyboardButton, MessageKeyboardButton
+from maxo.types import Callback, CallbackKeyboardButton, Message, MessageKeyboardButton
 from maxo_dialog import DialogManager
 from maxo_dialog.api.entities import MarkupVariant, MediaAttachment
 from maxo_dialog.api.entities.link_preview import LinkPreviewOptions
@@ -69,7 +68,7 @@ class KeyboardWidget(Widget, Protocol):
     @abstractmethod
     async def process_callback(
         self,
-        callback: MessageCallbackFacade,
+        callback: Callback,
         dialog: DialogProtocol,
         manager: DialogManager,
     ) -> bool:
@@ -100,7 +99,7 @@ class InputWidget(Widget, Protocol):
     @abstractmethod
     async def process_message(
         self,
-        message: MessageCreatedFacade,
+        message: Message,
         dialog: DialogProtocol,
         manager: DialogManager,
     ) -> bool:

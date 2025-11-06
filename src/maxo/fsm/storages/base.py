@@ -1,7 +1,8 @@
 from abc import ABC, abstractmethod
 from collections.abc import MutableMapping
+from contextlib import asynccontextmanager
 from copy import copy
-from typing import Any, NewType, TypeAlias
+from typing import Any, AsyncIterator, NewType, Protocol, TypeAlias
 
 from maxo.fsm.key_builder import StorageKey
 from maxo.fsm.state import State
@@ -57,3 +58,19 @@ class BaseStorage(ABC):
         await self.set_data(key=key, data=current_data)
 
         return copy(current_data)
+
+
+class BaseEventIsolation(Protocol):
+    __slots__ = ()
+
+    @abstractmethod
+    @asynccontextmanager
+    async def lock(self, key: StorageKey) -> AsyncIterator[None]:
+        yield None
+
+    @abstractmethod
+    async def close(self) -> None:
+        raise NotImplementedError
+
+    async def aclose(self) -> None:
+        await self.close()

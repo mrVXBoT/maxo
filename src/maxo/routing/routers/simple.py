@@ -57,29 +57,29 @@ class SimpleRouter(Router):
     __state: RouterState
 
     def __init__(self, name: str | None = None) -> None:
-        self.bot_added = UpdateObserver()
-        self.bot_removed = UpdateObserver()
-        self.bot_started = UpdateObserver()
-        self.chat_title_changed = UpdateObserver()
-        self.message_callback = UpdateObserver()
-        self.message_chat_created = UpdateObserver()
-        self.message_created = UpdateObserver()
-        self.message_edited = UpdateObserver()
-        self.message_removed = UpdateObserver()
-        self.user_added = UpdateObserver()
-        self.user_removed = UpdateObserver()
+        self.bot_added = UpdateObserver[BotAdded]()
+        self.bot_removed = UpdateObserver[BotRemoved]()
+        self.bot_started = UpdateObserver[BotStarted]()
+        self.chat_title_changed = UpdateObserver[ChatTitileChanged]()
+        self.message_callback = UpdateObserver[MessageCallback]()
+        self.message_chat_created = UpdateObserver[MessageChatCreated]()
+        self.message_created = UpdateObserver[MessageCreated]()
+        self.message_edited = UpdateObserver[MessageEdited]()
+        self.message_removed = UpdateObserver[MessageRemoved]()
+        self.user_added = UpdateObserver[UserAdded]()
+        self.user_removed = UpdateObserver[UserRemoved]()
 
-        self.exception = SignalObserver()
+        self.exception = SignalObserver[ExceptionEvent[Any]]()
 
-        self.before_startup = SignalObserver()
+        self.before_startup = SignalObserver[BeforeStartup]()
         self.before_startup.handler(self._emit_before_startup_handler)
 
-        self.after_startup = SignalObserver()
+        self.after_startup = SignalObserver[AfterStartup]()
 
-        self.before_shutdown = SignalObserver()
+        self.before_shutdown = SignalObserver[BeforeShutdown]()
         self.before_shutdown.handler(self._emit_before_shutdown_handler)
 
-        self.after_shutdown = SignalObserver()
+        self.after_shutdown = SignalObserver[AfterShutdown]()
 
         self._observers = {
             BotAdded: self.bot_added,

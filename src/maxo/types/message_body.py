@@ -1,6 +1,5 @@
 from maxo.omit import Omittable, Omitted
-from maxo.types import InlineKeyboardAttachment
-from maxo.types.attachments import Attachments
+from maxo.types.attachments import Attachments, InlineKeyboardAttachment
 from maxo.types.base import MaxoType
 from maxo.types.keyboard import Keyboard
 from maxo.types.markup_elements import MarkupElements

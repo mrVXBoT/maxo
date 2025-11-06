@@ -1,21 +1,23 @@
-import json
-from collections.abc import Callable, MutableMapping
-from typing import Any, cast
-
 try:
     from redis.asyncio import Redis
+    from redis.asyncio.lock import Lock
     from redis.typing import ExpiryT
 except ImportError as e:
     e.add_note("* Please run `pip install maxo[redis]`")
     raise
 
+import json
+from contextlib import asynccontextmanager
+from typing import Any, AsyncIterator, Callable, MutableMapping, cast
+
+from maxo.fsm import State
+from maxo.fsm.event_isolations import BaseEventIsolation
 from maxo.fsm.key_builder import (
     DefaultKeyBuilder,
     KeyBuilder,
     StorageKey,
     StorageKeyType,
 )
-from maxo.fsm.state import State
 from maxo.fsm.storages.base import BaseStorage
 
 
@@ -92,6 +94,44 @@ class RedisStorage(BaseStorage):
             value = value.decode("utf-8")
 
         return cast("MutableMapping[str, Any]", self.json_loads(value))
+
+    async def close(self) -> None:
+        await self.redis.aclose()
+
+
+DEFAULT_REDIS_LOCK_KWARGS = {"timeout": 60}
+
+
+class RedisEventIsolation(BaseEventIsolation):
+    __slots__ = (
+        "key_builder",
+        "lock_kwargs",
+        "redis",
+    )
+
+    def __init__(
+        self,
+        redis: Redis,
+        key_builder: KeyBuilder | None = None,
+        lock_kwargs: dict[str, Any] | None = None,
+    ) -> None:
+        if key_builder is None:
+            key_builder = DefaultKeyBuilder()
+        if lock_kwargs is None:
+            lock_kwargs = DEFAULT_REDIS_LOCK_KWARGS
+
+        self.redis = redis
+        self.key_builder = key_builder
+        self.lock_kwargs = lock_kwargs
+
+    @asynccontextmanager
+    async def lock(
+        self,
+        key: StorageKey,
+    ) -> AsyncIterator[None]:
+        redis_key = self.key_builder.build(key, StorageKeyType.LOCK)
+        async with self.redis.lock(name=redis_key, **self.lock_kwargs, lock_class=Lock):
+            yield
 
     async def close(self) -> None:
         await self.redis.aclose()

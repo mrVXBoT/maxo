@@ -3,13 +3,11 @@ from collections.abc import MutableMapping
 from typing import Any
 
 from maxo import loggers
-from maxo.fsm.event_isolations.base import BaseEventIsolation
-from maxo.fsm.event_isolations.simple import SimpleEventIsolation
-from maxo.fsm.middleware import FSMContextMiddleware
-from maxo.fsm.storages.base import BaseStorage
-from maxo.fsm.storages.memory import MemoryStorage
+from maxo.fsm.storages.base import BaseEventIsolation, BaseStorage
+from maxo.fsm.storages.memory import MemoryStorage, SimpleEventIsolation
 from maxo.routing.ctx import Ctx
 from maxo.routing.middlewares.error import ErrorMiddleware
+from maxo.routing.middlewares.fsm_context import FSMContextMiddleware
 from maxo.routing.middlewares.update_context import UpdateContextMiddleware
 from maxo.routing.observers.signal import SignalObserver
 from maxo.routing.routers.simple import SimpleRouter

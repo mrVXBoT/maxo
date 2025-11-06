@@ -1,13 +1,13 @@
 from datetime import datetime
 from typing import Any
 
-from adaptix import dumper, P, Retort, loader
+from adaptix import P, Retort, dumper, loader
 from aiohttp import ClientResponse
 from retejo.core import AdaptixFactory, Factory, RequestContextProxy
 from retejo.http import (
-    http_method_dumper_provider,
     HttpMethod,
     HttpRequest,
+    http_method_dumper_provider,
     http_response_loader_provider,
 )
 from retejo.http.clients.aiohttp import AiohttpClient
@@ -65,7 +65,6 @@ from maxo.types.image_attachment_request import ImageAttachmentRequest
 from maxo.types.inline_keyboard_attachment_request import (
     InlineKeyboardAttachmentRequest,
 )
-from maxo.types.keyboard import Keyboard
 from maxo.types.link_keyboard_button import LinkKeyboardButton
 from maxo.types.location_attachment import LocationAttachment
 from maxo.types.location_attachment_request import LocationAttachmentRequest
@@ -172,10 +171,11 @@ class MaxApiClient(AiohttpClient):
         self,
         token: str,
         warming_up: bool,
+        base_url: str = "https://platform-api.max.ru/",
     ) -> None:
         self._token = token
         self._warming_up = warming_up
-        super().__init__(base_url="https://platform-api.max.ru/")
+        super().__init__(base_url=base_url)
 
     def init_method_dumper(self) -> Factory:
         retort = Retort(

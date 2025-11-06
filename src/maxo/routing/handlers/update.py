@@ -36,7 +36,10 @@ class UpdateHandler(
         self._handler_fn = handler_fn
 
     def __repr__(self) -> str:
-        return f"{self.__class__.__name__}(handler_fn={self._handler_fn}, filter={self._filter})"
+        return (
+            f"{self.__class__.__name__}"
+            f"(handler_fn={self._handler_fn}, filter={self._filter})"
+        )
 
     async def execute_filter(self, ctx: Ctx[_UpdateT]) -> bool:
         return await self._filter(ctx.update, ctx)

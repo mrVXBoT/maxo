@@ -1,5 +1,6 @@
+from abc import ABC
 from collections.abc import Callable, MutableSequence
-from typing import Any, Coroutine, Sequence, TypeVar, cast
+from typing import Any, Coroutine, ParamSpec, Sequence, TypeVar, cast
 
 from maxo.routing.ctx import Ctx
 from maxo.routing.filters.always import AlwaysTrueFilter
@@ -10,6 +11,7 @@ from maxo.routing.middlewares.manager import MiddlewareManagerFacade
 from maxo.routing.observers.state import EmptyObserverState
 from maxo.routing.sentinels import UNHANDLED
 from maxo.routing.updates.base import BaseUpdate
+from maxo.routing.utils import inline_ctx as _inline_ctx
 
 _UpdateT = TypeVar("_UpdateT", bound=BaseUpdate)
 _ReturnT_co = TypeVar("_ReturnT_co", covariant=True)
@@ -17,8 +19,12 @@ _ReturnT_co = TypeVar("_ReturnT_co", covariant=True)
 _HandlerT = TypeVar("_HandlerT", bound=Handler[Any, Any])
 _HandlerFnT = TypeVar("_HandlerFnT", bound=Callable[..., Coroutine[Any, Any, Any]])
 
+_Params = ParamSpec("_Params")
+_ReturnType = TypeVar("_ReturnType")
+_HandlerFunc = Callable[[_Params], _ReturnType]
 
-class BaseObserver(Observer[_UpdateT, _HandlerT, _HandlerFnT]):
+
+class BaseObserver(Observer[_UpdateT, _HandlerT, _HandlerFnT], ABC):
     _filter: Filter[_UpdateT]
     _handlers: MutableSequence[_HandlerT]
     _middleware: MiddlewareManagerFacade[_UpdateT]
@@ -56,8 +62,11 @@ class BaseObserver(Observer[_UpdateT, _HandlerT, _HandlerFnT]):
     def __call__(
         self,
         filter: Filter[_UpdateT] | None = None,
+        inline_ctx: Callable[[_HandlerFunc], _HandlerFunc] | None = _inline_ctx,
     ) -> Callable[[_HandlerFnT], _HandlerFnT]:
         def wrapper(handler_fn: _HandlerFnT) -> _HandlerFnT:
+            if inline_ctx:
+                return self.handler(inline_ctx(handler_fn), filter)
             return self.handler(handler_fn, filter)
 
         return wrapper

@@ -3,7 +3,7 @@ from typing import Optional, Protocol
 
 from maxo import Bot
 from maxo.routing.updates import MessageEdited
-from maxo.tools.facades import MessageCallbackFacade
+from maxo.types import Callback
 from maxo_dialog import ShowMode
 from maxo_dialog.api.entities import NewMessage, OldMessage
 from maxo_dialog.api.exceptions import DialogsError
@@ -36,6 +36,6 @@ class MessageManagerProtocol(Protocol):
     async def answer_callback(
         self,
         bot: Bot,
-        callback_query: MessageCallbackFacade,
+        callback_query: Callback,
     ) -> None:
         raise NotImplementedError

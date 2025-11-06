@@ -438,7 +438,7 @@ class ManagerImpl(DialogManager):
 
     def _get_message_from_callback(
         self,
-        event: MessageCallbackFacade,
+        event: Callback,
     ) -> Optional[OldMessage]:
         current_message = event.message
         stack = self.current_stack()

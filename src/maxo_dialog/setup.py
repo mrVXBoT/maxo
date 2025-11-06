@@ -3,8 +3,9 @@ from typing import Optional, Union
 
 from maxo import SimpleRouter
 from maxo.fsm import State, StatesGroup
-from maxo.fsm.event_isolations import BaseEventIsolation, SimpleEventIsolation
+from maxo.fsm.event_isolations import BaseEventIsolation
 from maxo.fsm.state import any_state
+from maxo.fsm.storages.memory import SimpleEventIsolation
 from maxo.routing.interfaces import Router
 from maxo.routing.observers import UpdateObserver
 from maxo_dialog.api.entities import DIALOG_EVENT_NAME

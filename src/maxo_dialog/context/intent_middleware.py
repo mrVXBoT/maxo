@@ -2,8 +2,7 @@ from collections.abc import Awaitable, Callable
 from logging import getLogger
 from typing import Any, Optional
 
-from maxo.fsm.event_isolations.base import BaseEventIsolation
-from maxo.fsm.storages.base import BaseStorage
+from maxo.fsm.storages.base import BaseEventIsolation, BaseStorage
 from maxo.routing.interfaces import BaseMiddleware, Router
 from maxo.routing.sentinels import UNHANDLED
 from maxo.routing.signals.exception import ExceptionEvent

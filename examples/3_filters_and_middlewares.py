@@ -6,7 +6,6 @@ from maxo import Bot, Ctx, Dispatcher
 from maxo.routing.filters.base import BaseFilter
 from maxo.routing.interfaces.middleware import BaseMiddleware, NextMiddleware
 from maxo.routing.updates.message_created import MessageCreated
-from maxo.routing.utils.inline_ctx import inline_ctx
 from maxo.tools.facades import MessageCreatedFacade
 from maxo.tools.long_polling.long_polling import LongPolling
 
@@ -60,7 +59,6 @@ dispatcher.message_created.middleware.outer(InnerMiddleware())
 
 
 @dispatcher.message_created((ContainsTextFilter("gojo") & ContainsTextFilter("maki")) | ContainsTextFilter("sukuna"))
-@inline_ctx
 async def echo_handler(
     update: MessageCreated,
     ctx: Ctx[MessageCreated],
