@@ -5,6 +5,12 @@ build-backend = "uv_build"
 [tool.uv]
 packages = ["src/maxo", "src/maxo_dialog"]
 
+[tool.uv.sources]
+packages = [
+    "src/maxo",
+    "src/maxo_dialog"
+]
+
 [project]
 name = "maxo"
 description = "Modern framework for max bots"
