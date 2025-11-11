@@ -127,7 +127,6 @@ def _register_middleware(
             access_validator=stack_access_validator,
         )
     )
-
     router.message_created.middleware.outer(intent_middleware.process_message)
     router.message_callback.middleware.outer(intent_middleware.process_callback)
     router.bot_started.middleware.outer(intent_middleware.process_bot_started)

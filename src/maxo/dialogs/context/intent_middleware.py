@@ -94,15 +94,15 @@ def event_context_from_aiogd(event: DialogUpdateEvent) -> EventContext:
 
 
 def event_context_from_error(event: ErrorEvent, ctx: Ctx) -> EventContext:
-    if isinstance(event.update, MessageCreated):
-        return event_context_from_message(event.update, ctx)
-    if isinstance(event.update, MessageCallback):
-        return event_context_from_callback(event.update, ctx)
-    if isinstance(event.update, DialogUpdate) and event.update.aiogd_update:
-        return event_context_from_aiogd(event.update.aiogd_update)
-    if isinstance(event.update, BotStarted):
-        return event_context_from_bot_started(event.update, ctx)
-    raise ValueError("Unsupported event type in ErrorEvent.update")
+    if isinstance(event.event, MessageCreated):
+        return event_context_from_message(event.event, ctx)
+    if isinstance(event.event, MessageCallback):
+        return event_context_from_callback(event.event, ctx)
+    if isinstance(event.event, DialogUpdate) and event.event.aiogd_update:
+        return event_context_from_aiogd(event.event.aiogd_update)
+    if isinstance(event.event, BotStarted):
+        return event_context_from_bot_started(event.event, ctx)
+    raise ValueError(f"Unsupported event type in ErrorEvent.update: {event.event}")
 
 
 class IntentMiddlewareFactory:
@@ -340,6 +340,7 @@ SUPPORTED_ERROR_EVENTS = (
     MessageCallback,
     BotStarted,
     DialogUpdateEvent,
+    ErrorEvent,
 )
 
 
@@ -384,12 +385,13 @@ class IntentErrorMiddleware(BaseMiddleware[ErrorEvent]):
 
     def _is_error_supported(
         self,
-        update: ErrorEvent,
+        event: ErrorEvent,
         ctx: Ctx,
     ) -> bool:
+        update = event.update.update
         if isinstance(update, InvalidStackIdError):
             return False
-        if not isinstance(update.update, SUPPORTED_ERROR_EVENTS):
+        if not isinstance(update, SUPPORTED_ERROR_EVENTS):
             return False
         if UPDATE_CONTEXT_KEY not in ctx:
             return False
@@ -443,7 +445,7 @@ class IntentErrorMiddleware(BaseMiddleware[ErrorEvent]):
             return await next(ctx)
 
         try:
-            event_context = event_context_from_error(update)
+            event_context = event_context_from_error(update, ctx)
             ctx[EVENT_CONTEXT_KEY] = event_context
             proxy = StorageProxy(
                 bot=event_context.bot,

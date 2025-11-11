@@ -72,7 +72,6 @@ from maxo.types.callback import Callback
 from maxo.types.callback_keyboard_button import CallbackKeyboardButton
 from maxo.types.chat import Chat
 from maxo.types.chat_admin import ChatAdmin
-from maxo.types.chat_keyboard_button import ChatKeyboardButton
 from maxo.types.chat_member import ChatMember
 from maxo.types.chat_membership import ChatMembership
 from maxo.types.contact_attachment import ContactAttachment
@@ -155,7 +154,6 @@ _types = [
     CallbackKeyboardButton,
     Callback,
     ChatAdmin,
-    ChatKeyboardButton,
     ChatMember,
     ChatMembership,
     Chat,

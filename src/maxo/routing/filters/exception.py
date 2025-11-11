@@ -4,12 +4,17 @@ from typing import Any, Generic, TypeVar, final
 from maxo.routing.ctx import Ctx
 from maxo.routing.filters.base import BaseFilter
 from maxo.routing.signals.exception import ErrorEvent
+from maxo.routing.updates import BaseUpdate
 
+_UpdateT = TypeVar("_UpdateT", bound=BaseUpdate)
 _ExceptionT = TypeVar("_ExceptionT", bound=Exception)
 
 
 @final
-class ExceptionTypeFilter(BaseFilter[ErrorEvent[_ExceptionT]], Generic[_ExceptionT]):
+class ExceptionTypeFilter(
+    BaseFilter[ErrorEvent[_ExceptionT, _UpdateT]],
+    Generic[_ExceptionT, _UpdateT],
+):
     _handler: Callable[[Any], bool]
 
     __slots__ = ("_handler",)
@@ -26,7 +31,7 @@ class ExceptionTypeFilter(BaseFilter[ErrorEvent[_ExceptionT]], Generic[_Exceptio
 
     async def __call__(
         self,
-        update: ErrorEvent[Any],
+        update: ErrorEvent[Any, Any],
         ctx: Ctx,
     ) -> bool:
         return self._handler(update.error)

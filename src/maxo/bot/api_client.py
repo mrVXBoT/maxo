@@ -1,3 +1,4 @@
+from collections.abc import Sequence
 from datetime import datetime
 from typing import Any
 
@@ -30,6 +31,7 @@ from maxo.enums import (
     KeyboardButtonType,
     MarkupElementType,
 )
+from maxo.enums.text_fromat import TextFormat
 from maxo.errors.api import (
     MaxBotBadRequestError,
     MaxBotForbiddenError,
@@ -40,6 +42,7 @@ from maxo.errors.api import (
     MaxBotUnauthorizedError,
     RetvalReturnedServerException,
 )
+from maxo.omit import Omittable
 from maxo.routing.updates.bot_added import BotAdded
 from maxo.routing.updates.bot_removed import BotRemoved
 from maxo.routing.updates.bot_started import BotStarted
@@ -55,7 +58,6 @@ from maxo.types import InlineKeyboardAttachment
 from maxo.types.audio_attachment import AudioAttachment
 from maxo.types.audio_attachment_request import AudioAttachmentRequest
 from maxo.types.callback_keyboard_button import CallbackKeyboardButton
-from maxo.types.chat_keyboard_button import ChatKeyboardButton
 from maxo.types.contact_attachment import ContactAttachment
 from maxo.types.contact_attachment_request import ContactAttachmentRequest
 from maxo.types.file_attachment import FileAttachment
@@ -141,7 +143,6 @@ _has_tag_providers = concat_provider(
     has_tag_provider(ShareAttachmentRequest, "type", AttachmentRequestType.SHARE),
     # ---> KeyboardButtonType <---
     has_tag_provider(CallbackKeyboardButton, "type", KeyboardButtonType.CALLBACK),
-    has_tag_provider(ChatKeyboardButton, "type", KeyboardButtonType.CHAT),
     has_tag_provider(LinkKeyboardButton, "type", KeyboardButtonType.LINK),
     has_tag_provider(
         RequestContactKeyboardButton,
@@ -156,7 +157,7 @@ _has_tag_providers = concat_provider(
     has_tag_provider(
         OpenAppKeyboardButton,
         "type",
-        KeyboardButtonType.REQUEST_GEO_LOCATION,
+        KeyboardButtonType.OPEN_APP,
     ),
     has_tag_provider(
         MessageKeyboardButton,
@@ -171,10 +172,12 @@ class MaxApiClient(AiohttpClient):
         self,
         token: str,
         warming_up: bool,
+        text_format: TextFormat | None = None,
         base_url: str = "https://platform-api.max.ru/",
     ) -> None:
         self._token = token
         self._warming_up = warming_up
+        self._text_format = text_format
         super().__init__(base_url=base_url)
 
     def init_method_dumper(self) -> Factory:
@@ -184,11 +187,19 @@ class MaxApiClient(AiohttpClient):
                 _has_tag_providers,
                 dumper(
                     for_marker(QueryParamMarker, P[None]),
-                    lambda x: "null",
+                    lambda item: "null",
                 ),
                 dumper(
                     for_marker(QueryParamMarker, P[bool]),
-                    lambda x: int(x),
+                    lambda item: int(item),
+                ),
+                dumper(
+                    for_marker(QueryParamMarker, P[Sequence[str]] | P[Sequence[int]]),
+                    lambda item: ",".join(item),
+                ),
+                dumper(
+                    for_marker(BodyMarker, P[Omittable[TextFormat | None]]),
+                    lambda item: item or self._text_format,
                 ),
             ]
         )

@@ -1,10 +1,6 @@
 from .base import Keyboard
 from .button import (
     Button,
-    LoginURLButton,
-    SwitchInlineQuery,
-    SwitchInlineQueryChosenChatButton,
-    SwitchInlineQueryCurrentChat,
     Url,
     WebApp,
 )
@@ -29,7 +25,7 @@ from .pager import (
     PrevPage,
     SwitchPage,
 )
-from .request import RequestContact, RequestLocation, RequestPoll
+from .request import RequestContact, RequestLocation
 from .scrolling_group import ScrollingGroup
 from .select import (
     ManagedMultiselect,
@@ -61,7 +57,6 @@ __all__ = (
     "Keyboard",
     "LastPage",
     "ListGroup",
-    "LoginURLButton",
     "ManagedCalendar",
     "ManagedCheckbox",
     "ManagedCounter",
@@ -77,15 +72,11 @@ __all__ = (
     "Radio",
     "RequestContact",
     "RequestLocation",
-    "RequestPoll",
     "Row",
     "ScrollingGroup",
     "Select",
     "Start",
     "StubScroll",
-    "SwitchInlineQuery",
-    "SwitchInlineQueryChosenChatButton",
-    "SwitchInlineQueryCurrentChat",
     "SwitchPage",
     "SwitchTo",
     "Toggle",

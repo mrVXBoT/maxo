@@ -14,5 +14,5 @@ class OpenAppKeyboardButton(MaxoType):
     """
 
     text: str
-    web_app: Omittable[str] = Omitted()
+    web_app: str
     contact_id: Omittable[int] = Omitted()

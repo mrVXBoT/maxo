@@ -11,7 +11,6 @@ from typing import ClassVar, Self, TypeVar
 from maxo.enums import IntentType
 from maxo.omit import Omittable, Omitted
 from maxo.types.callback_keyboard_button import CallbackKeyboardButton
-from maxo.types.chat_keyboard_button import ChatKeyboardButton
 from maxo.types.keyboard_buttons import KeyboardButtons
 from maxo.types.link_keyboard_button import LinkKeyboardButton
 from maxo.types.request_contact_keyboard_button import RequestContactKeyboardButton
@@ -98,25 +97,6 @@ class KeyboardBuilder:
                 text=text,
                 intent=intent,
                 payload=payload,
-            )
-        )
-        return self
-
-    def add_chat(
-        self,
-        text: str,
-        title: str,
-        description: Omittable[str | None] = Omitted(),
-        start_payload: Omittable[str | None] = Omitted(),
-        uuid: Omittable[int | None] = Omitted(),
-    ) -> Self:
-        self.add(
-            ChatKeyboardButton(
-                text=text,
-                chat_title=title,
-                chat_description=description,
-                start_payload=start_payload,
-                uuid=uuid,
             )
         )
         return self

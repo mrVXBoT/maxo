@@ -45,8 +45,8 @@ class Router(BaseRouter):
     message_removed: UpdateObserver[MessageRemoved]
     user_added: UpdateObserver[UserAdded]
     user_removed: UpdateObserver[UserRemoved]
+    exception: UpdateObserver[ErrorEvent[Any, Any]]
 
-    exception: SignalObserver[ErrorEvent[Any]]
     before_startup: SignalObserver[BeforeStartup]
     after_startup: SignalObserver[AfterStartup]
     before_shutdown: SignalObserver[BeforeShutdown]
@@ -69,8 +69,8 @@ class Router(BaseRouter):
         self.user_added = UpdateObserver[UserAdded]()
         self.user_removed = UpdateObserver[UserRemoved]()
 
-        self.exception = self.exceptions = self.error = self.errors = SignalObserver[
-            ErrorEvent[Any]
+        self.exception = self.exceptions = self.error = self.errors = UpdateObserver[
+            ErrorEvent[Any, Any]
         ]()
 
         self.before_startup = SignalObserver[BeforeStartup]()

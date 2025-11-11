@@ -43,6 +43,7 @@ from maxo.bot.state import (
     EmptyBotState,
     InitialBotState,
 )
+from maxo.enums.text_fromat import TextFormat
 from maxo.types import ChatMember
 from maxo.types.base import MaxoType
 
@@ -52,14 +53,16 @@ _MethodResultT = TypeVar("_MethodResultT", bound=MaxoType)
 class Bot:
     _state: BotState
 
-    __slots__ = ("_state", "_token", "_warming_up")
+    __slots__ = ("_state", "_text_format", "_token", "_warming_up")
 
     def __init__(
         self,
         token: str,
+        text_format: TextFormat | None = None,
         warming_up: bool = True,
     ) -> None:
         self._token = token
+        self._text_format = text_format
         self._warming_up = warming_up
 
         self._state = EmptyBotState()
@@ -73,7 +76,7 @@ class Bot:
             return
 
         time.perf_counter()
-        api_client = MaxApiClient(self._token, self._warming_up)
+        api_client = MaxApiClient(self._token, self._warming_up, self._text_format)
         info = await api_client.send_method(GetBotInfo())
         self._state = InitialBotState(info=info, api_client=api_client)
 

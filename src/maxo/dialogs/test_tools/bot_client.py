@@ -25,7 +25,7 @@ from .keyboard import InlineButtonLocator
 
 class FakeBot(Bot):
     def __init__(self):
-        super().__init__("", False)
+        super().__init__("", None, False)
         info = BotInfo(
             user_id=1,
             first_name="bot",

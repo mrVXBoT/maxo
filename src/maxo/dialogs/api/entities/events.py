@@ -15,7 +15,7 @@ ChatEvent = Union[
     MessageCallback,
     BotStarted,
     DialogUpdateEvent,
-    ErrorEvent[Any],
+    ErrorEvent[Any, Any],
 ]
 
 
