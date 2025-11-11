@@ -19,7 +19,7 @@ from maxo.routing.signals.update import Update
 from maxo.routing.updates.base import BaseUpdate
 from maxo.routing.utils._resolving_inner_middlewares import resolve_middlewares
 from maxo.routing.utils.validate_router_graph import validate_router_graph
-from maxo.tools.facades.middleware import FacadeMiddleware
+from maxo.utils.facades.middleware import FacadeMiddleware
 
 
 class Dispatcher(Router):

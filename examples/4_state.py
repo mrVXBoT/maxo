@@ -10,8 +10,8 @@ from maxo.integrations.magic_filter import MagicFilter
 from maxo.routing.ctx import Ctx
 from maxo.routing.filters import CommandStart
 from maxo.routing.updates.message_created import MessageCreated
-from maxo.tools.facades import MessageCreatedFacade
-from maxo.tools.long_polling.long_polling import LongPolling
+from maxo.utils.facades import MessageCreatedFacade
+from maxo.utils.long_polling.long_polling import LongPolling
 
 router = Router(__name__)
 

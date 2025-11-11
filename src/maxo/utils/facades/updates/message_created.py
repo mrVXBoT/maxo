@@ -1,7 +1,7 @@
 from maxo.routing.updates.message_created import MessageCreated
-from maxo.tools.facades.methods.message import MessageMethodsFacade
-from maxo.tools.facades.updates.base import BaseUpdateFacade
 from maxo.types.message import Message
+from maxo.utils.facades.methods.message import MessageMethodsFacade
+from maxo.utils.facades.updates.base import BaseUpdateFacade
 
 
 class MessageCreatedFacade(

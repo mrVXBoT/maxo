@@ -6,8 +6,8 @@ from maxo import Bot, Ctx, Dispatcher
 from maxo.routing.filters.base import BaseFilter
 from maxo.routing.interfaces.middleware import BaseMiddleware, NextMiddleware
 from maxo.routing.updates.message_created import MessageCreated
-from maxo.tools.facades import MessageCreatedFacade
-from maxo.tools.long_polling.long_polling import LongPolling
+from maxo.utils.facades import MessageCreatedFacade
+from maxo.utils.long_polling.long_polling import LongPolling
 
 
 class OuterMiddleware(BaseMiddleware[MessageCreated]):

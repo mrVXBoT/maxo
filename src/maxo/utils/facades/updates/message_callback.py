@@ -1,9 +1,9 @@
 from maxo.routing.updates.message_callback import MessageCallback
-from maxo.tools.facades.methods.callback import CallbackMethodsFacade
-from maxo.tools.facades.methods.message import MessageMethodsFacade
-from maxo.tools.facades.updates.base import BaseUpdateFacade
 from maxo.types.callback import Callback
 from maxo.types.message import Message
+from maxo.utils.facades.methods.callback import CallbackMethodsFacade
+from maxo.utils.facades.methods.message import MessageMethodsFacade
+from maxo.utils.facades.updates.base import BaseUpdateFacade
 
 
 class MessageCallbackFacade(

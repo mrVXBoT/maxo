@@ -27,3 +27,9 @@ class BaseFilter(Filter[_UpdateT], Generic[_UpdateT]):
         from maxo.routing.filters.logic import InvertFilter
 
         return InvertFilter(self)
+
+    def _signature_to_string(self, *args: Any, **kwargs: Any) -> str:
+        items = [repr(arg) for arg in args]
+        items.extend([f"{k}={v!r}" for k, v in kwargs.items() if v is not None])
+
+        return f"{type(self).__name__}({', '.join(items)})"

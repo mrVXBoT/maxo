@@ -1,5 +1,5 @@
 from maxo.enums import UploadType
-from maxo.tools.upload_media.base import InputFile
+from maxo.utils.upload_media.base import InputFile
 
 
 class BufferedInputFile(InputFile):

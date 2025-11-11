@@ -7,9 +7,9 @@ from maxo.routing.signals.update import Update
 from maxo.routing.updates.base import BaseUpdate
 from maxo.routing.updates.message_callback import MessageCallback
 from maxo.routing.updates.message_created import MessageCreated
-from maxo.tools.facades.updates.base import BaseUpdateFacade
-from maxo.tools.facades.updates.message_callback import MessageCallbackFacade
-from maxo.tools.facades.updates.message_created import MessageCreatedFacade
+from maxo.utils.facades.updates.base import BaseUpdateFacade
+from maxo.utils.facades.updates.message_callback import MessageCallbackFacade
+from maxo.utils.facades.updates.message_created import MessageCreatedFacade
 
 _FACADES_MAP: Mapping[type[Any], type[BaseUpdateFacade[Any]]] = {
     MessageCreated: MessageCreatedFacade,

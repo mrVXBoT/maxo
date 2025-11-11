@@ -4,7 +4,7 @@ from maxo.bot.bot import Bot
 from maxo.bot.method_results.upload.upload_media import UploadMediaResult
 from maxo.errors.api import RetvalReturnedServerException
 from maxo.omit import is_defined
-from maxo.tools.upload_media import InputFile
+from maxo.utils.upload_media import InputFile
 
 
 class UploadMediaFacade:

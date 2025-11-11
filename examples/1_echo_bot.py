@@ -3,8 +3,8 @@ import os
 
 from maxo import Bot, Dispatcher
 from maxo.routing.updates.message_created import MessageCreated
-from maxo.tools.facades.updates.message_created import MessageCreatedFacade
-from maxo.tools.long_polling.long_polling import LongPolling
+from maxo.utils.facades.updates.message_created import MessageCreatedFacade
+from maxo.utils.long_polling.long_polling import LongPolling
 
 bot = Bot(os.environ["TOKEN"])
 dispatcher = Dispatcher()

@@ -37,7 +37,7 @@ from maxo.routing.updates.base import MaxUpdate
 from maxo.routing.updates.bot_started import BotStarted
 from maxo.routing.updates.message_callback import MessageCallback
 from maxo.routing.updates.message_created import MessageCreated
-from maxo.tools.facades import MessageCallbackFacade
+from maxo.utils.facades import MessageCallbackFacade
 
 from .storage import StorageProxy
 

@@ -14,20 +14,9 @@ from maxo.dialogs.api.protocols import (
 )
 from maxo.enums import AttachmentType
 from maxo.errors import MaxBotApiError, MaxBotBadRequestError
-from maxo.tools.helpers import attachment_to_request
-from maxo.tools.upload_media import FSInputFile, InputFile
-from maxo.types import (
-    Callback,
-    # InputMediaAnimation,
-    # InputMediaAudio,
-    # InputMediaDocument,
-    # InputMediaPhoto,
-    # InputMediaVideo,
-    Message,
-    # ReplyKeyboardMarkup,
-    # ReplyKeyboardRemove,
-    # URLInputFile,
-)
+from maxo.types import Callback, Message
+from maxo.utils.helpers import attachment_to_request
+from maxo.utils.upload_media import FSInputFile, InputFile
 
 logger = getLogger(__name__)
 
