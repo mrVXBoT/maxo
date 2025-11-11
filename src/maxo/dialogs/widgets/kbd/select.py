@@ -22,7 +22,8 @@ from maxo.dialogs.widgets.widget_event import (
     WidgetEventProcessor,
     ensure_event_processor,
 )
-from maxo.types import Callback, CallbackKeyboardButton
+from maxo.routing.updates import MessageCallback
+from maxo.types import CallbackKeyboardButton
 
 from .base import Keyboard
 
@@ -49,7 +50,7 @@ class OnItemClick(Protocol[ManagedT, T]):
     @abstractmethod
     async def __call__(
         self,
-        event: Callback,
+        event: MessageCallback,
         select: ManagedT,
         dialog_manager: DialogManager,
         data: T,
@@ -122,7 +123,7 @@ class Select(Keyboard, Generic[T]):
 
     async def _process_item_callback(
         self,
-        callback: Callback,
+        callback: MessageCallback,
         data: str,
         dialog: DialogProtocol,
         manager: DialogManager,
@@ -198,7 +199,7 @@ class StatefulSelect(Select[T], ABC, Generic[T]):
 
     async def _process_click(
         self,
-        callback: Callback,
+        callback: MessageCallback,
         select: ManagedWidget[Select],
         manager: DialogManager,
         item_id: str,
@@ -215,7 +216,7 @@ class StatefulSelect(Select[T], ABC, Generic[T]):
     @abstractmethod
     async def _on_click(
         self,
-        callback: Callback,
+        callback: MessageCallback,
         select: ManagedWidget[Select],
         manager: DialogManager,
         item_id: str,
@@ -224,7 +225,7 @@ class StatefulSelect(Select[T], ABC, Generic[T]):
 
     async def _process_item_callback(
         self,
-        callback: Callback,
+        callback: MessageCallback,
         data: str,
         dialog: DialogProtocol,
         manager: DialogManager,
@@ -320,7 +321,7 @@ class Radio(StatefulSelect[T], Generic[T]):
 
     async def _on_click(
         self,
-        callback: Callback,
+        callback: MessageCallback,
         select: Select,
         manager: DialogManager,
         item_id: str,
@@ -450,7 +451,7 @@ class Multiselect(StatefulSelect[T], Generic[T]):
 
     async def _on_click(
         self,
-        callback: Callback,
+        callback: MessageCallback,
         select: Select,
         manager: DialogManager,
         item_id: str,

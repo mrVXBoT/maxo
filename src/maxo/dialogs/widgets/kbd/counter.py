@@ -11,7 +11,8 @@ from maxo.dialogs.widgets.widget_event import (
     WidgetEventProcessor,
     ensure_event_processor,
 )
-from maxo.types import Callback, CallbackKeyboardButton
+from maxo.routing.updates import MessageCallback
+from maxo.types import CallbackKeyboardButton
 
 
 class OnCounterEvent(Protocol):
@@ -137,7 +138,7 @@ class Counter(Keyboard):
 
     async def _process_item_callback(
         self,
-        callback: Callback,
+        callback: MessageCallback,
         data: str,
         dialog: DialogProtocol,
         manager: DialogManager,

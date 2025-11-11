@@ -7,7 +7,7 @@ from maxo.dialogs.widgets.kbd.button import Button, OnClick
 from maxo.dialogs.widgets.text import Const, Text
 from maxo.dialogs.widgets.widget_event import WidgetEventProcessor
 from maxo.fsm import State
-from maxo.types import Callback
+from maxo.routing.updates import MessageCallback
 
 BACK_TEXT = Const("Back")
 NEXT_TEXT = Const("Next")
@@ -27,7 +27,7 @@ class EventProcessorButton(Button, WidgetEventProcessor):
 
     async def _on_click(
         self,
-        callback: Callback,
+        callback: MessageCallback,
         button: Button,
         manager: DialogManager,
     ):
@@ -57,7 +57,7 @@ class SwitchTo(EventProcessorButton):
 
     async def _on_click(
         self,
-        callback: Callback,
+        callback: MessageCallback,
         button: Button,
         manager: DialogManager,
     ):
@@ -87,7 +87,7 @@ class Next(EventProcessorButton):
 
     async def _on_click(
         self,
-        callback: Callback,
+        callback: MessageCallback,
         button: Button,
         manager: DialogManager,
     ):
@@ -118,7 +118,7 @@ class Back(EventProcessorButton):
 
     async def _on_click(
         self,
-        callback: Callback,
+        callback: MessageCallback,
         button: Button,
         manager: DialogManager,
     ):
@@ -150,7 +150,7 @@ class Cancel(EventProcessorButton):
 
     async def _on_click(
         self,
-        callback: Callback,
+        callback: MessageCallback,
         button: Button,
         manager: DialogManager,
     ):
@@ -186,7 +186,7 @@ class Start(EventProcessorButton):
 
     async def _on_click(
         self,
-        callback: Callback,
+        callback: MessageCallback,
         button: Button,
         manager: DialogManager,
     ):

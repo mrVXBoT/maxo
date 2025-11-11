@@ -48,6 +48,7 @@ class MessageInput(BaseInput):
         super().__init__(id=id)
         self.func = ensure_event_processor(func)
 
+        # TODO: Починить
         filters = []
         if isinstance(content_types, str):
             if content_types != AttachmentType.ANY:

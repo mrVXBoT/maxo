@@ -8,6 +8,7 @@ from maxo.dialogs.api.entities import (
     NewMessage,
 )
 from maxo.dialogs.api.internal import Widget, WindowProtocol
+from maxo.enums.text_fromat import TextFormat
 from maxo.fsm import State
 from maxo.routing.middlewares.update_context import UPDATE_CONTEXT_KEY
 from maxo.routing.updates import MessageCallback, MessageCreated
@@ -45,7 +46,7 @@ class Window(WindowProtocol):
         getter: GetterVariant = None,
         on_process_result: Optional[OnResultEvent] = None,
         markup_factory: MarkupFactory = _DEFAULT_MARKUP_FACTORY,
-        parse_mode: Optional[str] = None,
+        parse_mode: Optional[TextFormat] = None,
         disable_web_page_preview: Optional[bool] = None,
         protect_content: Optional[bool] = None,
         preview_add_transitions: Optional[list[Keyboard]] = None,

@@ -1,21 +1,13 @@
 from logging import getLogger
 from typing import Optional, Union
 
-from maxo.dialogs.api.entities import (
-    ChatEvent,
-    DialogUpdateEvent,
-)
 from maxo.dialogs.api.internal import RawKeyboard
-from maxo.routing.signals.exception import ErrorEvent
 from maxo.types import (
-    Callback,
     CallbackKeyboardButton,
-    Chat,
     MessageKeyboardButton,
     Recipient,
     User,
 )
-from maxo.types.message import Message
 
 logger = getLogger(__name__)
 
@@ -104,27 +96,6 @@ def transform_to_reply_keyboard(
     keyboard: list[list[Union[CallbackKeyboardButton, MessageKeyboardButton]]],
 ) -> list[list[MessageKeyboardButton]]:
     return [[_transform_to_reply_button(button) for button in row] for row in keyboard]
-
-
-def get_chat(event: ChatEvent) -> Chat:
-    if isinstance(event, (Message, DialogUpdateEvent)):
-        return event.chat
-    elif isinstance(event, Callback):
-        if not event.message:
-            return Chat(id=event.from_user.id, type="")
-        return event.message.chat
-    elif isinstance(event, ErrorEvent):
-        upd_event = event.update.event
-        if hasattr(upd_event, "chat"):
-            return upd_event.chat
-        elif hasattr(upd_event, "user"):
-            return Chat(id=upd_event.user.id, type="")
-        elif hasattr(upd_event, "from_user"):
-            return Chat(id=upd_event.from_user.id, type="")
-        else:
-            raise AttributeError
-    else:
-        raise TypeError
 
 
 def is_recipient_loaded(recipient: Recipient) -> bool:

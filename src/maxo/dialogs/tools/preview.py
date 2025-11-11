@@ -383,6 +383,7 @@ async def create_window(
     else:
         text = message.text
 
+    # FIXME
     if isinstance(message.reply_markup, CallbackKeyboardButton):
         keyboard = await render_inline_keyboard(
             state,

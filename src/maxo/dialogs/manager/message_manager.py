@@ -82,26 +82,32 @@ class MessageManager(MessageManagerProtocol):
             return media.file_id.file_id
         if media.url:
             if media.use_pipe:
+                # FIXME
                 return URLInputFile(media.url, bot=bot)
             return media.url
         else:
             return FSInputFile(media.path)
 
     def had_media(self, old_message: OldMessage) -> bool:
+        # FIXME
         return old_message.media_id is not None
 
     def need_media(self, new_message: NewMessage) -> bool:
+        # FIXME
         return bool(new_message.media)
 
     def need_reply_keyboard(self, new_message: Optional[NewMessage]) -> bool:
+        # FIXME
         if not new_message:
             return False
         return isinstance(new_message.reply_markup, ReplyKeyboardMarkup)
 
     def had_voice(self, old_message: OldMessage) -> bool:
+        # FIXME
         return old_message.content_type == AttachmentType.VOICE
 
     def need_voice(self, new_message: NewMessage) -> bool:
+        # FIXME
         return (
             new_message.media is not None
             and new_message.media.type == AttachmentType.VOICE
@@ -181,7 +187,7 @@ class MessageManager(MessageManagerProtocol):
         bot: Bot,
         show_mode: ShowMode,
         old_message: Optional[OldMessage],
-    ) -> bool:
+    ) -> bool:  # FIXME аннотация
         if show_mode is ShowMode.NO_UPDATE:
             return False
         if show_mode is ShowMode.DELETE_AND_SEND and old_message:
@@ -200,7 +206,7 @@ class MessageManager(MessageManagerProtocol):
         self,
         bot: Bot,
         old_message: Optional[OldMessage],
-    ) -> bool:
+    ) -> bool:  # FIXME
         if not old_message:
             return None
         logger.debug("remove_inline_kbd in %s", old_message.recipient)
