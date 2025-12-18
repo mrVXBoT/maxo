@@ -86,24 +86,71 @@ class Payload:
         return payload
 
     @classmethod
+    def _decode_value(cls, field: dataclasses.Field, raw_value: str) -> Any:
+        is_empty = raw_value == ""
+
+        if is_empty:
+            if _check_field_is_nullable(field):
+                if field.default is not dataclasses.MISSING:
+                    return field.default
+                if field.default_factory is not dataclasses.MISSING:
+                    return field.default_factory()
+                return None
+            raise ValueError(f"Empty value for non-nullable field {field.name}")
+
+        field_type = field.type
+        origin = get_origin(field_type)
+        args = get_args(field_type)
+
+        if origin in _UNION_TYPES and type(None) in args:
+            non_none_types = [t for t in args if t is not type(None)]
+            if len(non_none_types) == 1:
+                field_type = non_none_types[0]
+            else:
+                field_type = str
+
+        if field_type is int:
+            return int(raw_value)
+        if field_type is float:
+            return float(raw_value)
+        if field_type is bool:
+            return raw_value == "1"
+        if field_type is Decimal:
+            return Decimal(raw_value)
+        if field_type is Fraction:
+            return Fraction(raw_value)
+        if field_type is UUID:
+            return UUID(hex=raw_value)
+        if issubclass(field_type, Enum):
+            return field_type(raw_value)
+
+        return raw_value
+
+    @classmethod
     def unpack(cls, value: str) -> Self:
         prefix, *parts = value.split(cls.__separator__)
         fields = dataclasses.fields(cls)
+
+        if prefix != cls.__prefix__:
+            msg = f"Bad prefix ({prefix!r} != {cls.__prefix__!r})"
+            raise ValueError(msg)
         if len(parts) != len(fields):
             msg = (
                 f"Callback data {cls.__name__!r} takes {len(fields)} arguments "
                 f"but {len(parts)} were given"
             )
             raise TypeError(msg)
-        if prefix != cls.__prefix__:
-            msg = f"Bad prefix ({prefix!r} != {cls.__prefix__!r})"
-            raise ValueError(msg)
-        payload = {}
 
-        for field, value in zip(fields, parts, strict=True):
-            if value == "" and _check_field_is_nullable(field) and field.default != "":
-                value = None if field.default is dataclasses.MISSING else field.default
-            payload[field.name] = value
+        payload = {}
+        for field, raw in zip(fields, parts, strict=True):
+            try:
+                decoded = cls._decode_value(field, raw)
+            except Exception as e:
+                raise ValueError(
+                    f"Cannot decode {field.name}={raw!r} to {field.type}",
+                ) from e
+            payload[field.name] = decoded
+
         return cls(**payload)
 
     @classmethod
