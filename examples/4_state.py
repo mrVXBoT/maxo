@@ -32,7 +32,8 @@ async def start_handler(
 
 
 @router.message_created(
-    MagicFilter(F.message.body.text) & StateFilter(UserRegistatorStatesGroup.INPUT_NAME),
+    MagicFilter(F.message.body.text)
+    & StateFilter(UserRegistatorStatesGroup.INPUT_NAME),
 )
 async def input_name_handler(
     update: MessageCreated,

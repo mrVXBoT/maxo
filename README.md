@@ -28,5 +28,20 @@
 
 [maxo/dialogs](./src/maxo/dialogs) переделаны из [aiogram_dialog](https://github.com/Tishka17/aiogram_dialog)
 
+## Установка
+
+Через `pip`:
+```commandline
+pip install "maxo[magic-filter,dishka,redis] @ git+https://github.com/K1rL3s/maxo.git@master"
+```
+
+В `pyproject.toml`:
+```toml
+[project]
+dependencies = [
+    "maxo[magic-filter,dishka,redis] @ git+https://github.com/K1rL3s/maxo.git@master",
+]
+```
+
 ## Связь
 Если у вас есть вопросы, вы можете задать их в Телеграм чате [\@maxo_py](https://t.me/maxo_py)
