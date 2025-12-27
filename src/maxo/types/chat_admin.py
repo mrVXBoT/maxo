@@ -1,7 +1,4 @@
-from collections.abc import Sequence
-
 from maxo.enums.chat_admin_permission import ChatAdminPermission
-from maxo.omit import Omittable, Omitted
 from maxo.types.base import MaxoType
 
 
@@ -21,5 +18,5 @@ class ChatAdmin(MaxoType):
     """
 
     user_id: int
-    permissions: Sequence[ChatAdminPermission]
-    alias: Omittable[str] = Omitted()
+    permissions: list[ChatAdminPermission]
+    alias: str

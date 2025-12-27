@@ -1,19 +1,22 @@
 from typing import Self
 
-from maxo.types.base import MaxoType
-from maxo.types.uploaded_info import UploadedInfo
+from maxo.enums.attachment_request_type import AttachmentRequestType
+from maxo.types.attachment_request import AttachmentRequest
+from maxo.types.upload_endpoint import UploadEndpoint
 
 
-class FileAttachmentRequest(MaxoType):
+class FileAttachmentRequest(AttachmentRequest):
     """
-    Запрос на прикрепление файла.
+    Запрос на прикрепление файла к сообщению.
+    ДОЛЖЕН быть единственным вложением в сообщении.
 
     Args:
         payload: Данные запроса на прикрепление файла.
 
     """
 
-    payload: UploadedInfo
+    type: AttachmentRequestType = AttachmentRequestType.FILE
+    payload: UploadEndpoint
 
     @classmethod
     def factory(cls, token: str) -> Self:
@@ -25,7 +28,7 @@ class FileAttachmentRequest(MaxoType):
 
         """
         return cls(
-            payload=UploadedInfo(
+            payload=UploadEndpoint(
                 token=token,
             ),
         )

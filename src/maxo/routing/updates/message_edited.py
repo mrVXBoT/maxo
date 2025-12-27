@@ -1,12 +1,11 @@
-from datetime import datetime
-
-from maxo.enums import UpdateType
+from maxo.enums.update_type import UpdateType
 from maxo.routing.updates.base import MaxUpdate
 from maxo.types.message import Message
 
 
 class MessageEdited(MaxUpdate):
-    type = UpdateType.MESSAGE_EDITED
+    """Вы получите этот `update`, как только сообщение будет отредактировано."""
 
-    timestamp: datetime
+    type: UpdateType = UpdateType.MESSAGE_EDITED
+
     message: Message

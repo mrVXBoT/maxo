@@ -1,15 +1,13 @@
 from retejo.http.markers import Body, UrlVar
 
-from maxo.bot.method_results.chats.pin_message import PinMessageResult
 from maxo.bot.methods.base import MaxoMethod
 from maxo.omit import Omittable
+from maxo.types.simple_query_result import SimpleQueryResult
 
 
-class PinMessage(MaxoMethod[PinMessageResult]):
+class PinMessage(MaxoMethod[SimpleQueryResult]):
     """
-    Закрепление сообщения.
-
-    Закрепляет сообщение в чате.
+    Закрепление сообщения в групповом чате.
 
     Источник: https://dev.max.ru/docs-api/methods/PUT/chats/-chatId-/pin
 

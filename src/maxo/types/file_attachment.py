@@ -1,11 +1,11 @@
 from typing import Self
 
 from maxo.enums.attachment_type import AttachmentType
-from maxo.types.base import MaxoType
+from maxo.types.attachment import Attachment
 from maxo.types.file_attachment_payload import FileAttachmentPayload
 
 
-class FileAttachment(MaxoType):
+class FileAttachment(Attachment):
     """
     Файловое вложение.
 
@@ -16,7 +16,7 @@ class FileAttachment(MaxoType):
 
     """
 
-    type = AttachmentType.FILE
+    type: AttachmentType = AttachmentType.FILE
 
     payload: FileAttachmentPayload
     filename: str

@@ -1,7 +1,7 @@
-from maxo.types.base import MaxoType
+from maxo.types.attachment_payload import AttachmentPayload
 
 
-class FileAttachmentPayload(MaxoType):
+class FileAttachmentPayload(AttachmentPayload):
     """
     Содержимое файлового вложения.
 
@@ -11,5 +11,4 @@ class FileAttachmentPayload(MaxoType):
 
     """
 
-    url: str
     token: str

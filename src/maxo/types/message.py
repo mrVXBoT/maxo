@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from maxo.errors.types import AttributeIsEmptyError
+from maxo.errors import AttributeIsEmptyError
 from maxo.omit import Omittable, Omitted, is_defined
 from maxo.types.base import MaxoType
 from maxo.types.linked_message import LinkedMessage

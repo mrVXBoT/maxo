@@ -1,11 +1,11 @@
 from typing import Self
 
 from maxo.enums.attachment_type import AttachmentType
-from maxo.types.base import MaxoType
+from maxo.types.attachment import Attachment
 from maxo.types.sticker_attachment_payload import StickerAttachmentPayload
 
 
-class StickerAttachment(MaxoType):
+class StickerAttachment(Attachment):
     """
     Вложение стикера.
 
@@ -16,7 +16,7 @@ class StickerAttachment(MaxoType):
 
     """
 
-    type = AttachmentType.STICKER
+    type: AttachmentType = AttachmentType.STICKER
 
     payload: StickerAttachmentPayload
     width: int

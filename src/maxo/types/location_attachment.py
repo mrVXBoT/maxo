@@ -1,8 +1,8 @@
 from maxo.enums.attachment_type import AttachmentType
-from maxo.types.base import MaxoType
+from maxo.types.attachment import Attachment
 
 
-class LocationAttachment(MaxoType):
+class LocationAttachment(Attachment):
     """
     Вложение локации.
 
@@ -12,7 +12,7 @@ class LocationAttachment(MaxoType):
 
     """
 
-    type = AttachmentType.LOCATION
+    type: AttachmentType = AttachmentType.LOCATION
 
     latitude: float
     longitude: float

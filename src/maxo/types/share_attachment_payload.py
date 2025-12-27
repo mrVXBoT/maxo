@@ -4,6 +4,7 @@ from maxo.types.base import MaxoType
 
 class ShareAttachmentPayload(MaxoType):
     """
+    Полезная нагрузка запроса ShareAttachmentRequest.
     Полезная нагрузка вложения обмена.
 
     Args:

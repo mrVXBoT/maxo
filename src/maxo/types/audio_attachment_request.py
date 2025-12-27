@@ -1,19 +1,22 @@
 from typing import Self
 
-from maxo.types.base import MaxoType
-from maxo.types.uploaded_info import UploadedInfo
+from maxo.enums.attachment_request_type import AttachmentRequestType
+from maxo.types.attachment_request import AttachmentRequest
+from maxo.types.upload_endpoint import UploadEndpoint
 
 
-class AudioAttachmentRequest(MaxoType):
+class AudioAttachmentRequest(AttachmentRequest):
     """
-    Запрос на прикрепление аудио.
+    Запрос на прикрепление аудио к сообщению. ДОЛЖЕН быть единственным вложением в сообщении.
 
     Args:
         payload: Данные запроса на прикрепление аудио.
 
     """
 
-    payload: UploadedInfo
+    type: AttachmentRequestType = AttachmentRequestType.AUDIO
+
+    payload: UploadEndpoint
 
     @classmethod
     def factory(cls, token: str) -> Self:
@@ -25,7 +28,7 @@ class AudioAttachmentRequest(MaxoType):
 
         """
         return cls(
-            payload=UploadedInfo(
+            payload=UploadEndpoint(
                 token=token,
             ),
         )

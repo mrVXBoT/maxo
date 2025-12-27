@@ -1,4 +1,4 @@
-from typing import ClassVar
+from datetime import datetime
 
 from maxo.enums import UpdateType
 from maxo.types.base import MaxoType
@@ -9,4 +9,5 @@ class BaseUpdate(MaxoType):
 
 
 class MaxUpdate(BaseUpdate):
-    type: ClassVar[UpdateType]
+    type: UpdateType
+    timestamp: datetime

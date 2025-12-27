@@ -4,6 +4,7 @@ from maxo.types.base import MaxoType
 
 class Recipient(MaxoType):
     """
+    Новый получатель сообщения. Может быть пользователем или чатом.
     Получатель сообщения.
 
     Args:
@@ -13,6 +14,6 @@ class Recipient(MaxoType):
 
     """
 
+    chat_id: int | None = None
     chat_type: ChatType
     user_id: int | None = None
-    chat_id: int | None = None

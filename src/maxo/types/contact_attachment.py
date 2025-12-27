@@ -2,12 +2,12 @@ from typing import Self
 
 from maxo.enums.attachment_type import AttachmentType
 from maxo.omit import Omittable, Omitted
-from maxo.types.base import MaxoType
+from maxo.types.attachment import Attachment
 from maxo.types.contact_attachment_payload import ContactAttachmentPayload
 from maxo.types.user import User
 
 
-class ContactAttachment(MaxoType):
+class ContactAttachment(Attachment):
     """
     Вложение контактов.
 
@@ -16,7 +16,7 @@ class ContactAttachment(MaxoType):
 
     """
 
-    type = AttachmentType.CONTACT
+    type: AttachmentType = AttachmentType.CONTACT
 
     payload: ContactAttachmentPayload
 

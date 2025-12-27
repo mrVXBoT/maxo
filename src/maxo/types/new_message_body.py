@@ -1,10 +1,8 @@
-from collections.abc import Sequence
-
-from maxo.enums.text_fromat import TextFormat
+from maxo.enums.text_format import TextFormat
 from maxo.omit import Omittable, Omitted
+from maxo.types.attachments import AttachmentsRequests
 from maxo.types.base import MaxoType
 from maxo.types.new_message_link import NewMessageLink
-from maxo.types.request_attachments import AttachmentsRequests
 
 
 class NewMessageBody(MaxoType):
@@ -23,7 +21,7 @@ class NewMessageBody(MaxoType):
     """
 
     text: str | None = None
-    attachments: Sequence[AttachmentsRequests] | None = None
+    attachments: list[AttachmentsRequests] | None = None
     link: NewMessageLink | None = None
-    notify: Omittable[bool] = True
+    notify: Omittable[bool] = Omitted()
     format: Omittable[TextFormat | None] = Omitted()

@@ -51,7 +51,7 @@ class MessageManager(MessageManagerProtocol):
         callback: Callback,
     ) -> None:
         try:
-            await bot.callback_answer(
+            await bot.answer_on_callback(
                 callback_id=callback.callback_id,
                 notification="",
             )
@@ -274,7 +274,7 @@ class MessageManager(MessageManagerProtocol):
             attachments=new_message.attachments,
             format=new_message.parse_mode,
         )
-        return await bot.get_message(message_id=old_message.message_id)
+        return await bot.get_message_by_id(message_id=old_message.message_id)
 
     async def send_message(self, bot: Bot, new_message: NewMessage) -> Message:
         # TODO: Отправка медиа в несколько шагов

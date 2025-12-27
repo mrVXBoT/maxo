@@ -34,7 +34,7 @@ from maxo.routing.middlewares.update_context import (
     EVENT_FROM_USER_KEY,
     UPDATE_CONTEXT_KEY,
 )
-from maxo.types import Callback, CallbackKeyboardButton, Chat, User
+from maxo.types import Callback, CallbackButton, Chat, User
 from maxo.types.message import Message
 
 if TYPE_CHECKING:
@@ -325,7 +325,7 @@ async def render_input(
 
 async def render_inline_keyboard(
     state: State,
-    reply_markup: list[list[CallbackKeyboardButton]],
+    reply_markup: list[list[CallbackButton]],
     manager: FakeManager,
     dialog: "Dialog",
     simulate_events: bool,
@@ -348,7 +348,7 @@ async def render_inline_keyboard(
 
 async def render_reply_keyboard(
     state: State,
-    reply_markup: list[list[CallbackKeyboardButton]],
+    reply_markup: list[list[CallbackButton]],
     manager: FakeManager,
     dialog: "Dialog",
     simulate_events: bool,
@@ -386,7 +386,7 @@ async def create_window(
         text = message.text
 
     # FIXME
-    if isinstance(message.reply_markup, CallbackKeyboardButton):
+    if isinstance(message.reply_markup, CallbackButton):
         keyboard = await render_inline_keyboard(
             state,
             message.reply_markup,

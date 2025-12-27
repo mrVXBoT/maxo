@@ -1,14 +1,27 @@
-from collections.abc import Sequence
 from datetime import datetime
 
 from maxo.enums.chat_admin_permission import ChatAdminPermission
-from maxo.omit import Omittable, Omitted
 from maxo.types.user_with_photo import UserWithPhoto
 
 
 class ChatMember(UserWithPhoto):
-    last_access_time: Omittable[datetime] = Omitted()
-    is_owner: Omittable[bool] = Omitted()
-    is_admin: Omittable[bool] = Omitted()
-    join_time: Omittable[datetime] = Omitted()
-    permissions: Omittable[Sequence[ChatAdminPermission] | None] = Omitted()
+    """
+    Информация о членстве в чате.
+
+    Объект, описывающий участника чата.
+
+    Args:
+        is_owner: Является ли пользователь владельцем чата.
+        is_admin: Является ли пользователь администратором чата
+        join_time: Дата присоединения к чату в формате Unix time
+        permissions: Перечень прав пользователя.
+        alias: Заголовок, который будет показан на клиенте.
+
+    """
+
+    last_access_time: datetime
+    is_owner: bool
+    is_admin: bool
+    join_time: datetime
+    permissions: list[ChatAdminPermission] | None = None
+    alias: str

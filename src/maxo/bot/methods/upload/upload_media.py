@@ -1,11 +1,11 @@
 from retejo.http.entities import FileObj
 from retejo.http.markers import Form, UrlVar
 
-from maxo.bot.method_results.upload.upload_media import UploadMediaResult
 from maxo.bot.methods.base import MaxoMethod
+from maxo.types.upload_endpoint import UploadEndpoint
 
 
-class UploadMedia(MaxoMethod[UploadMediaResult]):
+class UploadMedia(MaxoMethod[UploadEndpoint]):
     """
     Загрузка медиа.
 

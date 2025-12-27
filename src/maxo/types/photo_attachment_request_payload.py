@@ -1,9 +1,13 @@
+from typing import Any
+
 from maxo.omit import Omittable, Omitted
 from maxo.types.base import MaxoType
 
 
 class PhotoAttachmentRequestPayload(MaxoType):
     """
+    Запрос на прикрепление изображения (все поля являются взаимоисключающими).
+
     Запрос на прикрепление изображения.
 
     Все поля являются взаимоисключающими.
@@ -17,4 +21,4 @@ class PhotoAttachmentRequestPayload(MaxoType):
 
     url: Omittable[str | None] = Omitted()
     token: Omittable[str | None] = Omitted()
-    photos: Omittable[list[str] | None] = Omitted()
+    photos: Omittable[dict[str, Any] | None] = Omitted()

@@ -4,6 +4,7 @@ from maxo.types.user import User
 
 class UserWithPhoto(User):
     """
+    Объект пользователя с фотографией.
     Информация о пользователе c фото.
 
     Args:
@@ -12,5 +13,6 @@ class UserWithPhoto(User):
 
     """
 
+    description: Omittable[str | None] = Omitted()
     avatar_url: Omittable[str] = Omitted()
     full_avatar_url: Omittable[str] = Omitted()

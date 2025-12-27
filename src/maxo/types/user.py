@@ -6,6 +6,7 @@ from maxo.types.base import MaxoType
 
 class User(MaxoType):
     """
+    Объект, описывающий пользователя. Имеет несколько вариаций (наследований):  - [`User`](/docs-api/objects/User) - [`UserWithPhoto`](/docs-api/objects/UserWithPhoto) - [`BotInfo`](/docs-api/objects/BotInfo) - [`ChatMember`](/docs-api/objects/ChatMember).
     Информация о пользователе.
 
     Args:
@@ -29,10 +30,10 @@ class User(MaxoType):
     user_id: int
     first_name: str
     last_name: str | None = None
+    name: Omittable[str | None] = Omitted()
     username: str | None = None
     is_bot: bool
     last_activity_time: datetime
-    description: Omittable[str | None] = Omitted()
 
     @property
     def id(self) -> int:

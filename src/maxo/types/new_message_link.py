@@ -12,5 +12,5 @@ class NewMessageLink(MaxoType):
 
     """
 
-    mid: str
     type: MessageLinkType
+    mid: str

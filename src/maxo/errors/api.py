@@ -2,6 +2,9 @@ from maxo.errors.base import MaxoError
 
 
 class MaxBotApiError(MaxoError):
+    """Сервер возвращает это, если возникло исключение при вашем запросе."""
+
+    # error: str
     code: str
     message: str
 

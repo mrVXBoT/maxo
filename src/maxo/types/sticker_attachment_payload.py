@@ -1,7 +1,7 @@
-from maxo.types.base import MaxoType
+from maxo.types.attachment_payload import AttachmentPayload
 
 
-class StickerAttachmentPayload(MaxoType):
+class StickerAttachmentPayload(AttachmentPayload):
     """
     Содержимое вложения стикера.
 
@@ -11,5 +11,4 @@ class StickerAttachmentPayload(MaxoType):
 
     """
 
-    url: str
     code: str

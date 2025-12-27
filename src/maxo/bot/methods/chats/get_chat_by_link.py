@@ -5,20 +5,9 @@ from maxo.types.chat import Chat
 
 
 class GetChatByLink(MaxoMethod[Chat]):
-    """
-    Получение чата по ссылке.
+    """Получение группового чата по ссылке."""
 
-    Возвращает информацию о чате по его публичной ссылке,
-    либо информацию о диалоге с пользователем по его username.
-
-    Источник: https://dev.max.ru/docs-api/methods/GET/chats/-chatLink-
-
-    Args:
-        url: Публичная ссылка на чат или username пользователя.
-
-    """
-
-    __url__ = "chats/{url}"
+    __url__ = "chats/{chat_link}"
     __http_method__ = "get"
 
-    url: UrlVar[str]
+    chat_link: UrlVar[str]

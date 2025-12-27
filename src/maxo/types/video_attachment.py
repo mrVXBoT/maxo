@@ -2,12 +2,12 @@ from typing import Self
 
 from maxo.enums.attachment_type import AttachmentType
 from maxo.omit import Omittable, Omitted, is_not_omitted
-from maxo.types.base import MaxoType
+from maxo.types.attachment import Attachment
 from maxo.types.media_attachment_payload import MediaAttachmentPayload
 from maxo.types.video_thumbnail import VideoThumbnail
 
 
-class VideoAttachment(MaxoType):
+class VideoAttachment(Attachment):
     """
     Видео вложение.
 
@@ -20,7 +20,7 @@ class VideoAttachment(MaxoType):
 
     """
 
-    type = AttachmentType.VIDEO
+    type: AttachmentType = AttachmentType.VIDEO
 
     payload: MediaAttachmentPayload
     thumbnail: Omittable[VideoThumbnail | None] = Omitted()

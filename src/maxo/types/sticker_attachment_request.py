@@ -1,13 +1,15 @@
 from typing import Self
 
-from maxo.types.base import MaxoType
+from maxo.enums.attachment_request_type import AttachmentRequestType
+from maxo.types.attachment_request import AttachmentRequest
 from maxo.types.sticker_attachment_request_payload import (
     StickerAttachmentRequestPayload,
 )
 
 
-class StickerAttachmentRequest(MaxoType):
+class StickerAttachmentRequest(AttachmentRequest):
     """
+    Запрос на прикрепление стикера. ДОЛЖЕН быть единственным вложением в сообщении.
     Запрос на прикрепление стикера.
 
     Args:
@@ -15,6 +17,7 @@ class StickerAttachmentRequest(MaxoType):
 
     """
 
+    type: AttachmentRequestType = AttachmentRequestType.STICKER
     payload: StickerAttachmentRequestPayload
 
     @classmethod

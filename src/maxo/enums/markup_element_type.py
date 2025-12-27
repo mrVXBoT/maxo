@@ -9,5 +9,3 @@ class MarkupElementType(StrEnum):
     STRIKETHROUGH = "strikethrough"
     UNDERLINE = "underline"
     USER_MENTION = "user_mention"
-    HEADING = "heading"
-    HIGHLIGHTED = "highlighted"
