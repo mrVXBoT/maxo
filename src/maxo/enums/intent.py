@@ -2,8 +2,8 @@ from enum import StrEnum
 
 
 class Intent(StrEnum):
-    """Намерение кнопки."""
+    """Намерение кнопки"""
 
-    POSITIVE = "positive"
-    NEGATIVE = "negative"
     DEFAULT = "default"
+    NEGATIVE = "negative"
+    POSITIVE = "positive"

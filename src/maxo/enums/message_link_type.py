@@ -2,7 +2,7 @@ from enum import StrEnum
 
 
 class MessageLinkType(StrEnum):
-    """Тип связанного сообщения."""
+    """Тип связанного сообщения"""
 
     FORWARD = "forward"
     REPLY = "reply"

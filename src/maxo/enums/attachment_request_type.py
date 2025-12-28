@@ -2,14 +2,14 @@ from enum import StrEnum
 
 
 class AttachmentRequestType(StrEnum):
-    """Запрос на прикрепление данных к сообщению."""
+    """Запрос на прикрепление данных к сообщению"""
 
-    IMAGE = "image"
-    VIDEO = "video"
     AUDIO = "audio"
-    FILE = "file"
-    STICKER = "sticker"
     CONTACT = "contact"
+    FILE = "file"
+    IMAGE = "image"
     INLINE_KEYBOARD = "inline_keyboard"
     LOCATION = "location"
     SHARE = "share"
+    STICKER = "sticker"
+    VIDEO = "video"

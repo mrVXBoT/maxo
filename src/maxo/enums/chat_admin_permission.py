@@ -2,16 +2,16 @@ from enum import StrEnum
 
 
 class ChatAdminPermission(StrEnum):
-    """Права администратора чата."""
+    """Права администратора чата"""
 
-    READ_ALL_MESSAGES = "read_all_messages"
-    ADD_REMOVE_MEMBERS = "add_remove_members"
     ADD_ADMINS = "add_admins"
-    CHANGE_CHAT_INFO = "change_chat_info"
-    PIN_MESSAGE = "pin_message"
-    WRITE = "write"
+    ADD_REMOVE_MEMBERS = "add_remove_members"
     CAN_CALL = "can_call"
-    EDIT_LINK = "edit_link"
-    POST_EDIT_DELETE_MESSAGE = "post_edit_delete_message"
-    EDIT_MESSAGE = "edit_message"
+    CHANGE_CHAT_INFO = "change_chat_info"
     DELETE_MESSAGE = "delete_message"
+    EDIT_LINK = "edit_link"
+    EDIT_MESSAGE = "edit_message"
+    PIN_MESSAGE = "pin_message"
+    POST_EDIT_DELETE_MESSAGE = "post_edit_delete_message"
+    READ_ALL_MESSAGES = "read_all_messages"
+    WRITE = "write"
