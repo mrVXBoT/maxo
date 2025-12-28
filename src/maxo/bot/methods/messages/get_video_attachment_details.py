@@ -5,18 +5,7 @@ from maxo.types.video_attachment_details import VideoAttachmentDetails
 
 
 class GetVideoAttachmentDetails(MaxoMethod[VideoAttachmentDetails]):
-    """
-    Получить информацио о видео.
-
-    Возвращает подробную информацию о приклеплённом видео.
-    URL-адреса воспроизведения и дополнительные метаданные.
-
-    Источник: https://dev.max.ru/docs-api/methods/GET/videos/-videoToken-
-
-    Args:
-        video_token: Токен видео-вложения.
-
-    """
+    """Получить информацио о видео."""
 
     __url__ = "videos/{video_token}"
     __http_method__ = "get"

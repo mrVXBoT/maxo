@@ -5,17 +5,7 @@ from maxo.types.message import Message
 
 
 class GetMessageById(MaxoMethod[Message]):
-    """
-    Получить сообщение.
-
-    Возвращает одно сообщение по его ID.
-
-    Источник: https://dev.max.ru/docs-api/methods/GET/messages/-messageId-
-
-    Args:
-        message_id: ID сообщения (mid), чтобы получить одно сообщение в чате.
-
-    """
+    """Получить сообщение."""
 
     __url__ = "messages/{message_id}"
     __http_method__ = "get"

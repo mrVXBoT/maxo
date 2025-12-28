@@ -14,7 +14,7 @@ class GetMessages(MaxoMethod[MessageList]):
     __http_method__ = "get"
 
     chat_id: QueryParam[Omittable[int]] = Omitted()
-    message_ids: QueryParam[Omittable[Any | None]] = Omitted()
-    from_: QueryParam[Omittable[int]] = Omitted()
-    to: QueryParam[Omittable[int]] = Omitted()
     count: QueryParam[Omittable[int]] = Omitted()
+    from_: QueryParam[Omittable[int]] = Omitted()
+    message_ids: QueryParam[Omittable[Any | None]] = Omitted()
+    to: QueryParam[Omittable[int]] = Omitted()

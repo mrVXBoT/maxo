@@ -12,6 +12,6 @@ class GetUpdates(MaxoMethod[UpdateList]):
     __http_method__ = "get"
 
     limit: QueryParam[Omittable[int]] = Omitted()
-    timeout: QueryParam[Omittable[int]] = Omitted()
     marker: QueryParam[Omittable[int | None]] = Omitted()
+    timeout: QueryParam[Omittable[int]] = Omitted()
     types: QueryParam[Omittable[list[str] | None]] = Omitted()
