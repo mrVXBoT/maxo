@@ -60,7 +60,7 @@ BEARING_DATE = date(2018, 1, 1)
 
 
 def empty_button():
-    return CallbackKeyboardButton(text=" ", payload="")
+    return CallbackKeyboardButton(text="⠀", payload="⠀")
 
 
 class CalendarScope(Enum):
@@ -285,7 +285,7 @@ class CalendarDaysView(CalendarScopeView):
             header.append(
                 CallbackKeyboardButton(
                     text=await self.weekday_text.render_text(data, manager),
-                    payload="",
+                    payload="⠀",
                 ),
             )
         return header
