@@ -5,7 +5,7 @@ from maxo.routing.updates.base import MaxUpdate
 class MessageRemoved(MaxUpdate):
     """Вы получите этот `update`, как только сообщение будет удалено."""
 
-    type: UpdateType = UpdateType.MESSAGE_REMOVED
+    type = UpdateType.MESSAGE_REMOVED
 
     message_id: str
     chat_id: int

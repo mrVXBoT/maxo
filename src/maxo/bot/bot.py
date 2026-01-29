@@ -2,7 +2,7 @@ from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 from typing import Self, TypeVar
 
-from retejo.core.method_binder import bind_method
+from unihttp.bind_method import bind_method
 
 from maxo.bot.api_client import MaxApiClient
 from maxo.bot.methods import (
@@ -50,7 +50,7 @@ from maxo.bot.state import (
     RunningBotState,
 )
 from maxo.enums.text_format import TextFormat
-from maxo.types.base import MaxoType
+from maxo.types import MaxoType
 
 _MethodResultT = TypeVar("_MethodResultT", bound=MaxoType)
 
@@ -93,11 +93,11 @@ class Bot:
             if auto_close:
                 await self.close()
 
-    async def send_method(
+    async def call_method(
         self,
         method: MaxoMethod[_MethodResultT],
     ) -> _MethodResultT:
-        return await self.state.api_client.send_method(method)
+        return await self.state.api_client.call_method(method)
 
     async def close(self) -> None:
         if self.state.closed or not self.state.started:

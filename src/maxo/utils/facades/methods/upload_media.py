@@ -1,4 +1,4 @@
-from retejo.http.entities import FileObj
+from unihttp.http import UploadFile
 
 from maxo.bot.bot import Bot
 from maxo.errors.api import RetvalReturnedServerException
@@ -24,8 +24,8 @@ class UploadMediaFacade:
         try:
             upload_result = await self._bot.upload_media(
                 upload_url=result.url,
-                file=FileObj(
-                    contents=await upload_media.read(),
+                file=UploadFile(
+                    file=await upload_media.read(),
                     filename=upload_media.file_name,
                 ),
             )

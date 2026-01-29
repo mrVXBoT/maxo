@@ -8,7 +8,7 @@ from maxo.types.user import User
 class DialogMuted(MaxUpdate):
     """Вы получите этот update, когда пользователь заглушит диалог с ботом"""
 
-    type: UpdateType = UpdateType.DIALOG_MUTED
+    type = UpdateType.DIALOG_MUTED
     chat_id: int
     user: User
     muted_until: datetime

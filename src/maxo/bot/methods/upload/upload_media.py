@@ -1,7 +1,7 @@
-from retejo.http.entities import FileObj
-from retejo.http.markers import Form, UrlVar
+from unihttp.http import UploadFile
 
 from maxo.bot.methods.base import MaxoMethod
+from maxo.bot.methods.markers import Form, Path
 from maxo.types.upload_endpoint import UploadEndpoint
 
 
@@ -16,7 +16,7 @@ class UploadMedia(MaxoMethod[UploadEndpoint]):
     """
 
     __url__ = "{upload_url}"
-    __http_method__ = "post"
+    __method__ = "post"
 
-    upload_url: UrlVar[str]
-    file: Form[FileObj]
+    upload_url: Path[str]
+    file: Form[UploadFile]

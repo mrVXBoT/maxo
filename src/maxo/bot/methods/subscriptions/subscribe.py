@@ -1,15 +1,15 @@
-from retejo.http.markers import Body
-
 from maxo.bot.methods.base import MaxoMethod
+from maxo.bot.methods.markers import Body
 from maxo.omit import Omittable, Omitted
+from maxo.types.base import MaxoType
 from maxo.types.simple_query_result import SimpleQueryResult
 
 
-class Subscribe(MaxoMethod[SimpleQueryResult]):
+class Subscribe(MaxoMethod[SimpleQueryResult], MaxoType):
     """Подписка на обновления."""
 
     __url__ = "subscriptions"
-    __http_method__ = "post"
+    __method__ = "post"
 
     url: Body[str]
     secret: Body[Omittable[str]] = Omitted()

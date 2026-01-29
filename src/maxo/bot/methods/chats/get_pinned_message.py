@@ -1,13 +1,13 @@
-from retejo.http.markers import UrlVar
-
 from maxo.bot.methods.base import MaxoMethod
+from maxo.bot.methods.markers import Path
+from maxo.types.base import MaxoType
 from maxo.types.get_pinned_message_result import GetPinnedMessageResult
 
 
-class GetPinnedMessage(MaxoMethod[GetPinnedMessageResult]):
+class GetPinnedMessage(MaxoMethod[GetPinnedMessageResult], MaxoType):
     """Получение закреплённого сообщения в групповом чате."""
 
     __url__ = "chats/{chat_id}/pin"
-    __http_method__ = "get"
+    __method__ = "get"
 
-    chat_id: UrlVar[int]
+    chat_id: Path[int]

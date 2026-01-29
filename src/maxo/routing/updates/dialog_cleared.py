@@ -6,7 +6,7 @@ from maxo.types.user import User
 class DialogCleared(MaxUpdate):
     """Бот получает этот тип обновления сразу после очистки истории диалога."""
 
-    type: UpdateType = UpdateType.DIALOG_CLEARED
+    type = UpdateType.DIALOG_CLEARED
 
     chat_id: int
     user: User

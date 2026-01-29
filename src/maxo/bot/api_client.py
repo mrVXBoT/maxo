@@ -1,26 +1,16 @@
-from collections.abc import Sequence
+import json
+from collections.abc import Callable, Sequence
 from datetime import datetime
 from typing import Any
 
 from adaptix import P, Retort, dumper, loader
-from aiohttp import ClientResponse
-from retejo.core import AdaptixFactory, Factory, RequestContextProxy
-from retejo.http import (
-    HttpMethod,
-    HttpRequest,
-    http_method_dumper_provider,
-    http_response_loader_provider,
-)
-from retejo.http.clients.aiohttp import AiohttpClient
-from retejo.http.entities import HttpResponse
-from retejo.http.markers import (
-    BodyMarker,
-    FormMarker,
-    HeaderMarker,
-    QueryParamMarker,
-    UrlVarMarker,
-)
-from retejo.marker_tools import for_marker
+from aiohttp import ClientSession
+from unihttp.clients.aiohttp import AiohttpAsyncClient
+from unihttp.http import HTTPResponse
+from unihttp.markers import BodyMarker, QueryMarker
+from unihttp.method import BaseMethod
+from unihttp.middlewares import AsyncMiddleware
+from unihttp.serializers.adaptix import DEFAULT_RETORT
 
 from maxo._internal._adaptix.concat_provider import concat_provider
 from maxo._internal._adaptix.has_tag_provider import has_tag_provider
@@ -33,6 +23,7 @@ from maxo.enums import (
     UpdateType,
 )
 from maxo.enums.text_format import TextFormat
+from maxo.errors import MaxBotApiError
 from maxo.errors.api import (
     MaxBotBadRequestError,
     MaxBotForbiddenError,
@@ -42,7 +33,6 @@ from maxo.errors.api import (
     MaxBotTooManyRequestsError,
     MaxBotUnauthorizedError,
     MaxBotUnknownServerError,
-    RetvalReturnedServerException,
 )
 from maxo.omit import Omittable
 from maxo.routing.updates import (
@@ -197,116 +187,96 @@ _has_tag_providers = concat_provider(
 )
 
 
-class MaxApiClient(AiohttpClient):
+class MaxApiClient(AiohttpAsyncClient):
     def __init__(
         self,
         token: str,
         warming_up: bool,
         text_format: TextFormat | None = None,
         base_url: str = "https://platform-api.max.ru/",
+        middleware: list[AsyncMiddleware] | None = None,
+        session: ClientSession | None = None,
+        json_dumps: Callable[[Any], str] = json.dumps,
+        json_loads: Callable[[str | bytes | bytearray], Any] = json.loads,
     ) -> None:
         self._token = token
         self._warming_up = warming_up
         self._text_format = text_format
-        super().__init__(base_url=base_url)
 
-    def init_method_dumper(self) -> Factory:
-        retort = Retort(
+        if session is None:
+            session = ClientSession()
+
+        if "access_token" not in session._default_headers:
+            session._default_headers.update({"authorization": self._token})
+
+        request_dumper = self._init_method_dumper()
+        response_loader = self._init_response_loader()
+
+        super().__init__(
+            base_url=base_url,
+            request_dumper=request_dumper,
+            response_loader=response_loader,
+            middleware=middleware,
+            session=session,
+            json_dumps=json_dumps,
+            json_loads=json_loads,
+        )
+
+    def _init_method_dumper(self) -> Retort:
+        retort = DEFAULT_RETORT.extend(
             recipe=[
-                http_method_dumper_provider(),
                 _has_tag_providers,
+                dumper(P[QueryMarker], lambda _: "null"),
+                dumper(P[QueryMarker][bool], lambda item: int(item)),
                 dumper(
-                    for_marker(QueryParamMarker, P[None]),
-                    lambda _: "null",
-                ),
-                dumper(
-                    for_marker(QueryParamMarker, P[bool]),
-                    lambda item: int(item),
-                ),
-                dumper(
-                    for_marker(QueryParamMarker, P[Sequence[str]] | P[Sequence[int]]),
+                    P[QueryMarker][Sequence[str] | Sequence[int]],
                     lambda item: ",".join(item),
                 ),
                 dumper(
-                    for_marker(BodyMarker, P[Omittable[TextFormat | None]]),
+                    P[BodyMarker][Omittable[TextFormat | None]],
                     lambda item: item or self._text_format,
                 ),
             ],
         )
+
         if self._warming_up:
             retort = warming_up_retort(retort, warming_up=WarmingUpType.METHOD)
-        return AdaptixFactory(retort)
 
-    def init_response_loader(self) -> Factory:
-        retort = Retort(
+        return retort
+
+    def _init_response_loader(self) -> Retort:
+        retort = DEFAULT_RETORT.extend(
             recipe=[
-                http_response_loader_provider(),
                 _has_tag_providers,
                 loader(P[datetime], lambda x: datetime.fromtimestamp(x / 1000)),
             ],
         )
+
         if self._warming_up:
             retort = warming_up_retort(retort, warming_up=WarmingUpType.TYPES)
-        return AdaptixFactory(retort)
 
-    def method_to_request(self, method: HttpMethod[Any]) -> HttpRequest:
-        request_context = RequestContextProxy(self._method_dumper.dump(method))
+        return retort
 
-        url_vars = request_context.get(UrlVarMarker)
-        if url_vars is None:
-            url = method.__url__
-        else:
-            url = method.__url__.format_map(url_vars)
-
-        # TODO: Вынести в retort dumper?
-        headers: dict[str, Any] = request_context.get(HeaderMarker) or {}
-        headers["Authorization"] = headers.get("Authorization", self._token)
-
-        return HttpRequest(
-            url=url,
-            http_method=method.__http_method__,
-            body=request_context.get(BodyMarker),
-            headers=headers,
-            query_params=request_context.get(QueryParamMarker),
-            form=request_context.get(FormMarker),
-            context=request_context,
-        )
-
-    async def retrieve_response_data(
-        self,
-        raw_response: ClientResponse,
-    ) -> Any:
-        text = await raw_response.text()
-        if "retval" in text:
-            raise RetvalReturnedServerException
-
-        return await super().retrieve_response_data(raw_response)
-
-    async def handle_error_response(
-        self,
-        response: HttpResponse[ClientResponse],
-    ) -> None:
-        # TODO: WTF???
-        code, message = (
-            response.data.get("code", -1),
-            response.data.get("message", ""),
-        )
+    def handle_error(self, response: HTTPResponse, method: BaseMethod[Any]):
+        code: str = response.data.get("code", "")
+        error: str = response.data.get("error", "")
+        message: str = response.data.get("message", "")
 
         if response.status_code == 400:
-            raise MaxBotBadRequestError(code, message)
+            raise MaxBotBadRequestError(code, error, message)
         if response.status_code == 401:
-            raise MaxBotUnauthorizedError(code, message)
+            raise MaxBotUnauthorizedError(code, error, message)
         if response.status_code == 403:
-            raise MaxBotForbiddenError(code, message)
+            raise MaxBotForbiddenError(code, error, message)
         if response.status_code == 404:
-            raise MaxBotNotFoundError(code, message)
+            raise MaxBotNotFoundError(code, error, message)
         if response.status_code == 405:
-            raise MaxBotMethodNotAllowedError(code, message)
+            raise MaxBotMethodNotAllowedError(code, error, message)
         if response.status_code == 429:
-            raise MaxBotTooManyRequestsError(code, message)
+            raise MaxBotTooManyRequestsError(code, error, message)
         if response.status_code == 500:
-            raise MaxBotUnknownServerError(code, message)
+            raise MaxBotUnknownServerError(code, error, message)
         if response.status_code == 503:
-            raise MaxBotServiceUnavailableError(code, message)
+            raise MaxBotServiceUnavailableError(code, error, message)
 
-        return await super().handle_error_response(response)
+        raise MaxBotApiError(code, error, message)

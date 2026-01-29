@@ -6,7 +6,7 @@ from maxo.types.user import User
 class DialogUnmuted(MaxUpdate):
     """Вы получите этот update, когда пользователь включит уведомления в диалоге с ботом."""
 
-    type: UpdateType = UpdateType.DIALOG_UNMUTED
+    type = UpdateType.DIALOG_UNMUTED
 
     chat_id: int
     user: User

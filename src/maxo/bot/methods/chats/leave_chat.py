@@ -1,13 +1,13 @@
-from retejo.http.markers import UrlVar
-
 from maxo.bot.methods.base import MaxoMethod
+from maxo.bot.methods.markers import Path
+from maxo.types.base import MaxoType
 from maxo.types.simple_query_result import SimpleQueryResult
 
 
-class LeaveChat(MaxoMethod[SimpleQueryResult]):
+class LeaveChat(MaxoMethod[SimpleQueryResult], MaxoType):
     """Удаление бота из группового чата."""
 
     __url__ = "chats/{chat_id}/members/me"
-    __http_method__ = "delete"
+    __method__ = "delete"
 
-    chat_id: UrlVar[int]
+    chat_id: Path[int]

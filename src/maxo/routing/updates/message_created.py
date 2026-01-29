@@ -7,7 +7,7 @@ from maxo.types.message import Message
 class MessageCreated(MaxUpdate):
     """Вы получите этот `update`, как только сообщение будет создано."""
 
-    type: UpdateType = UpdateType.MESSAGE_CREATED
+    type = UpdateType.MESSAGE_CREATED
 
     message: Message
     user_locale: Omittable[str | None] = Omitted()

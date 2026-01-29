@@ -6,7 +6,7 @@ from maxo.types.user import User
 class DialogRemoved(MaxUpdate):
     """Вы получите этот update, когда пользователь удаляет чат."""
 
-    type: UpdateType = UpdateType.DIALOG_REMOVED
+    type = UpdateType.DIALOG_REMOVED
 
     chat_id: int
     user: User

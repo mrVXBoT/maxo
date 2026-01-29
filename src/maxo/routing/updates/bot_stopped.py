@@ -7,7 +7,7 @@ from maxo.types.user import User
 class BotStopped(MaxUpdate):
     """Бот получает этот тип обновления, как только пользователь останавливает бота"""
 
-    type: UpdateType = UpdateType.BOT_STOPPED
+    type = UpdateType.BOT_STOPPED
 
     chat_id: int
     user: User

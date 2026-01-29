@@ -6,7 +6,7 @@ from maxo.types.user import User
 class BotAddedToChat(MaxUpdate):
     """Вы получите этот update, как только бот будет добавлен в чат"""
 
-    type: UpdateType = UpdateType.BOT_ADDED
+    type = UpdateType.BOT_ADDED
 
     chat_id: int
     user: User

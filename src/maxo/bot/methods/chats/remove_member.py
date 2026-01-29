@@ -1,17 +1,17 @@
-from retejo.http.markers import QueryParam, UrlVar
-
 from maxo.bot.methods.base import MaxoMethod
+from maxo.bot.methods.markers import Path, Query
 from maxo.omit import Omittable, Omitted
+from maxo.types.base import MaxoType
 from maxo.types.simple_query_result import SimpleQueryResult
 
 
-class RemoveMember(MaxoMethod[SimpleQueryResult]):
+class RemoveMember(MaxoMethod[SimpleQueryResult], MaxoType):
     """Удаление участника из группового чата."""
 
     __url__ = "chats/{chat_id}/members"
-    __http_method__ = "delete"
+    __method__ = "delete"
 
-    chat_id: UrlVar[int]
+    chat_id: Path[int]
 
-    user_id: QueryParam[int]
-    block: QueryParam[Omittable[bool]] = Omitted()
+    user_id: Query[int]
+    block: Query[Omittable[bool]] = Omitted()

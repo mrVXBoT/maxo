@@ -10,7 +10,7 @@ from maxo.types.user import User
 class MessageCallback(MaxUpdate):
     """Вы получите этот `update` как только пользователь нажмёт кнопку."""
 
-    type: UpdateType = UpdateType.MESSAGE_CALLBACK
+    type = UpdateType.MESSAGE_CALLBACK
 
     callback: Callback
     message: Message | None = None

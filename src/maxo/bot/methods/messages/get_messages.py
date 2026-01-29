@@ -1,20 +1,20 @@
 from typing import Any
 
-from retejo.http.markers import QueryParam
-
 from maxo.bot.methods.base import MaxoMethod
+from maxo.bot.methods.markers import Query
 from maxo.omit import Omittable, Omitted
+from maxo.types.base import MaxoType
 from maxo.types.message_list import MessageList
 
 
-class GetMessages(MaxoMethod[MessageList]):
+class GetMessages(MaxoMethod[MessageList], MaxoType):
     """Получение сообщений."""
 
     __url__ = "messages"
-    __http_method__ = "get"
+    __method__ = "get"
 
-    chat_id: QueryParam[Omittable[int]] = Omitted()
-    count: QueryParam[Omittable[int]] = Omitted()
-    from_: QueryParam[Omittable[int]] = Omitted()
-    message_ids: QueryParam[Omittable[Any | None]] = Omitted()
-    to: QueryParam[Omittable[int]] = Omitted()
+    chat_id: Query[Omittable[int]] = Omitted()
+    count: Query[Omittable[int]] = Omitted()
+    from_: Query[Omittable[int]] = Omitted()
+    message_ids: Query[Omittable[Any | None]] = Omitted()
+    to: Query[Omittable[int]] = Omitted()

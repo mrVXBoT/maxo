@@ -7,7 +7,7 @@ from maxo.types.user import User
 class BotStarted(MaxUpdate):
     """Бот получает этот тип обновления, как только пользователь нажал кнопку `Start`"""
 
-    type: UpdateType = UpdateType.BOT_STARTED
+    type = UpdateType.BOT_STARTED
 
     chat_id: int
     user: User

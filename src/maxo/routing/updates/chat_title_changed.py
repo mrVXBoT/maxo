@@ -6,7 +6,7 @@ from maxo.types.user import User
 class ChatTitleChanged(MaxUpdate):
     """Бот получит это обновление, когда будет изменено название чата"""
 
-    type: UpdateType = UpdateType.CHAT_TITLE_CHANGED
+    type = UpdateType.CHAT_TITLE_CHANGED
 
     chat_id: int
     user: User

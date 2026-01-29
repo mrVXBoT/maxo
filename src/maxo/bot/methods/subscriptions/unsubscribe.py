@@ -1,13 +1,13 @@
-from retejo.http.markers import QueryParam
-
 from maxo.bot.methods.base import MaxoMethod
+from maxo.bot.methods.markers import Query
+from maxo.types.base import MaxoType
 from maxo.types.simple_query_result import SimpleQueryResult
 
 
-class Unsubscribe(MaxoMethod[SimpleQueryResult]):
+class Unsubscribe(MaxoMethod[SimpleQueryResult], MaxoType):
     """Отписка от обновлений."""
 
     __url__ = "subscriptions"
-    __http_method__ = "delete"
+    __method__ = "delete"
 
-    url: QueryParam[str]
+    url: Query[str]

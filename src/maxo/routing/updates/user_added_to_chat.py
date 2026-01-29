@@ -7,7 +7,7 @@ from maxo.types.user import User
 class UserAddedToChat(MaxUpdate):
     """Вы получите это обновление, когда пользователь будет добавлен в чат, где бот является администратором."""
 
-    type: UpdateType = UpdateType.USER_ADDED
+    type = UpdateType.USER_ADDED
 
     chat_id: int
     user: User

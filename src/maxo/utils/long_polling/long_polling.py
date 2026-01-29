@@ -69,7 +69,8 @@ class LongPolling:
         dispatcher = self._dispatcher
         dispatcher.workflow_data.update(bot=bot, **workflow_data)
 
-        types = types or collect_used_updates(self._dispatcher)
+        # TODO: Пофиксить на Sequence
+        types = list(types or collect_used_updates(self._dispatcher))
 
         async with self._lock:
             await dispatcher.feed_signal(BeforeStartup())

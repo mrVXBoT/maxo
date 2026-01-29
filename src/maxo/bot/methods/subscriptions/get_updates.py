@@ -1,17 +1,19 @@
-from retejo.http.markers import QueryParam
+from collections.abc import Sequence
 
 from maxo.bot.methods.base import MaxoMethod
+from maxo.bot.methods.markers import Query
 from maxo.omit import Omittable, Omitted
+from maxo.types.base import MaxoType
 from maxo.types.update_list import UpdateList
 
 
-class GetUpdates(MaxoMethod[UpdateList]):
+class GetUpdates(MaxoMethod[UpdateList], MaxoType):
     """Получение обновлений."""
 
     __url__ = "updates"
-    __http_method__ = "get"
+    __method__ = "get"
 
-    limit: QueryParam[Omittable[int]] = Omitted()
-    marker: QueryParam[Omittable[int | None]] = Omitted()
-    timeout: QueryParam[Omittable[int]] = Omitted()
-    types: QueryParam[Omittable[list[str] | None]] = Omitted()
+    limit: Query[Omittable[int]] = Omitted()
+    marker: Query[Omittable[int | None]] = Omitted()
+    timeout: Query[Omittable[int]] = Omitted()
+    types: Query[Omittable[Sequence[str] | None]] = Omitted()
