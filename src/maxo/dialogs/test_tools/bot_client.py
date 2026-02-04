@@ -98,7 +98,7 @@ class BotClient:
         return Message(
             sender=self.user,
             recipient=Recipient(
-                chat_type=ChatType.CHAT,
+                chat_type=ChatType.DIALOG,  # TODO: Узнать тип чата?
                 user_id=self.bot.state.info.user_id,
                 chat_id=self.chat.chat_id,
             ),

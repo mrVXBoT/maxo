@@ -48,7 +48,7 @@ class BgManager(BaseDialogManager):
         self._event_context = EventContext(
             chat_id=chat_id,
             user_id=user.id,
-            chat_type=ChatType.CHAT,
+            chat_type=ChatType.CHAT,  # TODO: Узнать тип чата
             user=user,
             chat=None,
             bot=bot,
@@ -83,7 +83,7 @@ class BgManager(BaseDialogManager):
             user=user,
             chat_id=chat_id,
             user_id=user_id,
-            chat_type=ChatType.CHAT,  # TODO: Определить тип чата
+            chat_type=ChatType.CHAT,  # TODO: Узнать тип чата
             chat=None,
         )
         if stack_id is None:

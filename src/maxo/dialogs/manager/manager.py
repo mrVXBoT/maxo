@@ -430,7 +430,7 @@ class ManagerImpl(DialogManager):
             recipient=Recipient(
                 user_id=event.callback.user.user_id,
                 chat_id=None,
-                chat_type=ChatType.CHAT,
+                chat_type=ChatType.CHAT,  # TODO: Узнать тип чата?
             ),
             message_id=stack.last_message_id,
             sequence_id=stack.last_sequence_id,

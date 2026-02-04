@@ -18,6 +18,8 @@ from maxo.types import (
     LocationAttachmentRequest,
     PhotoAttachment,
     PhotoAttachmentRequest,
+    ReplyKeyboardAttachment,
+    ReplyKeyboardAttachmentRequest,
     ShareAttachment,
     ShareAttachmentRequest,
     StickerAttachment,
@@ -41,6 +43,8 @@ def request_to_attachment(request: AttachmentsRequests) -> Attachments:
         return ShareAttachment(
             payload=request.payload,
         )
+    if isinstance(request, ReplyKeyboardAttachmentRequest):
+        return ReplyKeyboardAttachment(buttons=request.buttons)
 
     if isinstance(
         request,
@@ -98,5 +102,7 @@ def attachment_to_request(attachment: Attachments) -> AttachmentsRequests:
             contact_id=contact_id,
             vcf_info=attachment.payload.vcf_info,
         )
+    if isinstance(attachment, ReplyKeyboardAttachment):
+        return ReplyKeyboardAttachmentRequest(buttons=attachment.buttons)
 
     assert_never(attachment)

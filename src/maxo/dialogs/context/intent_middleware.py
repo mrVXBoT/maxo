@@ -80,7 +80,7 @@ def event_context_from_bot_started(event: BotStarted, ctx: Ctx) -> EventContext:
         user=event.user,
         user_id=event.user.user_id,
         chat_id=event.chat_id,
-        chat_type=ChatType.CHAT,
+        chat_type=ChatType.DIALOG,
         chat=None,
     )
 

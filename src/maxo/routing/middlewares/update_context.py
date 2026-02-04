@@ -80,7 +80,7 @@ class UpdateContextMiddleware(BaseMiddleware[MaxoUpdate[Any]]):
         return UpdateContext(
             chat_id=chat_id,
             user_id=user_id,
-            type=ChatType.CHAT,
+            type=ChatType.DIALOG,  # TODO: Узнать тип чата
         )
 
     def _resolve_user(
