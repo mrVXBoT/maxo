@@ -21,7 +21,7 @@
 
 <p align="center">
     <b>
-        Асинхронный фреймворк для разработки ботов из MAX.ru
+        Асинхронный фреймворк для разработки <a href="https://dev.max.ru/docs">ботов</a> из <a href="https://max.ru">max.ru</a>
     </b>
 </p>
 
