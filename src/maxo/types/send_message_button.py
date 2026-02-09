@@ -3,6 +3,12 @@ from maxo.types.reply_button import ReplyButton
 
 
 class SendMessageButton(ReplyButton):
-    """After pressing this type of button client will send a message on behalf of user with given payload"""
+    """
+    After pressing this type of button client will send a message on behalf of user with given payload
+
+    Args:
+        type:
+
+    """
 
     type: ReplyButtonType = ReplyButtonType.MESSAGE

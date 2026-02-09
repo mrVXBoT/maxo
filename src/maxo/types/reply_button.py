@@ -3,7 +3,14 @@ from maxo.types.base import MaxoType
 
 
 class ReplyButton(MaxoType):
-    """After pressing this type of button client will send a message on behalf of user with given payload"""
+    """
+    After pressing this type of button client will send a message on behalf of user with given payload
+
+    Args:
+        payload: Токен кнопки
+        text: Видимый текст кнопки
+
+    """
 
     text: str
 

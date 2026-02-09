@@ -3,6 +3,12 @@ from maxo.types.base import MaxoType
 
 
 class Attachment(MaxoType):
-    """Общая схема, представляющая вложение сообщения"""
+    """
+    Общая схема, представляющая вложение сообщения
+
+    Args:
+        type:
+
+    """
 
     type: AttachmentType

@@ -4,7 +4,14 @@ from maxo.types.button import Button
 
 
 class MessageButton(Button):
-    """Кнопка для запуска мини-приложения"""
+    """
+    Кнопка для запуска мини-приложения
+
+    Args:
+        text: Текст кнопки, который будет отправлен в чат от лица пользователя
+        type:
+
+    """
 
     type: ButtonType = ButtonType.MESSAGE
 

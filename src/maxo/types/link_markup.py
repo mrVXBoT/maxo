@@ -3,7 +3,14 @@ from maxo.types.markup_element import MarkupElement
 
 
 class LinkMarkup(MarkupElement):
-    """Представляет ссылку в тексте"""
+    """
+    Представляет ссылку в тексте
+
+    Args:
+        type:
+        url: URL ссылки
+
+    """
 
     type: MarkupElementType = MarkupElementType.LINK
 

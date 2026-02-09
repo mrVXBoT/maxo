@@ -3,6 +3,12 @@ from maxo.types.markup_element import MarkupElement
 
 
 class UnderlineMarkup(MarkupElement):
-    """Представляет <ins>подчеркнутый</ins> текст"""
+    """
+    Представляет <ins>подчеркнутый</ins> текст
+
+    Args:
+        type:
+
+    """
 
     type: MarkupElementType = MarkupElementType.UNDERLINE

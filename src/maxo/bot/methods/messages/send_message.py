@@ -8,7 +8,49 @@ from maxo.types.send_message_result import SendMessageResult
 
 
 class SendMessage(MaxoMethod[SendMessageResult]):
-    """Отправить сообщение."""
+    """
+    Отправить сообщение
+
+    Отправляет сообщение в чат
+
+    Пример запроса:
+    ````bash
+    curl -X POST "https://platform-api.max.ru/messages?user_id={user_id}" \
+      -H "Authorization: {access_token}" \
+      -H "Content-Type: application/json" \
+      -d '{
+      "text": "Это сообщение с кнопкой-ссылкой",
+      "attachments": [
+        {
+          "type": "inline_keyboard",
+          "payload": {
+            "buttons": [
+              [
+                {
+                  "type": "link",
+                  "text": "Откройте сайт",
+                  "url": "https://example.com"
+                }
+              ]
+            ]
+          }
+        }
+      ]
+    }'
+
+    Args:
+        attachments: Вложения сообщения. Если пусто, все вложения будут удалены
+        chat_id: Если сообщение отправляется в чат, укажите его ID
+        disable_link_preview: Если `false`, сервер не будет генерировать превью для ссылок в тексте сообщения
+        format: Если установлен, текст сообщения будет форматирован данным способом. Для подробной информации загляните в раздел [Форматирование](/docs-api#Форматирование%20текста)
+        link: Ссылка на сообщение
+        notify: Если false, участники чата не будут уведомлены (по умолчанию `true`)
+        text: Новый текст сообщения
+        user_id: Если вы хотите отправить сообщение пользователю, укажите его ID
+
+    Источник: https://dev.max.ru/docs-api/methods/POST/messages
+
+    """
 
     __url__ = "messages"
     __method__ = "post"

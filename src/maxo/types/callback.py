@@ -6,7 +6,16 @@ from maxo.types.user import User
 
 
 class Callback(MaxoType):
-    """Объект, отправленный боту, когда пользователь нажимает кнопку"""
+    """
+    Объект, отправленный боту, когда пользователь нажимает кнопку
+
+    Args:
+        callback_id: Текущий ID клавиатуры
+        payload: Токен кнопки
+        timestamp: Unix-время, когда пользователь нажал кнопку
+        user: Пользователь, нажавший на кнопку
+
+    """
 
     callback_id: str
     timestamp: datetime

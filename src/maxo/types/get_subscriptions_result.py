@@ -3,6 +3,12 @@ from maxo.types.subscription import Subscription
 
 
 class GetSubscriptionsResult(MaxoType):
-    """Список всех WebHook подписок"""
+    """
+    Список всех WebHook подписок
+
+    Args:
+        subscriptions: Список текущих подписок
+
+    """
 
     subscriptions: list[Subscription]

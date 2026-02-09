@@ -4,7 +4,23 @@ from maxo.types.get_pinned_message_result import GetPinnedMessageResult
 
 
 class GetPinnedMessage(MaxoMethod[GetPinnedMessageResult]):
-    """Получение закреплённого сообщения в групповом чате."""
+    """
+    Получение закреплённого сообщения в групповом чате
+
+    Возвращает закреплённое сообщение в групповом чате
+
+    Пример запроса:
+    ```bash
+    curl -X GET "https://platform-api.max.ru/chats/{chatId}/pin" \
+      -H "Authorization: {access_token}"
+    ```
+
+    Args:
+        chat_id: ID чата
+
+    Источник: https://dev.max.ru/docs-api/methods/GET/chats/-chatId-/pin
+
+    """
 
     __url__ = "chats/{chat_id}/pin"
     __method__ = "get"

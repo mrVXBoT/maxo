@@ -7,6 +7,13 @@ from maxo.types.photo_attachment_request_payload import PhotoAttachmentRequestPa
 
 
 class PhotoAttachmentRequest(AttachmentRequest):
+    """
+    Args:
+        payload:
+        type:
+
+    """
+
     type: AttachmentRequestType = AttachmentRequestType.IMAGE
 
     payload: PhotoAttachmentRequestPayload

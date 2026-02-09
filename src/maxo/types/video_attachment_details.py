@@ -5,6 +5,17 @@ from maxo.types.video_urls import VideoUrls
 
 
 class VideoAttachmentDetails(MaxoType):
+    """
+    Args:
+        duration: Длина видео в секундах
+        height: Высота видео
+        thumbnail: Миниатюра видео
+        token: Токен видео-вложения
+        urls: URL-ы для скачивания или воспроизведения видео. Может быть null, если видео недоступно
+        width: Ширина видео
+
+    """
+
     duration: int
     height: int
     token: str

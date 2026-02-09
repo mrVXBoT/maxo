@@ -7,7 +7,14 @@ from maxo.types.uploaded_info import UploadedInfo
 
 
 class VideoAttachmentRequest(AttachmentRequest):
-    """Запрос на прикрепление видео к сообщению"""
+    """
+    Запрос на прикрепление видео к сообщению
+
+    Args:
+        payload:
+        type:
+
+    """
 
     type: AttachmentRequestType = AttachmentRequestType.VIDEO
 

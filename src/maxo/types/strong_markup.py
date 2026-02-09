@@ -3,6 +3,12 @@ from maxo.types.markup_element import MarkupElement
 
 
 class StrongMarkup(MarkupElement):
-    """Представляет **жирный** текст"""
+    """
+    Представляет **жирный** текст
+
+    Args:
+        type:
+
+    """
 
     type: MarkupElementType = MarkupElementType.STRONG

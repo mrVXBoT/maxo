@@ -4,7 +4,23 @@ from maxo.types.simple_query_result import SimpleQueryResult
 
 
 class LeaveChat(MaxoMethod[SimpleQueryResult]):
-    """Удаление бота из группового чата."""
+    """
+    Удаление бота из группового чата
+
+    Удаляет бота из участников группового чата
+
+    Пример запроса:
+    ```bash
+    curl -X DELETE "https://platform-api.max.ru/chats/{chatId}/members/me" \
+      -H "Authorization: {access_token}"
+    ```
+
+    Args:
+        chat_id: ID чата
+
+    Источник: https://dev.max.ru/docs-api/methods/DELETE/chats/-chatId-/members/me
+
+    """
 
     __url__ = "chats/{chat_id}/members/me"
     __method__ = "delete"

@@ -3,6 +3,12 @@ from maxo.types.base import MaxoType
 
 
 class AttachmentRequest(MaxoType):
-    """Запрос на прикрепление данных к сообщению"""
+    """
+    Запрос на прикрепление данных к сообщению
+
+    Args:
+        type:
+
+    """
 
     type: AttachmentRequestType

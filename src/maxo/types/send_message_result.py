@@ -3,4 +3,10 @@ from maxo.types.message import Message
 
 
 class SendMessageResult(MaxoType):
+    """
+    Args:
+        message:
+
+    """
+
     message: Message

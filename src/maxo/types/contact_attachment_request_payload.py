@@ -3,6 +3,15 @@ from maxo.types.base import MaxoType
 
 
 class ContactAttachmentRequestPayload(MaxoType):
+    """
+    Args:
+        contact_id: ID контакта, если он зарегистирован в MAX
+        name: Имя контакта
+        vcf_info: Полная информация о контакте в формате VCF
+        vcf_phone: Телефон контакта в формате VCF
+
+    """
+
     name: str | None = None
 
     contact_id: Omittable[int | None] = Omitted()

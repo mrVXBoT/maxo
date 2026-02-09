@@ -4,7 +4,14 @@ from maxo.types.buttons import ReplyButtons
 
 
 class ReplyKeyboardAttachment(Attachment):
-    """Custom reply keyboard in message"""
+    """
+    Custom reply keyboard in message
+
+    Args:
+        buttons:
+        type:
+
+    """
 
     type: AttachmentType = AttachmentType.REPLY_KEYBOARD
 
