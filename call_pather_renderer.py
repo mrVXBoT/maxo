@@ -258,7 +258,7 @@ class CallPathNodeCollectorWrapper(AbstractContextManager[None, None]):
         self._context = context
 
     def __enter__(self) -> None:
-        self._collector._add(
+        self._collector._add(  # noqa: SLF001
             self._obj,
             type=self._type,
             context=self._context,
@@ -270,7 +270,7 @@ class CallPathNodeCollectorWrapper(AbstractContextManager[None, None]):
         exc_value: BaseException | None,
         traceback: TracebackType | None,
     ) -> None:
-        self._collector._add(
+        self._collector._add(  # noqa: SLF001
             self._obj,
             type=self._type,
             context=self._context,

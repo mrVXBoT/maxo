@@ -1,6 +1,6 @@
 import json
 from collections.abc import Callable
-from datetime import datetime
+from datetime import UTC, datetime
 from typing import Any, Never
 from urllib.parse import urljoin
 
@@ -245,7 +245,7 @@ class MaxApiClient(AiohttpAsyncClient):
         retort = DEFAULT_RETORT.extend(
             recipe=[
                 _has_tag_providers,
-                loader(P[datetime], lambda x: datetime.fromtimestamp(x / 1000)),
+                loader(P[datetime], lambda x: datetime.fromtimestamp(x / 1000, tz=UTC)),
             ],
         )
 
@@ -302,6 +302,7 @@ class MaxApiClient(AiohttpAsyncClient):
             raise RequestTimeoutError(str(e)) from e
 
     def handle_error(self, response: HTTPResponse, method: BaseMethod[Any]) -> Never:
+        # ruff: noqa: PLR2004
         code: str = response.data.get("code") or response.data.get("error_code", "")
         error: str = response.data.get("error") or response.data.get("error_data", "")
         message: str = response.data.get("message", "")

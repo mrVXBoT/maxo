@@ -1,5 +1,5 @@
-import os.path
 from collections.abc import Iterable, Sequence
+from pathlib import Path
 from typing import TYPE_CHECKING
 
 from diagrams import Cluster, Diagram, Edge
@@ -21,7 +21,7 @@ from maxo.routing.interfaces import BaseRouter
 if TYPE_CHECKING:
     from maxo.dialogs import Dialog
 
-ICON_PATH = os.path.join(os.path.dirname(__file__), "calculator.png")
+ICON_PATH = Path(__file__).parent / "calculator.png"
 
 
 def widget_edges(
@@ -119,7 +119,7 @@ def render_transitions(
                 for window in dialog.windows.values():
                     nodes[window.get_state()] = Custom(
                         icon_path=ICON_PATH,
-                        label=window.get_state()._state,
+                        label=window.get_state()._state,  # noqa: SLF001
                     )
 
         starts = []

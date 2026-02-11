@@ -1,5 +1,5 @@
 from abc import abstractmethod
-from typing import Optional, Union
+from typing import Optional, Self, Union
 
 from maxo.dialogs.api.internal import TextWidget
 from maxo.dialogs.api.protocols import DialogManager
@@ -100,7 +100,7 @@ class Multi(Text):
         texts = [await t.render_text(data, manager) for t in self.texts]
         return self.sep.join(filter(None, texts))
 
-    def __iadd__(self, other: Text | str) -> "Multi":
+    def __iadd__(self, other: Text | str) -> Self:
         if isinstance(other, str):
             other = Const(other)
         self.texts += (other,)
@@ -145,7 +145,7 @@ class Or(Text):
                 return res
         return ""
 
-    def __ior__(self, other: Text | str) -> "Or":
+    def __ior__(self, other: Text | str) -> Self:
         if isinstance(other, str):
             other = Const(other)
         self.texts += (other,)

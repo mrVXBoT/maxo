@@ -1,5 +1,5 @@
 import uuid
-from datetime import datetime
+from datetime import UTC, datetime
 from typing import Any, Union
 
 from maxo import Bot, Dispatcher
@@ -31,7 +31,7 @@ class FakeBot(Bot):
             first_name="bot",
             username="bot",
             is_bot=True,
-            last_activity_time=datetime.fromtimestamp(1234567890),
+            last_activity_time=datetime.fromtimestamp(1234567890, tz=UTC),
         )
         self._state = RunningBotState(info=info, api_client=None)
 
@@ -66,7 +66,7 @@ class BotClient:
             chat_id=chat_id,
             type=chat_type,
             status=ChatStatus.ACTIVE,
-            last_event_time=datetime.now(),
+            last_event_time=datetime.now(UTC),
             is_public=False,
             participants_count=2,
         )
@@ -74,7 +74,7 @@ class BotClient:
             user_id=user_id,
             is_bot=False,
             first_name=f"User_{user_id}",
-            last_activity_time=datetime.now(),
+            last_activity_time=datetime.now(UTC),
         )
         self.dp = dp
         self.last_update_id = 1
@@ -102,7 +102,7 @@ class BotClient:
                 user_id=self.bot.state.info.user_id,
                 chat_id=self.chat.chat_id,
             ),
-            timestamp=datetime.fromtimestamp(1234567890),
+            timestamp=datetime.fromtimestamp(1234567890, tz=UTC),
             link=(
                 LinkedMessage(
                     type=MessageLinkType.REPLY,
@@ -129,7 +129,7 @@ class BotClient:
             MaxoUpdate(
                 update=MessageCreated(
                     message=self._new_message(text, reply_to),
-                    timestamp=datetime.fromtimestamp(1234567890),
+                    timestamp=datetime.fromtimestamp(1234567890, tz=UTC),
                     user_locale="ru",
                 ),
             ),
@@ -143,7 +143,7 @@ class BotClient:
         if not button.payload:
             raise ValueError("Button has no callback data")
         return Callback(
-            timestamp=datetime.fromtimestamp(1234567890),
+            timestamp=datetime.fromtimestamp(1234567890, tz=UTC),
             callback_id=str(uuid.uuid4()),
             payload=button.payload,
             user=self.user,
@@ -163,7 +163,7 @@ class BotClient:
         callback = self._new_callback(button)
         await self.dp.feed_update(
             MessageCallback(
-                timestamp=datetime.fromtimestamp(1234567890),
+                timestamp=datetime.fromtimestamp(1234567890, tz=UTC),
                 callback=callback,
                 message=message,
                 user_locale="ru",

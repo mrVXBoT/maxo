@@ -3,15 +3,14 @@ import pytest
 from maxo import Dispatcher
 from maxo.bot.bot import Bot
 from maxo.dialogs import (
-    BotClient,
     Dialog,
     DialogManager,
-    FakeBot,
-    MockMessageManager,
     StartMode,
     Window,
     setup_dialogs,
 )
+from maxo.dialogs.test_tools import MockMessageManager
+from maxo.dialogs.test_tools.bot_client import BotClient, FakeBot
 from maxo.dialogs.test_tools.memory_storage import JsonMemoryStorage
 from maxo.dialogs.widgets.text import Format
 from maxo.fsm.state import State, StatesGroup
@@ -47,7 +46,7 @@ def message_manager() -> MockMessageManager:
 
 
 @pytest.fixture
-def dp(message_manager: MockMessageManager):
+def dp(message_manager: MockMessageManager) -> Dispatcher:
     dp = Dispatcher(storage=JsonMemoryStorage())
     dp.message_created.handler(start, CommandStart())
     dp.include(
@@ -74,7 +73,7 @@ def bot() -> Bot:
 
 
 @pytest.mark.asyncio
-async def test_middleware(bot, message_manager, client):
+async def test_middleware(bot, message_manager, client) -> None:
     await client.send("/start")
     first_message = message_manager.one_message()
     assert first_message.unsafe_body.text == "my_value"

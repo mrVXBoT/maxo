@@ -1,5 +1,6 @@
 import pytest
-from aiogram_dialog.widgets.text import Format
+
+from maxo.dialogs.widgets.text import Format
 
 
 @pytest.mark.asyncio

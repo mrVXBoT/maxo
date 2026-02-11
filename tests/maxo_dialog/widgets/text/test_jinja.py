@@ -1,6 +1,7 @@
 import pytest
-from aiogram_dialog import DialogManager
-from aiogram_dialog.widgets.text import Jinja
+
+from maxo.dialogs import DialogManager
+from maxo.dialogs.widgets.text import Jinja
 
 
 @pytest.fixture

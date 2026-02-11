@@ -1,14 +1,15 @@
 import pytest
-from aiogram import F
-from aiogram.types import KeyboardButton
-from aiogram_dialog import DialogManager
-from aiogram_dialog.api.internal import RawKeyboard
-from aiogram_dialog.widgets.common import WhenCondition
-from aiogram_dialog.widgets.kbd import Keyboard
+from magic_filter import F
+
+from maxo.dialogs import DialogManager
+from maxo.dialogs.api.internal import RawKeyboard
+from maxo.dialogs.widgets.common import WhenCondition
+from maxo.dialogs.widgets.kbd import Keyboard
+from maxo.types import MessageButton
 
 
 class Button(Keyboard):
-    def __init__(self, id: str, when: WhenCondition = None):
+    def __init__(self, id: str, when: WhenCondition = None) -> None:
         super().__init__(when=when, id=id)
 
     async def _render_keyboard(
@@ -16,22 +17,22 @@ class Button(Keyboard):
         data,
         manager: DialogManager,
     ) -> RawKeyboard:
-        return [[KeyboardButton(text=self.widget_id)]]
+        return [[MessageButton(text=self.widget_id)]]
 
 
 @pytest.mark.asyncio
-async def test_or(mock_manager):
+async def test_or(mock_manager) -> None:
     text = Button("a") | Button("b")
     res = await text.render_keyboard({}, mock_manager)
-    assert res == [[KeyboardButton(text="a")]]
+    assert res == [[MessageButton(text="a")]]
 
 
 @pytest.mark.asyncio
-async def test_or_condition(mock_manager):
+async def test_or_condition(mock_manager) -> None:
     text = Button("A", when=F["a"]) | Button("B", when=F["b"]) | Button("C")
     res = await text.render_keyboard({"a": True}, mock_manager)
-    assert res == [[KeyboardButton(text="A")]]
+    assert res == [[MessageButton(text="A")]]
     res = await text.render_keyboard({"b": True}, mock_manager)
-    assert res == [[KeyboardButton(text="B")]]
+    assert res == [[MessageButton(text="B")]]
     res = await text.render_keyboard({}, mock_manager)
-    assert res == [[KeyboardButton(text="C")]]
+    assert res == [[MessageButton(text="C")]]

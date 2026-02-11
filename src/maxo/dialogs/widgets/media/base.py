@@ -1,3 +1,5 @@
+from typing import Self
+
 from maxo.dialogs.api.entities import MediaAttachment
 from maxo.dialogs.api.internal import MediaWidget
 from maxo.dialogs.api.protocols import DialogManager
@@ -51,7 +53,7 @@ class Or(Media):
                 return res
         return None
 
-    def __ior__(self, other: Media) -> "Or":
+    def __ior__(self, other: Media) -> Self:
         self.widgets += (other,)
         return self
 

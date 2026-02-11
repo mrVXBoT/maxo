@@ -2,26 +2,27 @@ import asyncio
 from asyncio import Event
 
 import pytest
-from aiogram import Dispatcher
-from aiogram.filters import CommandStart
-from aiogram.types import Message
-from aiogram_dialog import setup_dialogs
-from aiogram_dialog.test_tools import BotClient, MockMessageManager
-from aiogram_dialog.test_tools.memory_storage import JsonMemoryStorage
+
+from maxo import Dispatcher
+from maxo.dialogs import setup_dialogs
+from maxo.dialogs.test_tools import BotClient, MockMessageManager
+from maxo.dialogs.test_tools.memory_storage import JsonMemoryStorage
+from maxo.routing.filters import CommandStart
+from maxo.types import Message
 
 
 async def start(
-    message: Message,
+    _message: Message,
     data: list,
     event_common: Event,
-):
+) -> None:
     data.append(1)
     await event_common.wait()
 
 
 @pytest.mark.asyncio
 @pytest.mark.repeat(10)
-async def test_concurrent_events():
+async def test_concurrent_events() -> None:
     event_common = Event()
     data = []
     dp = Dispatcher(
@@ -43,4 +44,4 @@ async def test_concurrent_events():
     event_common.set()
     await t1
     await t2
-    assert len(data) == 2
+    assert len(data) == 2  # noqa: PLR2004

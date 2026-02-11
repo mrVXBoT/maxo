@@ -1,7 +1,8 @@
 import html
 import logging
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import UTC, datetime
+from pathlib import Path
 from typing import TYPE_CHECKING, Any, Optional
 
 from jinja2 import Environment, PackageLoader, select_autoescape
@@ -300,7 +301,7 @@ async def render_input(
         data = {content_type: "<stub>"}
     message = Message(
         message_id=1,
-        date=datetime.now(),
+        date=datetime.now(UTC),
         chat=Chat(id=1, type="private"),
         **data,
     )
@@ -412,7 +413,7 @@ async def create_window(
     return RenderWindow(
         message=text.replace("\n", "<br>"),
         state=state.state,
-        state_name=state._state,
+        state_name=state._state,  # noqa: SLF001
         photo=create_photo(media=message.media),
         keyboard=keyboard,
         reply_keyboard=reply_keyboard,
@@ -485,5 +486,5 @@ async def render_preview(
     simulate_events: bool = False,
 ) -> None:
     res = await render_preview_content(router, simulate_events)
-    with open(file, "w", encoding="utf-8") as f:
+    with Path(file).open("w", encoding="utf-8") as f:
         f.write(res)

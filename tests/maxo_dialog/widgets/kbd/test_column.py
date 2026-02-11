@@ -1,6 +1,7 @@
 import pytest
-from aiogram_dialog.widgets.kbd import Button, Column
-from aiogram_dialog.widgets.text import Const
+
+from maxo.dialogs.widgets.kbd import Button, Column
+from maxo.dialogs.widgets.text import Const
 
 
 @pytest.mark.asyncio

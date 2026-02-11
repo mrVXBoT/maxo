@@ -1,5 +1,6 @@
 import pytest
-from aiogram_dialog.widgets.text import Const, Multi
+
+from maxo.dialogs.widgets.text import Const, Multi
 
 
 @pytest.mark.asyncio

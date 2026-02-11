@@ -1,6 +1,6 @@
 import itertools
 from copy import deepcopy
-from datetime import datetime
+from datetime import UTC, datetime
 from logging import getLogger
 from typing import Any, cast
 
@@ -502,7 +502,7 @@ class ManagerImpl(DialogManager):
             user_id=user_id,
             is_bot=False,
             first_name="",
-            last_activity_time=datetime.now(),
+            last_activity_time=datetime.now(UTC),
         )
 
     def _get_fake_chat(self, chat_id: int | None = None) -> Chat:
@@ -518,7 +518,7 @@ class ManagerImpl(DialogManager):
             chat_id=chat_id,
             type="",
             is_public=False,
-            last_event_time=datetime.now(),
+            last_event_time=datetime.now(UTC),
             participants_count=1,
             status=ChatStatus.ACTIVE,
         )

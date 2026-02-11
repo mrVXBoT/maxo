@@ -1,4 +1,5 @@
 from abc import abstractmethod
+from typing import Self
 
 from maxo.dialogs.api.internal import KeyboardWidget, RawKeyboard
 from maxo.dialogs.api.protocols import DialogManager, DialogProtocol
@@ -148,7 +149,7 @@ class Or(Keyboard):
                 return True
         return False
 
-    def __ior__(self, other: Keyboard) -> "Or":
+    def __ior__(self, other: Keyboard) -> Self:
         self.widgets += (other,)
         return self
 

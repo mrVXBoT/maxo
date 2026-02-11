@@ -1,14 +1,14 @@
-from aiogram import Dispatcher
-from aiogram.fsm.state import State, StatesGroup
-from aiogram_dialog import Dialog, Window, setup_dialogs
-from aiogram_dialog.widgets.text import Format
+from maxo import Dispatcher
+from maxo.dialogs import Dialog, Window, setup_dialogs
+from maxo.dialogs.widgets.text import Format
+from maxo.fsm.state import State, StatesGroup
 
 
 class MainSG(StatesGroup):
     start = State()
 
 
-def test_register():
+def test_register() -> None:
     dialog = Dialog(
         Window(
             Format("stub"),
@@ -21,7 +21,7 @@ def test_register():
     setup_dialogs(dp)
 
 
-def test_name_state_group():
+def test_name_state_group() -> None:
     dialog = Dialog(
         Window(
             Format("stub"),
@@ -31,7 +31,7 @@ def test_name_state_group():
     assert dialog.name == "MainSG"
 
 
-def test_name_explicit():
+def test_name_explicit() -> None:
     dialog = Dialog(
         Window(
             Format("stub"),

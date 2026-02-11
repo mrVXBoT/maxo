@@ -1,14 +1,15 @@
 import pytest
-from aiogram import F
-from aiogram.enums import ContentType
-from aiogram_dialog import DialogManager
-from aiogram_dialog.api.entities import MediaAttachment
-from aiogram_dialog.widgets.common import WhenCondition
-from aiogram_dialog.widgets.media import Media
+from magic_filter import F
+
+from maxo.dialogs import DialogManager
+from maxo.dialogs.api.entities import MediaAttachment
+from maxo.dialogs.widgets.common import WhenCondition
+from maxo.dialogs.widgets.media import Media
+from maxo.enums import AttachmentType
 
 
 class Static(Media):
-    def __init__(self, path: str, when: WhenCondition = None):
+    def __init__(self, path: str, when: WhenCondition = None) -> None:
         super().__init__(when=when)
         self.path = path
 
@@ -17,22 +18,22 @@ class Static(Media):
         data,
         manager: DialogManager,
     ) -> MediaAttachment:
-        return MediaAttachment(ContentType.PHOTO, path=self.path)
+        return MediaAttachment(AttachmentType.IMAGE, path=self.path)
 
 
 @pytest.mark.asyncio
-async def test_or(mock_manager):
+async def test_or(mock_manager) -> None:
     text = Static("a") | Static("b")
     res = await text.render_media({}, mock_manager)
-    assert res == MediaAttachment(ContentType.PHOTO, path="a")
+    assert res == MediaAttachment(AttachmentType.IMAGE, path="a")
 
 
 @pytest.mark.asyncio
-async def test_or_condition(mock_manager):
+async def test_or_condition(mock_manager) -> None:
     text = Static("A", when=F["a"]) | Static("B", when=F["b"]) | Static("C")
     res = await text.render_media({"a": True}, mock_manager)
-    assert res == MediaAttachment(ContentType.PHOTO, path="A")
+    assert res == MediaAttachment(AttachmentType.IMAGE, path="A")
     res = await text.render_media({"b": True}, mock_manager)
-    assert res == MediaAttachment(ContentType.PHOTO, path="B")
+    assert res == MediaAttachment(AttachmentType.IMAGE, path="B")
     res = await text.render_media({}, mock_manager)
-    assert res == MediaAttachment(ContentType.PHOTO, path="C")
+    assert res == MediaAttachment(AttachmentType.IMAGE, path="C")

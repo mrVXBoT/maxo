@@ -3,24 +3,23 @@ import pytest
 from maxo import Ctx, Dispatcher
 from maxo.bot.bot import Bot
 from maxo.dialogs import (
-    BotClient,
     Dialog,
     DialogManager,
-    FakeBot,
-    MockMessageManager,
     StartMode,
     Window,
     setup_dialogs,
 )
+from maxo.dialogs.test_tools import BotClient, MockMessageManager
+from maxo.dialogs.test_tools.bot_client import FakeBot
 from maxo.dialogs.test_tools.keyboard import InlineButtonTextLocator
 from maxo.dialogs.test_tools.memory_storage import JsonMemoryStorage
-from maxo.dialogs.widgets import Back, Cancel, Next, Start
+from maxo.dialogs.widgets.kbd import Back, Cancel, Next, Start
 from maxo.dialogs.widgets.text import Const, Format
 from maxo.fsm.key_builder import DefaultKeyBuilder
 from maxo.fsm.state import State, StatesGroup
 from maxo.fsm.storages.memory import SimpleEventIsolation
-from maxo.routing.filters.command import CommandStart
-from maxo.types.message import Message
+from maxo.routing.filters import CommandStart
+from maxo.types import Message
 
 
 class MainSG(StatesGroup):
@@ -42,7 +41,7 @@ def message_manager() -> MockMessageManager:
 
 
 @pytest.fixture
-def dp(message_manager: MockMessageManager):
+def dp(message_manager: MockMessageManager) -> Dispatcher:
     key_builder = DefaultKeyBuilder(with_destiny=True)
     event_isolation = SimpleEventIsolation(key_builder=key_builder)
     dp = Dispatcher(
@@ -91,7 +90,7 @@ def bot() -> Bot:
 
 
 @pytest.mark.asyncio
-async def test_start(bot, message_manager, client):
+async def test_start(bot, message_manager, client) -> None:
     # start
     await client.send("/start")
     first_message = message_manager.one_message()
@@ -100,7 +99,7 @@ async def test_start(bot, message_manager, client):
 
 
 @pytest.mark.asyncio
-async def test_next_back(bot, message_manager, client):
+async def test_next_back(bot, message_manager, client) -> None:
     await client.send("/start")
     first_message = message_manager.one_message()
 
@@ -127,7 +126,7 @@ async def test_next_back(bot, message_manager, client):
 
 
 @pytest.mark.asyncio
-async def test_finish_last(bot, message_manager, client):
+async def test_finish_last(_bot, message_manager, client) -> None:
     await client.send("/start")
     first_message = message_manager.one_message()
 
@@ -143,7 +142,7 @@ async def test_finish_last(bot, message_manager, client):
 
 
 @pytest.mark.asyncio
-async def test_reset_stack(bot, message_manager, client):
+async def test_reset_stack(_bot, message_manager, client) -> None:
     for _ in range(200):
         message_manager.reset_history()
         await client.send("/start")
@@ -161,7 +160,7 @@ async def test_reset_stack(bot, message_manager, client):
 
 
 @pytest.mark.asyncio
-async def test_subdialog(bot, message_manager, client):
+async def test_subdialog(bot, message_manager, client) -> None:
     await client.send("/start")
     first_message = message_manager.one_message()
 

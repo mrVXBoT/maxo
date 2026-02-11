@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import UTC, datetime
 from logging import getLogger
 from typing import Any
 
@@ -66,7 +66,7 @@ class BgManager(BaseDialogManager):
             user_id=user_id,
             is_bot=False,
             first_name="",
-            last_activity_time=datetime.now(),
+            last_activity_time=datetime.now(UTC),
         )
 
     def bg(
@@ -219,7 +219,7 @@ class BgManagerFactoryImpl(BgManagerFactory):
             chat_id=chat_id,
             type="",
             is_public=False,
-            last_event_time=datetime.now(),
+            last_event_time=datetime.now(UTC),
             participants_count=1,
             status=ChatStatus.ACTIVE,
         )
@@ -227,7 +227,7 @@ class BgManagerFactoryImpl(BgManagerFactory):
             user_id=user_id,
             is_bot=False,
             first_name="",
-            last_activity_time=datetime.now(),
+            last_activity_time=datetime.now(UTC),
         )
         if stack_id is None:
             stack_id = DEFAULT_STACK_ID

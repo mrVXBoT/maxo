@@ -1,13 +1,13 @@
 import json
 from collections import defaultdict
 from dataclasses import dataclass
-from typing import Any, Optional
+from typing import Any
 
 from maxo.fsm import State
 from maxo.fsm.key_builder import StorageKey
 from maxo.fsm.storages.base import BaseStorage
 
-StateType = Optional[str | State]
+StateType = str | State | None
 
 
 @dataclass

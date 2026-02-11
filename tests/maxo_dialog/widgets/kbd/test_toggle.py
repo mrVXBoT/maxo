@@ -1,9 +1,10 @@
 import operator
 
 import pytest
-from aiogram.types import TelegramObject
-from aiogram_dialog.widgets.kbd import Toggle
-from aiogram_dialog.widgets.text import Format
+
+from maxo.dialogs.widgets.kbd import Toggle
+from maxo.dialogs.widgets.text import Format
+from maxo.types import MaxoType
 
 
 @pytest.mark.asyncio
@@ -22,7 +23,7 @@ async def test_render_toggle(mock_manager) -> None:
 
     assert keyboard[0][0].text == "Apple"
 
-    await toggle.set_checked(TelegramObject(), "2", mock_manager)
+    await toggle.set_checked(MaxoType(), "2", mock_manager)
 
     keyboard = await toggle.render_keyboard(
         data={},

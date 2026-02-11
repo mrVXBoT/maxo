@@ -1,4 +1,5 @@
-from datetime import datetime
+from collections.abc import Callable
+from datetime import UTC, datetime
 from typing import Any
 
 import pytest
@@ -15,17 +16,17 @@ from maxo.types import Message, Recipient, User
 
 
 class MockBotInfo:
-    def __init__(self, user_id: int):
+    def __init__(self, user_id: int) -> None:
         self.user_id = user_id
 
 
 class MockBotState:
-    def __init__(self, user_id: int):
+    def __init__(self, user_id: int) -> None:
         self.info = MockBotInfo(user_id)
 
 
 class MockBot:
-    def __init__(self, user_id: int = 1):
+    def __init__(self, user_id: int = 1) -> None:
         self.state = MockBotState(user_id)
 
 
@@ -39,15 +40,15 @@ def message_created_update() -> MessageCreated:
     return MessageCreated(
         message=Message(
             recipient=Recipient(chat_type=ChatType.CHAT, chat_id=1),
-            timestamp=datetime.now(),
+            timestamp=datetime.now(UTC),
             sender=User(
                 user_id=1,
                 first_name="Test",
                 is_bot=False,
-                last_activity_time=datetime.now(),
+                last_activity_time=datetime.now(UTC),
             ),
         ),
-        timestamp=datetime.now(),
+        timestamp=datetime.now(UTC),
     )
 
 
@@ -63,7 +64,7 @@ async def handler(_: Any, ctx: Ctx) -> Any:
     return "OK"
 
 
-def middleware_factory(name: str):
+def middleware_factory(name: str) -> Callable[..., Any]:
     async def middleware(update, ctx, next) -> Any:
         ctx["execution_order"].append(f"{name}_pre")
         result = await next(ctx)
@@ -74,7 +75,7 @@ def middleware_factory(name: str):
 
 
 @pytest.mark.asyncio
-async def test_middleware_execution_order(context: Ctx):
+async def test_middleware_execution_order(context: Ctx) -> None:
     dp = Dispatcher()
 
     dp.message_created.handler(handler)
@@ -106,7 +107,7 @@ async def test_middleware_execution_order(context: Ctx):
 
 
 @pytest.mark.asyncio
-async def test_middleware_stops_propagation(context: Ctx):
+async def test_middleware_stops_propagation(context: Ctx) -> None:
     dp = Dispatcher()
 
     async def stopping_middleware(update, ctx, next) -> Any:
@@ -130,7 +131,7 @@ async def test_middleware_stops_propagation(context: Ctx):
 
 
 @pytest.mark.asyncio
-async def test_outer_middleware_runs_if_filter_fails(context: Ctx):
+async def test_outer_middleware_runs_if_filter_fails(context: Ctx) -> None:
     dp = Dispatcher()
 
     async def update_filter(_: Any, ctx: Ctx) -> bool:
@@ -154,7 +155,7 @@ async def test_outer_middleware_runs_if_filter_fails(context: Ctx):
 
 
 @pytest.mark.asyncio
-async def test_nested_router_middleware_execution(context: Ctx):
+async def test_nested_router_middleware_execution(context: Ctx) -> None:
     dp = Dispatcher()
     root_router = Router("root")
     child_router = Router("child")

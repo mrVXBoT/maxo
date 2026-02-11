@@ -1,5 +1,3 @@
-import importlib.metadata as _metadata
-
 from .api.entities import (
     DEFAULT_STACK_ID,
     GROUP_STACK_ID,
