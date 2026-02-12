@@ -29,8 +29,6 @@ from .file_attachment_payload import FileAttachmentPayload
 from .file_attachment_request import FileAttachmentRequest
 from .get_pinned_message_result import GetPinnedMessageResult
 from .get_subscriptions_result import GetSubscriptionsResult
-from .heading_markup import HeadingMarkup
-from .highlighted_markup import HighlightedMarkup
 from .image import Image
 from .inline_keyboard_attachment import InlineKeyboardAttachment
 from .inline_keyboard_attachment_request import InlineKeyboardAttachmentRequest
@@ -121,8 +119,6 @@ __all__ = (
     "FileAttachmentRequest",
     "GetPinnedMessageResult",
     "GetSubscriptionsResult",
-    "HeadingMarkup",
-    "HighlightedMarkup",
     "Image",
     "InlineButtons",
     "InlineKeyboardAttachment",

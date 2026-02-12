@@ -120,8 +120,6 @@ _has_tag_providers = concat_provider(
     has_tag_provider(VideoAttachment, "type", AttachmentType.VIDEO),
     # ---> MarkupElementType <---
     has_tag_provider(EmphasizedMarkup, "type", MarkupElementType.EMPHASIZED),
-    # has_tag_provider(HeadingMarkupElement, "type", MarkupElementType.HEADING),
-    # has_tag_provider(HighlightedMarkupElement, "type", MarkupElementType.HIGHLIGHTED),
     has_tag_provider(LinkMarkup, "type", MarkupElementType.LINK),
     has_tag_provider(MonospacedMarkup, "type", MarkupElementType.MONOSPACED),
     has_tag_provider(
