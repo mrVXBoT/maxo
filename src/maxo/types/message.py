@@ -45,6 +45,8 @@ class Message(MaxoType):
 
     @property
     def unsafe_body(self) -> MessageBody:
+        # Как показала практика, Message.body есть всегда,
+        # но при Message.link.type = "FORWARD" в Message.body.text = ""
         if is_defined(self.body):
             return self.body
 
