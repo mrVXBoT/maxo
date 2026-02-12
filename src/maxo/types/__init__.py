@@ -49,7 +49,6 @@ from .message_button import MessageButton
 from .message_list import MessageList
 from .message_stat import MessageStat
 from .monospaced_markup import MonospacedMarkup
-from .new_message import NewMessage
 from .new_message_body import NewMessageBody
 from .new_message_link import NewMessageLink
 from .open_app_button import OpenAppButton
@@ -140,7 +139,6 @@ __all__ = (
     "MessageList",
     "MessageStat",
     "MonospacedMarkup",
-    "NewMessage",
     "NewMessageBody",
     "NewMessageLink",
     "OpenAppButton",
