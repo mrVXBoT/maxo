@@ -1,6 +1,6 @@
 import itertools
 from copy import deepcopy
-from datetime import datetime
+from datetime import UTC, datetime
 from logging import getLogger
 from typing import Any, cast
 
@@ -33,6 +33,7 @@ from maxo.dialogs.api.internal import (
     STORAGE_KEY,
     FakeRecipient,
     FakeUser,
+    Widget,
 )
 from maxo.dialogs.api.protocols import (
     BaseDialogManager,
@@ -72,7 +73,7 @@ class ManagerImpl(DialogManager):
         registry: DialogRegistryProtocol,
         router: BaseRouter,
         ctx: Ctx,
-    ):
+    ) -> None:
         self.disabled = False
         self.message_manager = message_manager
         self.media_id_storage = media_id_storage
@@ -307,7 +308,7 @@ class ManagerImpl(DialogManager):
         self,
         old_dialog: DialogProtocol | None,
         new_dialog: DialogProtocol,
-    ):
+    ) -> None:
         if new_dialog.launch_mode in (LaunchMode.EXCLUSIVE, LaunchMode.ROOT):
             await self.reset_stack(remove_keyboard=False)
         if new_dialog.launch_mode is LaunchMode.SINGLE_TOP:  # noqa: SIM102
@@ -406,7 +407,7 @@ class ManagerImpl(DialogManager):
             e.add_note(f"maxo-dialog state: {current_state}")
             raise
 
-    def is_event_simulated(self):
+    def is_event_simulated(self) -> bool:
         return bool(self.middleware_data.get(EVENT_SIMULATED))
 
     def _get_message_from_callback(
@@ -486,7 +487,7 @@ class ManagerImpl(DialogManager):
         self.current_context().dialog_data.update(data)
         await self.show(show_mode)
 
-    def find(self, widget_id) -> Any | None:
+    def find(self, widget_id: str) -> Widget | None:
         widget = self.dialog().find(widget_id)
         if not widget:
             return None
@@ -501,7 +502,7 @@ class ManagerImpl(DialogManager):
             user_id=user_id,
             is_bot=False,
             first_name="",
-            last_activity_time=datetime.now(),
+            last_activity_time=datetime.now(UTC),
         )
 
     def _get_fake_chat(self, chat_id: int | None = None) -> Chat:
@@ -517,7 +518,7 @@ class ManagerImpl(DialogManager):
             chat_id=chat_id,
             type="",
             is_public=False,
-            last_event_time=datetime.now(),
+            last_event_time=datetime.now(UTC),
             participants_count=1,
             status=ChatStatus.ACTIVE,
         )

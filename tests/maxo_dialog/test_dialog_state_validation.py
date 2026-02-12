@@ -1,10 +1,11 @@
 # tests for https://github.com/Tishka17/aiogram_dialog/issues/493
 
 import pytest
-from aiogram import Dispatcher
-from aiogram.fsm.state import State, StatesGroup
-from aiogram_dialog import Dialog, Window, setup_dialogs
-from aiogram_dialog.widgets.text import Const
+
+from maxo import Dispatcher
+from maxo.dialogs import Dialog, Window, setup_dialogs
+from maxo.dialogs.widgets.text import Const
+from maxo.fsm.state import State, StatesGroup
 
 
 class First(StatesGroup):

@@ -136,7 +136,6 @@ class TestPayload:
             )
 
     def test_separator_in_value(self) -> None:
-
         class BadPayload(Payload, prefix="bad"):
             field: str
 
@@ -156,7 +155,6 @@ class TestPayload:
                 field: str
 
     def test_custom_separator(self) -> None:
-
         class CustomSep(Payload, prefix="custom", sep="|"):
             a: int
             b: str
@@ -178,7 +176,6 @@ class TestPayload:
             LongPayload(data=long_str).pack()
 
     def test_unsupported_type_in_pack(self) -> None:
-
         class UnsupportedPayload(Payload, prefix="uns"):
             data: list[int]
 
@@ -186,7 +183,6 @@ class TestPayload:
             UnsupportedPayload(data=[1, 2, 3]).pack()
 
     def test_nullable_check_helper(self) -> None:
-
         class TestNullable(Payload, prefix="test"):
             required: float
             optional: int | None = None
@@ -209,7 +205,7 @@ class TestPayload:
     def test_init_subclass_prefix_required(self) -> None:
         assert MyPayload.__prefix__ == "test"
 
-        with pytest.raises(ValueError, match="prefix required.+"):
+        with pytest.raises(ValueError, match=r"prefix required.+"):
 
             class MyInvalidPayload(Payload):
                 pass
@@ -222,31 +218,31 @@ class TestPayload:
 
         assert MyPayload2.__separator__ == "@"
 
-        with pytest.raises(ValueError, match="Separator symbol '@' .+ 'sp@m'"):
+        with pytest.raises(ValueError, match=r"Separator symbol '@' .+ 'sp@m'"):
 
             class MyInvalidPayload(Payload, prefix="sp@m", sep="@"):
                 pass
 
     @pytest.mark.parametrize(
-        "value,expected",
+        ("value", "expected"),
         [
-            [None, ""],
-            [True, "1"],
-            [False, "0"],
-            [42, "42"],
-            ["test", "test"],
-            [9.99, "9.99"],
-            [Decimal("9.99"), "9.99"],
-            [Fraction("3/2"), "3/2"],
-            [
+            (None, ""),
+            (True, "1"),
+            (False, "0"),
+            (42, "42"),
+            ("test", "test"),
+            (9.99, "9.99"),
+            (Decimal("9.99"), "9.99"),
+            (Fraction("3/2"), "3/2"),
+            (
                 UUID("123e4567-e89b-12d3-a456-426655440000"),
                 "123e4567e89b12d3a456426655440000",
-            ],
-            [MyIntEnum.FOO, "1"],
-            [MyStringEnum.FOO, "FOO"],
+            ),
+            (MyIntEnum.FOO, "1"),
+            (MyStringEnum.FOO, "FOO"),
         ],
     )
-    def test_encode_value_positive(self, value, expected):
+    def test_encode_value_positive(self, value, expected) -> None:
         callback = MyPayload(foo="test", bar=42)
         assert callback._encode_value("test", value) == expected
 
@@ -259,22 +255,21 @@ class TestPayload:
             User(user_id=42, is_bot=False, first_name="test", last_activity_time=0),
         ],
     )
-    def test_encode_value_negative(self, value):
+    def test_encode_value_negative(self, value) -> None:
         callback = MyPayload(foo="test", bar=42)
-        with pytest.raises(ValueError):
+        with pytest.raises(ValueError, match=r"Cannot encode value .+"):
             callback._encode_value("test", value)
 
     def test_pack(self) -> None:
-        with pytest.raises(ValueError, match="Separator symbol .+"):
+        with pytest.raises(ValueError, match=r"Separator symbol .+"):
             assert MyPayload(foo="te:st", bar=42).pack()
 
-        with pytest.raises(ValueError, match=".+is too long.+"):
+        with pytest.raises(ValueError, match=r".+is too long.+"):
             assert MyPayload(foo="test" * 256, bar=42).pack()
 
         assert MyPayload(foo="test", bar=42).pack() == "test:test:42"
 
     def test_pack_uuid(self) -> None:
-
         class MyPayloadWithUUID(Payload, prefix="test"):
             foo: str
             bar: UUID
@@ -287,7 +282,6 @@ class TestPayload:
         assert callback.pack() == "test:test:123e4567e89b12d3a456426655440000"
 
     def test_pack_optional(self) -> None:
-
         class MyPayload1(Payload, prefix="test1"):
             foo: str
             bar: int | None = None
@@ -310,16 +304,16 @@ class TestPayload:
         assert MyPayload3(foo="spam", bar=42).pack() == "test3:spam:42"
 
     def test_unpack(self) -> None:
-        with pytest.raises(TypeError, match=".+ takes 2 arguments but 3 were given"):
+        with pytest.raises(TypeError, match=r".+ takes 2 arguments but 3 were given"):
             MyPayload.unpack("test:test:test:test")
 
-        with pytest.raises(ValueError, match="Bad prefix .+"):
+        with pytest.raises(ValueError, match=r"Bad prefix .+"):
             MyPayload.unpack("spam:test:test")
 
         assert MyPayload.unpack("test:test:42") == MyPayload(foo="test", bar=42)
 
     def test_unpack_optional(self) -> None:
-        with pytest.raises(ValueError):
+        with pytest.raises(ValueError, match=r"Cannot unpack .+"):
             assert MyPayload.unpack("test:test:")
 
         class MyPayload1(Payload, prefix="test1"):
@@ -358,7 +352,7 @@ class TestPayload:
             int | None,
         ],
     )
-    def test_unpack_optional_wo_default(self, hint):
+    def test_unpack_optional_wo_default(self, hint) -> None:
         """Test Payload without default optional."""
 
         class TgData(Payload, prefix="tg"):

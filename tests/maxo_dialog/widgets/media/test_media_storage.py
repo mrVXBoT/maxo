@@ -3,20 +3,20 @@ import os
 import tempfile
 
 import pytest
-from aiogram.enums import ContentType
 
-from maxo.dialogs.context import MediaIdStorage
+from maxo.dialogs.context.media_storage import MediaIdStorage
+from maxo.enums import AttachmentType
 
 
 @pytest.mark.asyncio
-async def test_get_media_id():
+async def test_get_media_id() -> None:
     manager = MediaIdStorage()
     with tempfile.TemporaryDirectory() as d:
         filename = os.path.join(d, "file_test")  # noqa: PTH118
         media_id = await manager.get_media_id(
             filename,
             None,
-            ContentType.DOCUMENT,
+            AttachmentType.FILE,
         )
         assert media_id is None
 
@@ -26,14 +26,14 @@ async def test_get_media_id():
         await manager.save_media_id(
             filename,
             None,
-            ContentType.DOCUMENT,
+            AttachmentType.FILE,
             "test1",
         )
 
         media_id = await manager.get_media_id(
             filename,
             None,
-            ContentType.DOCUMENT,
+            AttachmentType.FILE,
         )
         assert media_id == "test1"
 
@@ -45,6 +45,6 @@ async def test_get_media_id():
         media_id = await manager.get_media_id(
             filename,
             None,
-            ContentType.DOCUMENT,
+            AttachmentType.FILE,
         )
         assert media_id is None

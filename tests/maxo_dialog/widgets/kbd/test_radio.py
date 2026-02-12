@@ -1,11 +1,12 @@
 import operator
-from datetime import datetime
+from datetime import UTC, datetime
 from unittest.mock import AsyncMock
 
 import pytest
-from aiogram.types import TelegramObject
-from aiogram_dialog.widgets.kbd import Radio
-from aiogram_dialog.widgets.text import Format
+
+from maxo.dialogs.widgets.kbd import Radio
+from maxo.dialogs.widgets.text import Format
+from maxo.types import MaxoType
 
 
 @pytest.mark.asyncio
@@ -21,7 +22,7 @@ async def test_check_radio(mock_manager) -> None:
     current_checked_fruit = radio.get_checked(mock_manager)
     assert current_checked_fruit is None
 
-    await radio.set_checked(TelegramObject(), "2", mock_manager)
+    await radio.set_checked(MaxoType(), "2", mock_manager)
 
     assert radio.is_checked("2", mock_manager)
 
@@ -29,7 +30,7 @@ async def test_check_radio(mock_manager) -> None:
 @pytest.mark.asyncio
 async def test_validation_radio(mock_manager) -> None:
     def validate_datetime(text: str) -> datetime:
-        return datetime.fromtimestamp(int(text))
+        return datetime.fromtimestamp(int(text), tz=UTC)
 
     radio = Radio(
         Format("🔘 {item[1]}"),
@@ -38,9 +39,18 @@ async def test_validation_radio(mock_manager) -> None:
         item_id_getter=operator.itemgetter(0),
         type_factory=validate_datetime,
         items=[
-            (int(datetime(2024, 5, 26).timestamp()), datetime(2024, 5, 26)),
-            (int(datetime(2024, 5, 30).timestamp()), datetime(2024, 5, 30)),
-            (int(datetime(2022, 3, 11).timestamp()), datetime(2022, 3, 11)),
+            (
+                int(datetime(2024, 5, 26, tzinfo=UTC).timestamp()),
+                datetime(2024, 5, 26, tzinfo=UTC),
+            ),
+            (
+                int(datetime(2024, 5, 30, tzinfo=UTC).timestamp()),
+                datetime(2024, 5, 30, tzinfo=UTC),
+            ),
+            (
+                int(datetime(2022, 3, 11, tzinfo=UTC).timestamp()),
+                datetime(2022, 3, 11, tzinfo=UTC),
+            ),
         ],
     )
 
@@ -48,15 +58,18 @@ async def test_validation_radio(mock_manager) -> None:
     assert current_checked_date is None
 
     await radio.set_checked(
-        TelegramObject(),
-        int(datetime(2024, 5, 30).timestamp()),
+        MaxoType(),
+        int(datetime(2024, 5, 30, tzinfo=UTC).timestamp()),
         mock_manager,
     )
 
-    assert radio.is_checked(int(datetime(2024, 5, 30).timestamp()), mock_manager)
+    assert radio.is_checked(
+        int(datetime(2024, 5, 30, tzinfo=UTC).timestamp()),
+        mock_manager,
+    )
 
     current_checked_date = radio.get_checked(mock_manager)
-    assert current_checked_date == datetime(2024, 5, 30)
+    assert current_checked_date == datetime(2024, 5, 30, tzinfo=UTC)
 
 
 @pytest.mark.asyncio
@@ -71,6 +84,6 @@ async def test_on_state_changed_radio(mock_manager) -> None:
         on_state_changed=on_state_changed,
     )
 
-    await radio.set_checked(TelegramObject(), "2", mock_manager)
+    await radio.set_checked(MaxoType(), "2", mock_manager)
 
     on_state_changed.assert_called_once()

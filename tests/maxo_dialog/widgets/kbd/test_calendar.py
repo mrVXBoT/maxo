@@ -1,9 +1,10 @@
 import pytest
-from aiogram_dialog.widgets.kbd import Calendar, CalendarScope
+
+from maxo.dialogs.widgets.kbd import Calendar, CalendarScope
 
 
 @pytest.mark.asyncio
-async def test_render_calendar(mock_manager):
+async def test_render_calendar(mock_manager) -> None:
     calendar = Calendar(id="calendar")
     res_days = await calendar.render_keyboard(data={}, manager=mock_manager)
     assert res_days

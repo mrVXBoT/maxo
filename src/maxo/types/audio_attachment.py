@@ -7,6 +7,13 @@ from maxo.types.media_attachment_payload import MediaAttachmentPayload
 
 
 class AudioAttachment(Attachment):
+    """
+    Args:
+        payload:
+        transcription: Аудио транскрипция
+        type:
+    """
+
     type: AttachmentType = AttachmentType.AUDIO
 
     payload: MediaAttachmentPayload

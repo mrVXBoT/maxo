@@ -1,8 +1,9 @@
 import operator
 
 import pytest
-from aiogram_dialog.widgets.kbd import Select
-from aiogram_dialog.widgets.text import Format
+
+from maxo.dialogs.widgets.kbd import Select
+from maxo.dialogs.widgets.text import Format
 
 
 @pytest.mark.asyncio

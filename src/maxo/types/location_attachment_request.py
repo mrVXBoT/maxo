@@ -3,7 +3,14 @@ from maxo.types.attachment_request import AttachmentRequest
 
 
 class LocationAttachmentRequest(AttachmentRequest):
-    """Запрос на прикрепление клавиатуры к сообщению"""
+    """
+    Запрос на прикрепление клавиатуры к сообщению
+
+    Args:
+        latitude: Широта
+        longitude: Долгота
+        type:
+    """
 
     type: AttachmentRequestType = AttachmentRequestType.LOCATION
 

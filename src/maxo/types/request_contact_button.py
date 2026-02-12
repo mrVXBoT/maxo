@@ -3,6 +3,11 @@ from maxo.types.button import Button
 
 
 class RequestContactButton(Button):
-    """AПосле нажатия на такую кнопку клиент отправляет новое сообщение с вложением текущего контакта пользователя"""
+    """
+    AПосле нажатия на такую кнопку клиент отправляет новое сообщение с вложением текущего контакта пользователя
+
+    Args:
+        type:
+    """
 
     type: ButtonType = ButtonType.REQUEST_CONTACT

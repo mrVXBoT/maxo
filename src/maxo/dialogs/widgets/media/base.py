@@ -1,3 +1,5 @@
+from typing import Self
+
 from maxo.dialogs.api.entities import MediaAttachment
 from maxo.dialogs.api.internal import MediaWidget
 from maxo.dialogs.api.protocols import DialogManager
@@ -5,7 +7,7 @@ from maxo.dialogs.widgets.common import BaseWidget, WhenCondition, Whenable
 
 
 class Media(Whenable, BaseWidget, MediaWidget):
-    def __init__(self, when: WhenCondition = None):
+    def __init__(self, when: WhenCondition = None) -> None:
         super().__init__(when=when)
 
     async def render_media(
@@ -36,7 +38,7 @@ class Media(Whenable, BaseWidget, MediaWidget):
 
 
 class Or(Media):
-    def __init__(self, *widgets: Media):
+    def __init__(self, *widgets: Media) -> None:
         super().__init__()
         self.widgets = widgets
 
@@ -51,7 +53,7 @@ class Or(Media):
                 return res
         return None
 
-    def __ior__(self, other: Media) -> "Or":
+    def __ior__(self, other: Media) -> Self:
         self.widgets += (other,)
         return self
 

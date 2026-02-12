@@ -1,21 +1,22 @@
 from unittest.mock import AsyncMock
 
 import pytest
-from aiogram import Dispatcher
-from aiogram.filters import CommandStart
-from aiogram.fsm.state import State, StatesGroup
-from aiogram.types import Message
-from aiogram_dialog import (
+
+from maxo import Dispatcher
+from maxo.dialogs import (
     Dialog,
     DialogManager,
     StartMode,
     Window,
     setup_dialogs,
 )
-from aiogram_dialog.test_tools import BotClient, MockMessageManager
-from aiogram_dialog.test_tools.keyboard import InlineButtonTextLocator
-from aiogram_dialog.widgets.kbd import Button, Group
-from aiogram_dialog.widgets.text import Const
+from maxo.dialogs.test_tools import BotClient, MockMessageManager
+from maxo.dialogs.test_tools.keyboard import InlineButtonTextLocator
+from maxo.dialogs.widgets.kbd import Button, Group
+from maxo.dialogs.widgets.text import Const
+from maxo.fsm.state import State, StatesGroup
+from maxo.routing.filters import CommandStart
+from maxo.types import Message
 
 
 @pytest.mark.asyncio
@@ -93,8 +94,8 @@ async def start(message: Message, dialog_manager: DialogManager) -> None:
 @pytest.mark.asyncio
 async def test_click_buttons_in_group() -> None:
     dp = Dispatcher()
-    dp.include_router(dialog)
-    dp.message.register(start, CommandStart())
+    dp.include(dialog)
+    dp.message_created.register(start, CommandStart())
 
     client = BotClient(dp)
     message_manager = MockMessageManager()

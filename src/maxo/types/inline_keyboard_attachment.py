@@ -7,7 +7,13 @@ from maxo.types.keyboard import Keyboard
 
 
 class InlineKeyboardAttachment(Attachment):
-    """Кнопки в сообщении"""
+    """
+    Кнопки в сообщении
+
+    Args:
+        payload:
+        type:
+    """
 
     type: AttachmentType = AttachmentType.INLINE_KEYBOARD
 

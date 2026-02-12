@@ -1,7 +1,8 @@
 from unittest.mock import AsyncMock
 
 import pytest
-from aiogram_dialog.widgets.kbd import Counter
+
+from maxo.dialogs.widgets.kbd import Counter
 
 
 @pytest.mark.asyncio

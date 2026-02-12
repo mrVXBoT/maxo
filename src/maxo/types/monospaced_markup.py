@@ -3,6 +3,11 @@ from maxo.types.markup_element import MarkupElement
 
 
 class MonospacedMarkup(MarkupElement):
-    """Представляет `моноширинный` или блок ```код``` в тексте"""
+    """
+    Представляет `моноширинный` или блок ```код``` в тексте
+
+    Args:
+        type:
+    """
 
     type: MarkupElementType = MarkupElementType.MONOSPACED

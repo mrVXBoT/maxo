@@ -9,7 +9,13 @@ from maxo.types.inline_keyboard_attachment_request_payload import (
 
 
 class InlineKeyboardAttachmentRequest(AttachmentRequest):
-    """Запрос на прикрепление клавиатуры к сообщению"""
+    """
+    Запрос на прикрепление клавиатуры к сообщению
+
+    Args:
+        payload:
+        type:
+    """
 
     type: AttachmentRequestType = AttachmentRequestType.INLINE_KEYBOARD
 

@@ -1,9 +1,10 @@
 from unittest.mock import MagicMock, Mock
 
 import pytest
-from aiogram.fsm.state import State
-from aiogram_dialog import DialogManager
-from aiogram_dialog.api.entities import Context
+
+from maxo.dialogs import DialogManager
+from maxo.dialogs.api.entities import Context
+from maxo.fsm.state import State
 
 
 @pytest.fixture

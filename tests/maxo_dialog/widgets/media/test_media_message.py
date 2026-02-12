@@ -1,18 +1,19 @@
 import pytest
-from aiogram import Dispatcher
-from aiogram.filters import Command
-from aiogram.fsm.state import State, StatesGroup
-from aiogram.fsm.storage.memory import MemoryStorage
-from aiogram.types import Message
-from aiogram_dialog import (
+
+from maxo import Dispatcher
+from maxo.dialogs import (
     Dialog,
     DialogManager,
     StartMode,
     Window,
     setup_dialogs,
 )
-from aiogram_dialog.test_tools import BotClient, MockMessageManager
-from aiogram_dialog.widgets.media.static import StaticMedia
+from maxo.dialogs.test_tools import BotClient, MockMessageManager
+from maxo.dialogs.widgets.media.static import StaticMedia
+from maxo.fsm.state import State, StatesGroup
+from maxo.fsm.storages.memory import MemoryStorage
+from maxo.routing.filters import Command
+from maxo.types import Message
 
 
 class MainSG(StatesGroup):
@@ -41,7 +42,7 @@ async def start_path(message: Message, dialog_manager: DialogManager):
 
 
 @pytest.mark.asyncio
-async def test_click():
+async def test_click() -> None:
     dp = Dispatcher(
         storage=MemoryStorage(),
     )

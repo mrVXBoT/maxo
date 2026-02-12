@@ -6,7 +6,33 @@ from maxo.types.photo_attachment_request_payload import PhotoAttachmentRequestPa
 
 
 class EditChat(MaxoMethod[Chat]):
-    """Изменение информации о групповом чате."""
+    """
+    Изменение информации о групповом чате
+
+    Позволяет редактировать информацию о групповом чате, включая название, иконку и закреплённое сообщение
+
+    Пример запроса:
+    ```bash
+    curl -X PATCH "https://platform-api.max.ru/chats/{chatId}" \
+      -H "Authorization: {access_token}" \
+      -H "Content-Type: application/json" \
+      -d '{
+      "icon": { "url": "https://example.com/image.jpg" },
+      "title": "Название чата",
+      "notify": true
+    }'
+    ```
+
+    Args:
+        chat_id: ID чата
+        icon: 
+        notify: Если `true`, участники получат системное уведомление об изменении
+        pin: ID сообщения для закрепления в чате. Чтобы удалить закреплённое сообщение, используйте метод [unpin](https://dev.max.ru/docs-api/methods/DELETE/chats/%7BchatId%7D/pin)
+        title: 
+
+    Источник: https://dev.max.ru/docs-api/methods/PATCH/chats/-chatId-
+
+    """
 
     __url__ = "chats/{chat_id}"
     __method__ = "patch"

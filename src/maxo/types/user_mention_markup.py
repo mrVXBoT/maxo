@@ -4,7 +4,14 @@ from maxo.types.markup_element import MarkupElement
 
 
 class UserMentionMarkup(MarkupElement):
-    """Представляет упоминание пользователя в тексте. Упоминание может быть как по имени пользователя, так и по ID, если у пользователя нет имени"""
+    """
+    Представляет упоминание пользователя в тексте. Упоминание может быть как по имени пользователя, так и по ID, если у пользователя нет имени
+
+    Args:
+        type:
+        user_id: ID упомянутого пользователя без имени
+        user_link: `@username` упомянутого пользователя
+    """
 
     type: MarkupElementType = MarkupElementType.USER_MENTION
 

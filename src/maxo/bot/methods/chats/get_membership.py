@@ -4,7 +4,23 @@ from maxo.types.chat_member import ChatMember
 
 
 class GetMembership(MaxoMethod[ChatMember]):
-    """Получение информации о членстве бота в групповом чате."""
+    """
+    Получение информации о членстве бота в групповом чате
+
+    Возвращает информацию о членстве текущего бота в групповом чате. Бот идентифицируется с помощью токена доступа
+
+    Пример запроса:
+    ```bash
+    curl -X GET "https://platform-api.max.ru/chats/{chatId}/members/me" \
+      -H "Authorization: {access_token}"
+    ```
+
+    Args:
+        chat_id: ID чата
+
+    Источник: https://dev.max.ru/docs-api/methods/GET/chats/-chatId-/members/me
+
+    """
 
     __url__ = "chats/{chat_id}/members/me"
     __method__ = "get"

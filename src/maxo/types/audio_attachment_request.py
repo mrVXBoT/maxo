@@ -6,7 +6,13 @@ from maxo.types.uploaded_info import UploadedInfo
 
 
 class AudioAttachmentRequest(AttachmentRequest):
-    """Запрос на прикрепление аудио к сообщению. ДОЛЖЕН быть единственным вложением в сообщении"""
+    """
+    Запрос на прикрепление аудио к сообщению. ДОЛЖЕН быть единственным вложением в сообщении
+
+    Args:
+        payload:
+        type:
+    """
 
     type: AttachmentRequestType = AttachmentRequestType.AUDIO
 

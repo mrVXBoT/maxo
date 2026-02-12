@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import UTC, datetime
 from uuid import uuid4
 
 from maxo import Bot
@@ -63,17 +63,17 @@ MEDIA_CLASSES = {
 
 
 class MockMessageManager(MessageManagerProtocol):
-    def __init__(self):
+    def __init__(self) -> None:
         self.answered_callbacks: set[str] = set()
         self.sent_messages = []
         self.last_message_id = 0
 
-    def reset_history(self):
+    def reset_history(self) -> None:
         self.sent_messages.clear()
         self.answered_callbacks.clear()
 
     def assert_one_message(self) -> None:
-        assert len(self.sent_messages) == 1
+        assert len(self.sent_messages) == 1  # noqa: S101
 
     def last_message(self) -> Message:
         return self.sent_messages[-1]
@@ -87,7 +87,7 @@ class MockMessageManager(MessageManagerProtocol):
 
     async def remove_kbd(
         self,
-        bot: Bot,
+        _bot: Bot,
         show_mode: ShowMode,
         old_message: OldMessage | None,
     ) -> Message | None:
@@ -95,10 +95,10 @@ class MockMessageManager(MessageManagerProtocol):
             return None
         if show_mode in (ShowMode.DELETE_AND_SEND, ShowMode.NO_UPDATE):
             return None
-        assert isinstance(old_message, OldMessage)
+        assert isinstance(old_message, OldMessage)  # noqa: S101
 
         message = Message(
-            timestamp=datetime.now(),
+            timestamp=datetime.now(UTC),
             recipient=Recipient(
                 chat_type=ChatType.CHAT,
                 chat_id=old_message.recipient.chat_id,
@@ -136,7 +136,7 @@ class MockMessageManager(MessageManagerProtocol):
             Message(
                 sender=bot.state.info,
                 recipient=new_message.recipient,
-                timestamp=datetime.now(),
+                timestamp=datetime.now(UTC),
                 body=MessageBody(
                     mid=str(message_id),
                     seq=message_id,

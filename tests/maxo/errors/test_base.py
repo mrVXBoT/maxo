@@ -3,7 +3,7 @@ import pytest
 from maxo.errors.base import MaxoError
 
 
-def test_maxo_error():
+def test_maxo_error() -> None:
     class MyError(MaxoError):
         foo: int
         bar: str

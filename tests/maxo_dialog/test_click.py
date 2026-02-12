@@ -2,22 +2,23 @@ from typing import Any
 from unittest.mock import Mock
 
 import pytest
-from aiogram import Dispatcher
-from aiogram.filters import CommandStart
-from aiogram.fsm.state import State, StatesGroup
-from aiogram.types import Message
-from aiogram_dialog import (
+
+from maxo import Dispatcher
+from maxo.dialogs import (
     Dialog,
     DialogManager,
     StartMode,
     Window,
     setup_dialogs,
 )
-from aiogram_dialog.test_tools import BotClient, MockMessageManager
-from aiogram_dialog.test_tools.keyboard import InlineButtonTextLocator
-from aiogram_dialog.test_tools.memory_storage import JsonMemoryStorage
-from aiogram_dialog.widgets.kbd import Button
-from aiogram_dialog.widgets.text import Const, Format
+from maxo.dialogs.test_tools import BotClient, MockMessageManager
+from maxo.dialogs.test_tools.keyboard import InlineButtonTextLocator
+from maxo.dialogs.test_tools.memory_storage import JsonMemoryStorage
+from maxo.dialogs.widgets.kbd import Button
+from maxo.dialogs.widgets.text import Const, Format
+from maxo.fsm.state import State, StatesGroup
+from maxo.routing.filters import CommandStart
+from maxo.types import Message
 
 
 class MainSG(StatesGroup):
@@ -25,16 +26,16 @@ class MainSG(StatesGroup):
     next = State()
 
 
-async def on_click(event, button, manager: DialogManager) -> None:
+async def on_click(_event, _button, manager: DialogManager) -> None:
     manager.middleware_data["usecase"]()
     await manager.next()
 
 
-async def on_finish(event, button, manager: DialogManager) -> None:
+async def on_finish(_event, _button, manager: DialogManager) -> None:
     await manager.done()
 
 
-async def second_getter(user_getter, **kwargs) -> dict[str, Any]:
+async def second_getter(user_getter, **_kwargs: Any) -> dict[str, Any]:
     return {
         "user": user_getter(),
     }
@@ -60,7 +61,7 @@ async def start(message: Message, dialog_manager: DialogManager):
 
 
 @pytest.mark.asyncio
-async def test_click():
+async def test_click() -> None:
     usecase = Mock()
     user_getter = Mock(side_effect=["Username"])
     dp = Dispatcher(

@@ -8,6 +8,15 @@ from maxo.types.share_attachment_payload import ShareAttachmentPayload
 
 
 class ShareAttachment(Attachment):
+    """
+    Args:
+        description: Описание предпросмотра ссылки
+        image_url: Изображение предпросмотра ссылки
+        payload:
+        title: Заголовок предпросмотра ссылки.
+        type:
+    """
+
     type: AttachmentType = AttachmentType.SHARE
 
     payload: ShareAttachmentPayload = field(default_factory=ShareAttachmentPayload)

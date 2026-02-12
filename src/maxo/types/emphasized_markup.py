@@ -3,6 +3,11 @@ from maxo.types.markup_element import MarkupElement
 
 
 class EmphasizedMarkup(MarkupElement):
-    """Представляет *курсив*"""
+    """
+    Представляет *курсив*
+
+    Args:
+        type:
+    """
 
     type: MarkupElementType = MarkupElementType.EMPHASIZED

@@ -3,6 +3,11 @@ from maxo.types.message import Message
 
 
 class MessageList(MaxoType):
-    """Пагинированный список сообщений"""
+    """
+    Пагинированный список сообщений
+
+    Args:
+        messages: Массив сообщений
+    """
 
     messages: list[Message]

@@ -1,6 +1,7 @@
 import pytest
-from aiogram import F
-from aiogram_dialog.widgets.text import Case, Const, Format
+from magic_filter import F
+
+from maxo.dialogs.widgets.text import Case, Const, Format
 
 
 @pytest.mark.asyncio

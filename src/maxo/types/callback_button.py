@@ -3,7 +3,13 @@ from maxo.types.button import Button
 
 
 class CallbackButton(Button):
-    """После нажатия на такую кнопку клиент отправляет на сервер полезную нагрузку, которая содержит"""
+    """
+    После нажатия на такую кнопку клиент отправляет на сервер полезную нагрузку, которая содержит
+
+    Args:
+        payload: Токен кнопки
+        type:
+    """
 
     type: ButtonType = ButtonType.CALLBACK
 

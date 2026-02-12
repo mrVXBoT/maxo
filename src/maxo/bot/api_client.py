@@ -1,12 +1,15 @@
 import json
 from collections.abc import Callable
-from datetime import datetime
-from typing import Any
+from datetime import UTC, datetime
+from typing import Any, Never
+from urllib.parse import urljoin
 
+import aiohttp
 from adaptix import P, Retort, dumper, loader
-from aiohttp import ClientSession
+from aiohttp import ClientSession, FormData
 from unihttp.clients.aiohttp import AiohttpAsyncClient
-from unihttp.http import HTTPResponse
+from unihttp.exceptions import NetworkError, RequestTimeoutError
+from unihttp.http import HTTPRequest, HTTPResponse
 from unihttp.markers import BodyMarker, QueryMarker
 from unihttp.method import BaseMethod
 from unihttp.middlewares import AsyncMiddleware
@@ -15,6 +18,7 @@ from unihttp.serializers.adaptix import DEFAULT_RETORT, for_marker
 from maxo.__meta__ import __version__
 from maxo._internal._adaptix.concat_provider import concat_provider
 from maxo._internal._adaptix.has_tag_provider import has_tag_provider
+from maxo.bot.middlewares.status_patch import StatusPatchMiddleware
 from maxo.bot.warming_up import WarmingUpType, warming_up_retort
 from maxo.enums import (
     AttachmentRequestType,
@@ -34,6 +38,7 @@ from maxo.errors import (
     MaxBotTooManyRequestsError,
     MaxBotUnauthorizedError,
     MaxBotUnknownServerError,
+    RetvalReturnedServerException,
 )
 from maxo.routing.updates import (
     BotAddedToChat,
@@ -46,7 +51,6 @@ from maxo.routing.updates import (
     DialogRemoved,
     DialogUnmuted,
     MessageCallback,
-    MessageChatCreated,
     MessageCreated,
     MessageEdited,
     MessageRemoved,
@@ -59,7 +63,6 @@ from maxo.types import (
     CallbackButton,
     ContactAttachment,
     ContactAttachmentRequest,
-    DataAttachment,
     EmphasizedMarkup,
     FileAttachment,
     FileAttachmentRequest,
@@ -74,8 +77,6 @@ from maxo.types import (
     OpenAppButton,
     PhotoAttachment,
     PhotoAttachmentRequest,
-    ReplyKeyboardAttachment,
-    ReplyKeyboardAttachmentRequest,
     RequestContactButton,
     RequestGeoLocationButton,
     ShareAttachment,
@@ -102,11 +103,6 @@ _has_tag_providers = concat_provider(
     has_tag_provider(DialogRemoved, "update_type", UpdateType.DIALOG_REMOVED),
     has_tag_provider(DialogUnmuted, "update_type", UpdateType.DIALOG_UNMUTED),
     has_tag_provider(MessageCallback, "update_type", UpdateType.MESSAGE_CALLBACK),
-    has_tag_provider(
-        MessageChatCreated,
-        "update_type",
-        UpdateType.MESSAGE_CHAT_CREATED,
-    ),
     has_tag_provider(MessageCreated, "update_type", UpdateType.MESSAGE_CREATED),
     has_tag_provider(MessageEdited, "update_type", UpdateType.MESSAGE_EDITED),
     has_tag_provider(MessageRemoved, "update_type", UpdateType.MESSAGE_REMOVED),
@@ -118,12 +114,10 @@ _has_tag_providers = concat_provider(
     has_tag_provider(FileAttachment, "type", AttachmentType.FILE),
     has_tag_provider(PhotoAttachment, "type", AttachmentType.IMAGE),
     has_tag_provider(InlineKeyboardAttachment, "type", AttachmentType.INLINE_KEYBOARD),
-    has_tag_provider(ReplyKeyboardAttachment, "type", AttachmentType.REPLY_KEYBOARD),
     has_tag_provider(LocationAttachment, "type", AttachmentType.LOCATION),
     has_tag_provider(ShareAttachment, "type", AttachmentType.SHARE),
     has_tag_provider(StickerAttachment, "type", AttachmentType.STICKER),
     has_tag_provider(VideoAttachment, "type", AttachmentType.VIDEO),
-    has_tag_provider(DataAttachment, "type", AttachmentType.DATA),
     # ---> MarkupElementType <---
     has_tag_provider(EmphasizedMarkup, "type", MarkupElementType.EMPHASIZED),
     # has_tag_provider(HeadingMarkupElement, "type", MarkupElementType.HEADING),
@@ -149,11 +143,6 @@ _has_tag_providers = concat_provider(
         InlineKeyboardAttachmentRequest,
         "type",
         AttachmentRequestType.INLINE_KEYBOARD,
-    ),
-    has_tag_provider(
-        ReplyKeyboardAttachmentRequest,
-        "type",
-        AttachmentRequestType.REPLY_KEYBOARD,
     ),
     has_tag_provider(LocationAttachmentRequest, "type", AttachmentRequestType.LOCATION),
     has_tag_provider(ShareAttachmentRequest, "type", AttachmentRequestType.SHARE),
@@ -207,6 +196,10 @@ class MaxApiClient(AiohttpAsyncClient):
         if "User-Agent" not in session.headers:
             session.headers["User-Agent"] = f"maxo/{__version__}"
 
+        if middleware is None:
+            middleware = []
+        middleware.insert(0, StatusPatchMiddleware())
+
         request_dumper = self._init_method_dumper()
         response_loader = self._init_response_loader()
 
@@ -252,7 +245,7 @@ class MaxApiClient(AiohttpAsyncClient):
         retort = DEFAULT_RETORT.extend(
             recipe=[
                 _has_tag_providers,
-                loader(P[datetime], lambda x: datetime.fromtimestamp(x / 1000)),
+                loader(P[datetime], lambda x: datetime.fromtimestamp(x / 1000, tz=UTC)),
             ],
         )
 
@@ -261,9 +254,57 @@ class MaxApiClient(AiohttpAsyncClient):
 
         return retort
 
-    def handle_error(self, response: HTTPResponse, method: BaseMethod[Any]):
-        code: str = response.data.get("code", "")
-        error: str = response.data.get("error", "")
+    # Метод копипаста из AiohttpAsyncClient ради проверка на retval
+    async def make_request(self, request: HTTPRequest) -> HTTPResponse:
+        data: FormData | str | None = None
+
+        if request.form or request.file:
+            data = self._build_form_data(request)
+
+        if request.body:
+            if request.form or request.file:
+                raise ValueError(
+                    "Cannot use Body with Form or File. "
+                    "Use Form for fields in multipart requests.",
+                )
+
+            data = self.json_dumps(request.body)
+            if "Content-Type" not in request.header:
+                request.header["Content-Type"] = "application/json"
+
+        try:
+            async with self._session.request(
+                method=request.method,
+                url=urljoin(self.base_url, request.url),
+                headers=request.header,
+                params=request.query,
+                data=data,
+            ) as response:
+                response_data = None
+                content = await response.read()
+                if content:
+                    if content == b"<retval>1</retval>":
+                        # https://dev.max.ru/docs-api/methods/POST/uploads
+                        # "После загрузки видео или аудио сервер возвращает retval"
+                        raise RetvalReturnedServerException
+                    response_data = self.json_loads(content)
+
+                return HTTPResponse(
+                    status_code=response.status,
+                    headers=response.headers,
+                    cookies=response.cookies,
+                    data=response_data,
+                    raw_response=response,
+                )
+        except aiohttp.ClientConnectionError as e:
+            raise NetworkError(str(e)) from e
+        except TimeoutError as e:
+            raise RequestTimeoutError(str(e)) from e
+
+    def handle_error(self, response: HTTPResponse, method: BaseMethod[Any]) -> Never:
+        # ruff: noqa: PLR2004
+        code: str = response.data.get("code") or response.data.get("error_code", "")
+        error: str = response.data.get("error") or response.data.get("error_data", "")
         message: str = response.data.get("message", "")
 
         if response.status_code == 400:
@@ -282,5 +323,4 @@ class MaxApiClient(AiohttpAsyncClient):
             raise MaxBotUnknownServerError(code, error, message)
         if response.status_code == 503:
             raise MaxBotServiceUnavailableError(code, error, message)
-
         raise MaxBotApiError(code, error, message)

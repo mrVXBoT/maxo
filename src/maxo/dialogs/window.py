@@ -51,7 +51,7 @@ class Window(WindowProtocol):
         protect_content: bool | None = None,
         preview_add_transitions: list[Keyboard] | None = None,
         preview_data: GetterVariant = None,
-    ):
+    ) -> None:
         (
             self.text,
             self.keyboard,
@@ -174,7 +174,7 @@ class Window(WindowProtocol):
         try:
             current_data = await self.load_data(dialog, manager)
         except Exception:
-            logger.error("Cannot get window data for state %s", self.state)
+            logger.exception("Cannot get window data for state %s", self.state)
             raise
         try:
             keyboard = await self.render_kbd(current_data, manager)
@@ -198,13 +198,13 @@ class Window(WindowProtocol):
                 attachments=attachments,
             )
         except Exception:
-            logger.error("Cannot render window for state %s", self.state)
+            logger.exception("Cannot render window for state %s", self.state)
             raise
 
     def get_state(self) -> State:
         return self.state
 
-    def find(self, widget_id) -> Widget | None:
+    def find(self, widget_id: str) -> Widget | None:
         for root in (self.text, self.keyboard, self.on_message, self.media):
             if root and (found := root.find(widget_id)):
                 return found

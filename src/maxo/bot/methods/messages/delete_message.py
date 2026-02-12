@@ -4,7 +4,25 @@ from maxo.types.simple_query_result import SimpleQueryResult
 
 
 class DeleteMessage(MaxoMethod[SimpleQueryResult]):
-    """Удалить сообщение."""
+    """
+    Удалить сообщение
+
+    Удаляет сообщение в диалоге или чате, если бот имеет разрешение на удаление сообщений
+
+    > С помощью метода можно удалять сообщения, которые отправлены менее 24 часов назад
+
+    Пример запроса:
+    ```bash
+    curl -X DELETE "https://platform-api.max.ru/messages?message_id={message_id}" \
+      -H "Authorization: {access_token}"
+    ```
+
+    Args:
+        message_id: ID удаляемого сообщения
+
+    Источник: https://dev.max.ru/docs-api/methods/DELETE/messages
+
+    """
 
     __url__ = "messages"
     __method__ = "delete"

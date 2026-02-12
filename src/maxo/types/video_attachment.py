@@ -8,6 +8,16 @@ from maxo.types.video_thumbnail import VideoThumbnail
 
 
 class VideoAttachment(Attachment):
+    """
+    Args:
+        duration: Длина видео в секундах
+        height: Высота видео
+        payload:
+        thumbnail: Миниатюра видео
+        type:
+        width: Ширина видео
+    """
+
     type: AttachmentType = AttachmentType.VIDEO
 
     payload: MediaAttachmentPayload

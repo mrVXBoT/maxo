@@ -1,20 +1,21 @@
 import pytest
-from aiogram import Dispatcher
-from aiogram.filters import CommandStart
-from aiogram.fsm.state import State, StatesGroup
-from aiogram.types import Message
-from aiogram_dialog import (
+
+from maxo import Dispatcher
+from maxo.dialogs import (
     Dialog,
     DialogManager,
     StartMode,
     Window,
     setup_dialogs,
 )
-from aiogram_dialog.test_tools import BotClient, MockMessageManager
-from aiogram_dialog.test_tools.keyboard import InlineButtonTextLocator
-from aiogram_dialog.test_tools.memory_storage import JsonMemoryStorage
-from aiogram_dialog.widgets.kbd import Cancel
-from aiogram_dialog.widgets.text import Const, Format
+from maxo.dialogs.test_tools import BotClient, MockMessageManager
+from maxo.dialogs.test_tools.keyboard import InlineButtonTextLocator
+from maxo.dialogs.test_tools.memory_storage import JsonMemoryStorage
+from maxo.dialogs.widgets.kbd import Cancel
+from maxo.dialogs.widgets.text import Const, Format
+from maxo.fsm.state import State, StatesGroup
+from maxo.routing.filters import CommandStart
+from maxo.types import Message
 
 
 class MainSG(StatesGroup):
@@ -29,19 +30,19 @@ class ThirdSG(StatesGroup):
     start = State()
 
 
-async def start(message: Message, dialog_manager: DialogManager):
+async def start(message: Message, dialog_manager: DialogManager) -> None:
     await dialog_manager.start(MainSG.start, mode=StartMode.RESET_STACK)
 
 
-async def on_start_main(data, dialog_manager: DialogManager):
+async def on_start_main(data, dialog_manager: DialogManager) -> None:
     await dialog_manager.start(SecondarySG.start)
 
 
-async def on_start_sub(_, dialog_manager: DialogManager):
+async def on_start_sub(_, dialog_manager: DialogManager) -> None:
     await dialog_manager.start(ThirdSG.start)
 
 
-async def on_process_result_sub(_, __, dialog_manager: DialogManager):
+async def on_process_result_sub(_, __, dialog_manager: DialogManager) -> None:
     await dialog_manager.done()
 
 
@@ -56,7 +57,7 @@ def client(dp) -> BotClient:
 
 
 @pytest.fixture
-def dp(message_manager: MockMessageManager):
+def dp(message_manager: MockMessageManager) -> Dispatcher:
     dp = Dispatcher(storage=JsonMemoryStorage())
     dp.message.register(start, CommandStart())
 

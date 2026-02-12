@@ -1,8 +1,9 @@
 import html
 import logging
 from dataclasses import dataclass
-from datetime import datetime
-from typing import TYPE_CHECKING, Any
+from datetime import UTC, datetime
+from pathlib import Path
+from typing import TYPE_CHECKING, Any, Optional
 
 from jinja2 import Environment, PackageLoader, select_autoescape
 
@@ -38,6 +39,7 @@ from maxo.types import Callback, CallbackButton, Chat, User
 from maxo.types.message import Message
 
 if TYPE_CHECKING:
+    from maxo.dialogs.api.internal.widgets import Widget
     from maxo.dialogs.dialog import Dialog
 
 
@@ -66,7 +68,7 @@ class RenderDialog:
 
 
 class FakeManager(DialogManager):
-    def __init__(self):
+    def __init__(self) -> None:
         self._event = DialogUpdateEvent(
             sender=User(
                 id=1,
@@ -219,7 +221,7 @@ class FakeManager(DialogManager):
     async def show(self, show_mode: ShowMode | None = None) -> None:
         pass
 
-    def find(self, widget_id) -> Any | None:
+    def find(self, widget_id: str) -> Optional["Widget"]:
         widget = self._dialog.find(widget_id)
         if not widget:
             return None
@@ -299,7 +301,7 @@ async def render_input(
         data = {content_type: "<stub>"}
     message = Message(
         message_id=1,
-        date=datetime.now(),
+        date=datetime.now(UTC),
         chat=Chat(id=1, type="private"),
         **data,
     )
@@ -329,7 +331,7 @@ async def render_inline_keyboard(
     manager: FakeManager,
     dialog: "Dialog",
     simulate_events: bool,
-):
+) -> list[list[RenderButton]]:
     return [
         [
             await create_button(
@@ -352,7 +354,7 @@ async def render_reply_keyboard(
     manager: FakeManager,
     dialog: "Dialog",
     simulate_events: bool,
-):
+) -> list[list[RenderButton]]:
     # TODO: Simulate events using keyboard
     keyboard = []
     for row in reply_markup:
@@ -411,7 +413,7 @@ async def create_window(
     return RenderWindow(
         message=text.replace("\n", "<br>"),
         state=state.state,
-        state_name=state._state,
+        state_name=state._state,  # noqa: SLF001
         photo=create_photo(media=message.media),
         keyboard=keyboard,
         reply_keyboard=reply_keyboard,
@@ -482,7 +484,7 @@ async def render_preview(
     router: BaseRouter,
     file: str,
     simulate_events: bool = False,
-):
+) -> None:
     res = await render_preview_content(router, simulate_events)
-    with open(file, "w", encoding="utf-8") as f:
+    with Path(file).open("w", encoding="utf-8") as f:
         f.write(res)
