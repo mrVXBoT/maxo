@@ -2,22 +2,23 @@ import asyncio
 from typing import Any
 
 import pytest
-from aiogram import Dispatcher
-from aiogram.filters import Command, CommandStart
-from aiogram.fsm.state import State, StatesGroup
-from aiogram_dialog import (
+from maxo import Dispatcher
+from maxo.routing.filters import Command, CommandStart
+from maxo.fsm.state import State, StatesGroup
+from maxo.dialogs import (
     Dialog,
     DialogManager,
     StartMode,
     Window,
     setup_dialogs,
 )
-from aiogram_dialog.api.entities import GROUP_STACK_ID, AccessSettings
-from aiogram_dialog.test_tools import BotClient, MockMessageManager
-from aiogram_dialog.test_tools.keyboard import InlineButtonTextLocator
-from aiogram_dialog.test_tools.memory_storage import JsonMemoryStorage
-from aiogram_dialog.widgets.kbd import Button
-from aiogram_dialog.widgets.text import Const, Format
+from maxo.dialogs.api.entities import GROUP_STACK_ID, AccessSettings
+from maxo.dialogs.test_tools import BotClient, MockMessageManager
+from maxo.dialogs.test_tools.keyboard import InlineButtonTextLocator
+from maxo.dialogs.test_tools.memory_storage import JsonMemoryStorage
+from maxo.dialogs.widgets.kbd import Button
+from maxo.dialogs.widgets.text import Const, Format
+
 
 
 class MainSG(StatesGroup):

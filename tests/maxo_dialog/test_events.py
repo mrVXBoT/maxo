@@ -1,7 +1,7 @@
 from typing import Any
 
 import pytest
-from maxo.filters import CommandStart
+from maxo.routing.filters import CommandStart
 
 from maxo import Dispatcher
 from maxo.dialogs import (
