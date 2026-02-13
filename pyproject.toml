@@ -147,7 +147,14 @@ ignore = [
 ]
 
 [tool.ruff.lint.per-file-ignores]
-"tests/**/*.py" = ["S101", "ANN001"]
+"tests/**/*.py" = [
+    "S101",      # assert
+    "ANN",       # type annotations
+    "D",         # docstrings
+    "ASYNC",     # async правила
+    "E501",      # длинные строки
+    "PLR",       # complexity
+]
 "src/maxo/types/*.py" = ["E501", "D"]
 "src/maxo/enums/*.py" = ["E501", "D"]
 "src/maxo/bot/updates/*.py" = ["E501", "D"]
