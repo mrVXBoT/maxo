@@ -26,8 +26,7 @@ async def test_concurrent_events() -> None:
     event_common = Event()
     data = []
     dp = Dispatcher(
-        event_common=event_common,
-        data=data,
+        workflow_data={"event_common": event_common, "data": data},
         storage=JsonMemoryStorage(),
     )
     dp.message_created.handler(start, CommandStart())
@@ -44,4 +43,4 @@ async def test_concurrent_events() -> None:
     event_common.set()
     await t1
     await t2
-    assert len(data) == 2  # noqa: PLR2004
+    assert len(data) == 2

@@ -65,8 +65,7 @@ async def test_click() -> None:
     usecase = Mock()
     user_getter = Mock(side_effect=["Username"])
     dp = Dispatcher(
-        usecase=usecase,
-        user_getter=user_getter,
+        workflow_data={"usecase": usecase, "user_getter": user_getter},
         storage=JsonMemoryStorage(),
     )
     dp.include(dialog)

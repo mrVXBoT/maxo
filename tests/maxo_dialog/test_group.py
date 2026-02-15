@@ -2,9 +2,8 @@ import asyncio
 from typing import Any
 
 import pytest
+
 from maxo import Dispatcher
-from maxo.routing.filters import Command, CommandStart
-from maxo.fsm.state import State, StatesGroup
 from maxo.dialogs import (
     Dialog,
     DialogManager,
@@ -18,7 +17,8 @@ from maxo.dialogs.test_tools.keyboard import InlineButtonTextLocator
 from maxo.dialogs.test_tools.memory_storage import JsonMemoryStorage
 from maxo.dialogs.widgets.kbd import Button
 from maxo.dialogs.widgets.text import Const, Format
-
+from maxo.fsm.state import State, StatesGroup
+from maxo.routing.filters import Command, CommandStart
 
 
 class MainSG(StatesGroup):

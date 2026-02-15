@@ -147,7 +147,7 @@ async def test_reset_stack(bot, message_manager, client) -> None:
         message_manager.reset_history()
         await client.send("/start")
         first_message = message_manager.one_message()
-        assert first_message.text == "First"
+        assert first_message.unsafe_body.text == "First"
 
     message_manager.reset_history()
     callback_id = await client.click(

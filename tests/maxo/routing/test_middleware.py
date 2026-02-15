@@ -12,7 +12,7 @@ from maxo.routing.routers.simple import Router
 from maxo.routing.sentinels import UNHANDLED
 from maxo.routing.signals import BeforeStartup
 from maxo.routing.updates.message_created import MessageCreated
-from maxo.types import Message, Recipient, User, MessageBody
+from maxo.types import Message, MessageBody, Recipient, User
 
 
 class MockBotInfo:
