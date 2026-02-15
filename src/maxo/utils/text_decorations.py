@@ -43,11 +43,9 @@ class TextDecoration(ABC):
             return cast(str, getattr(self, entity.type)(value=text))
 
         if entity.type == MarkupElementType.USER_MENTION:
-
+            # Когда у юзеров появятся юзернеймы, поддерживать их
+            # Сейчас есть только user_id
             entity: UserMentionMarkup
-
-            if entity.user_link:
-                return entity.user_link
             return self.link(value=text, link=f"max://user/{entity.user_id}")
 
         if entity.type == MarkupElementType.LINK:

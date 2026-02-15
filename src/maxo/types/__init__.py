@@ -41,6 +41,7 @@ from .link_markup import LinkMarkup
 from .linked_message import LinkedMessage
 from .location_attachment import LocationAttachment
 from .location_attachment_request import LocationAttachmentRequest
+from .markup_element import MarkupElement
 from .markup_elements import MarkupElements
 from .media_attachment_payload import MediaAttachmentPayload
 from .message import Message
@@ -129,6 +130,7 @@ __all__ = (
     "LinkedMessage",
     "LocationAttachment",
     "LocationAttachmentRequest",
+    "MarkupElement",
     "MarkupElements",
     "MaxoType",
     "MediaAttachmentPayload",
