@@ -25,32 +25,32 @@ class TestTextDecoration:
         [
             (
                 html_decoration,
-                LinkMarkup(from_=0, length=5, url="https://aiogram.dev"),
+                LinkMarkup(from_=0, length=4, url="https://aiogram.dev"),
                 '<a href="https://aiogram.dev">test</a>',
             ),
-            (html_decoration, StrongMarkup(from_=0, length=5), "<b>test</b>"),
-            (html_decoration, EmphasizedMarkup(from_=0, length=5), "<i>test</i>"),
-            (html_decoration, MonospacedMarkup(from_=0, length=5), "<pre>test</pre>"),
-            (html_decoration, UnderlineMarkup(from_=0, length=5), "<u>test</u>"),
-            (html_decoration, StrikethroughMarkup(from_=0, length=5), "<s>test</s>"),
+            (html_decoration, StrongMarkup(from_=0, length=4), "<b>test</b>"),
+            (html_decoration, EmphasizedMarkup(from_=0, length=4), "<i>test</i>"),
+            (html_decoration, MonospacedMarkup(from_=0, length=4), "<pre>test</pre>"),
+            (html_decoration, UnderlineMarkup(from_=0, length=4), "<u>test</u>"),
+            (html_decoration, StrikethroughMarkup(from_=0, length=4), "<s>test</s>"),
             (
                 html_decoration,
-                UserMentionMarkup(from_=0, length=5, user_id=42),
+                UserMentionMarkup(from_=0, length=4, user_id=42),
                 '<a href="max://user/42">test</a>',
             ),
             (
                 markdown_decoration,
-                LinkMarkup(from_=0, length=5, url="https://aiogram.dev"),
+                LinkMarkup(from_=0, length=4, url="https://aiogram.dev"),
                 "[test](https://aiogram.dev)",
             ),
-            (markdown_decoration, StrongMarkup(from_=0, length=5), "**test**"),
-            (markdown_decoration, EmphasizedMarkup(from_=0, length=5), "_test_"),
-            (markdown_decoration, MonospacedMarkup(from_=0, length=5), "`test`"),
-            (markdown_decoration, UnderlineMarkup(from_=0, length=5), "++test++"),
-            (markdown_decoration, StrikethroughMarkup(from_=0, length=5), "~~test~~"),
+            (markdown_decoration, StrongMarkup(from_=0, length=4), "**test**"),
+            (markdown_decoration, EmphasizedMarkup(from_=0, length=4), "_test_"),
+            (markdown_decoration, MonospacedMarkup(from_=0, length=4), "`test`"),
+            (markdown_decoration, UnderlineMarkup(from_=0, length=4), "++test++"),
+            (markdown_decoration, StrikethroughMarkup(from_=0, length=4), "~~test~~"),
             (
                 markdown_decoration,
-                UserMentionMarkup(from_=0, length=5, user_id=42),
+                UserMentionMarkup(from_=0, length=4, user_id=42),
                 "[test](max://user/42)",
             ),
         ],
@@ -66,7 +66,7 @@ class TestTextDecoration:
     def test_unknown_apply_entity(self) -> None:
         assert (
             html_decoration.apply_entity(
-                MarkupElement(type="unknown", from_=0, length=5),
+                MarkupElement(type="unknown", from_=0, length=4),
                 "<test>",
             )
             == "&lt;test&gt;"
@@ -100,8 +100,8 @@ class TestTextDecoration:
                 "test1 test2 test3 test4 test5 test6 test7",
                 (
                     StrongMarkup(from_=6, length=29),
-                    UnderlineMarkup(from_=12, length=5),
-                    EmphasizedMarkup(from_=24, length=5),
+                    UnderlineMarkup(from_=12, length=4),
+                    EmphasizedMarkup(from_=24, length=4),
                 ),
                 "test1 <b>test2 <u>test3</u> test4 <i>test5</i> test6</b> test7",
             ),
@@ -110,7 +110,7 @@ class TestTextDecoration:
                 "test1 test2 test3 test4 test5",
                 (
                     StrongMarkup(from_=6, length=17),
-                    UnderlineMarkup(from_=12, length=5),
+                    UnderlineMarkup(from_=12, length=4),
                 ),
                 "test1 <b>test2 <u>test3</u> test4</b> test5",
             ),
@@ -119,20 +119,20 @@ class TestTextDecoration:
                 "test1 test2 test3 test4",
                 (
                     StrongMarkup(from_=6, length=11),
-                    UnderlineMarkup(from_=12, length=5),
+                    UnderlineMarkup(from_=12, length=4),
                 ),
                 "test1 <b>test2 <u>test3</u></b> test4",
             ),
             (
                 html_decoration,
                 "test1 test2 test3",
-                (StrongMarkup(from_=6, length=5),),
+                (StrongMarkup(from_=6, length=4),),
                 "test1 <b>test2</b> test3",
             ),
             (
                 html_decoration,
                 "test1 test2",
-                (StrongMarkup(from_=0, length=5),),
+                (StrongMarkup(from_=0, length=4),),
                 "<b>test1</b> test2",
             ),
             (
@@ -148,8 +148,8 @@ class TestTextDecoration:
                 html_decoration,
                 "test",
                 (
-                    StrikethroughMarkup(from_=0, length=5),
-                    StrongMarkup(from_=0, length=5),
+                    StrikethroughMarkup(from_=0, length=4),
+                    StrongMarkup(from_=0, length=4),
                 ),
                 "<s><b>test</b></s>",
             ),
@@ -159,7 +159,7 @@ class TestTextDecoration:
                 (
                     StrikethroughMarkup(from_=0, length=15),
                     StrongMarkup(from_=6, length=9),
-                    UnderlineMarkup(from_=10, length=5),
+                    UnderlineMarkup(from_=10, length=4),
                 ),
                 "<s>strike<b>bold<u>under</u></b></s>",
             ),

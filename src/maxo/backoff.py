@@ -61,7 +61,8 @@ class Backoff:
 
     def calc_next_delay(self, current_delay: float) -> float:
         mean = min(current_delay * self.factor, self.max_delay)
-        return max(self.min_delay, normalvariate(mean, self.jitter))
+        value = normalvariate(mean, self.jitter)
+        return min(self.max_delay, max(self.min_delay, value))
 
     def next(self) -> None:
         self._counter += 1

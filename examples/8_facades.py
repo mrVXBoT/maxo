@@ -143,7 +143,8 @@ async def user_added_to_chat_handler(
     facade: UserAddedToChatFacade,
 ) -> None:
     await facade.send_message(
-        f"Добро пожаловать в чат, {update.user.first_name} (ID: {update.user.user_id})! "
+        f"Добро пожаловать в чат, {update.user.first_name} "
+        f"(ID: {update.user.user_id})! "
         f"Я успешно обработал добавление нового пользователя",
     )
 
@@ -154,7 +155,8 @@ async def user_removed_from_chat_handler(
     facade: UserRemovedFromChatFacade,
 ) -> None:
     await facade.send_message(
-        f"Пользователь {update.user.first_name} (ID: {update.user.user_id}) покинул чат (ID: {facade.chat_id})",
+        f"Пользователь {update.user.first_name} "
+        f"(ID: {update.user.user_id}) покинул чат (ID: {facade.chat_id})",
     )
 
 
@@ -164,7 +166,8 @@ async def chat_title_changed_handler(
     facade: ChatTitleChangedFacade,
 ) -> None:
     await facade.send_message(
-        f"Название чата (ID: {facade.chat_id}) было изменено на '{update.title}' пользователем (ID: {facade.user.user_id})",
+        f"Название чата (ID: {facade.chat_id}) было изменено на '{update.title}' "
+        f"пользователем (ID: {facade.user.user_id})",
     )
 
 

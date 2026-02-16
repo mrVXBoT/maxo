@@ -74,7 +74,7 @@ async def input_age_handler(
 
     try:
         age = int(text)
-    except TypeError:
+    except ValueError:
         await facade.answer_text("Ты отправил не возраст. Попробуй еще раз")
         return
 
