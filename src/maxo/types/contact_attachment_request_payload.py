@@ -13,10 +13,14 @@ class ContactAttachmentRequestPayload(MaxoType):
     """
 
     name: str | None = None
+    """Имя контакта"""
 
     contact_id: Omittable[int | None] = Omitted()
+    """ID контакта, если он зарегистирован в MAX"""
     vcf_info: Omittable[str | None] = Omitted()
+    """Полная информация о контакте в формате VCF"""
     vcf_phone: Omittable[str | None] = Omitted()
+    """Телефон контакта в формате VCF"""
 
     @property
     def unsafe_contact_id(self) -> int:

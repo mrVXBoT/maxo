@@ -16,6 +16,7 @@ class RequestGeoLocationButton(Button):
     type: ButtonType = ButtonType.REQUEST_GEO_LOCATION
 
     quick: Omittable[bool] = Omitted()
+    """Если *true*, отправляет местоположение без запроса подтверждения пользователя"""
 
     @property
     def unsafe_quick(self) -> bool:

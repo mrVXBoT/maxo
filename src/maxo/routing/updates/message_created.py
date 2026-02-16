@@ -18,8 +18,10 @@ class MessageCreated(MaxUpdate):
     type = UpdateType.MESSAGE_CREATED
 
     message: Message
+    """Новое созданное сообщение"""
 
     user_locale: Omittable[str | None] = Omitted()
+    """Текущий язык пользователя в формате IETF BCP 47. Доступно только в диалогах"""
 
     @property
     def unsafe_user_locale(self) -> str:

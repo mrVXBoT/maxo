@@ -25,3 +25,4 @@ class GetPinnedMessage(MaxoMethod[GetPinnedMessageResult]):
     __method__ = "get"
 
     chat_id: Path[int]
+    """ID чата"""

@@ -31,5 +31,6 @@ class SendAction(MaxoMethod[SimpleQueryResult]):
     __method__ = "post"
 
     chat_id: Path[int]
+    """ID чата"""
 
     action: Body[SenderAction]

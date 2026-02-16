@@ -25,3 +25,4 @@ class GetAdmins(MaxoMethod[ChatMembersList]):
     __method__ = "get"
 
     chat_id: Path[int]
+    """ID чата"""

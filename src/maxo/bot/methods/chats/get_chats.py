@@ -27,4 +27,6 @@ class GetChats(MaxoMethod[ChatList]):
     __method__ = "get"
 
     count: Query[Omittable[int]] = Omitted()
+    """Количество запрашиваемых чатов"""
     marker: Query[Omittable[int]] = Omitted()
+    """Указатель на следующую страницу данных. Для первой страницы передайте `null`"""

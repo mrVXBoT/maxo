@@ -13,7 +13,9 @@ class ShareAttachmentPayload(MaxoType):
     """
 
     token: Omittable[str | None] = Omitted()
+    """Токен вложения"""
     url: Omittable[str | None] = Omitted()
+    """URL, прикрепленный к сообщению в качестве предпросмотра медиа"""
 
     @property
     def unsafe_token(self) -> str:

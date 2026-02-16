@@ -17,5 +17,8 @@ class BotRemovedFromChat(MaxUpdate):
     type = UpdateType.BOT_REMOVED
 
     chat_id: int
+    """ID чата, откуда был удалён бот"""
     is_channel: bool
+    """Указывает, был ли бот удалён из канала или нет"""
     user: User
+    """Пользователь, удаливший бота из чата"""

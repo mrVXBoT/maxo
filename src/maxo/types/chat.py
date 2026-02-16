@@ -37,22 +37,46 @@ class Chat(MaxoType):
     """
 
     chat_id: int
+    """ID чата"""
     is_public: bool
+    """Доступен ли чат публично (для диалогов всегда `false`)"""
     last_event_time: datetime
+    """Время последнего события в чате"""
     participants_count: int
+    """Количество участников чата. Для диалогов всегда `2`"""
     status: ChatStatus
+    """
+    Статус чата:
+        - `"active"` — Бот является активным участником чата.
+        - `"removed"` — Бот был удалён из чата.
+        - `"left"` — Бот покинул чат.
+        - `"closed"` — Чат был закрыт.
+    """
     type: ChatType
+    """
+    Тип чата:
+         - `"chat"` — Групповой чат.
+    """
 
     description: str | None = None
+    """Описание чата"""
     icon: Image | None = None
+    """Иконка чата"""
     title: str | None = None
+    """Отображаемое название чата. Может быть `null` для диалогов"""
 
     chat_message_id: Omittable[str | None] = Omitted()
+    """ID сообщения, содержащего кнопку, через которую был инициирован чат"""
     dialog_with_user: Omittable[UserWithPhoto | None] = Omitted()
+    """Данные о пользователе в диалоге (только для чатов типа `"dialog"`)"""
     link: Omittable[str | None] = Omitted()
+    """Ссылка на чат"""
     owner_id: Omittable[int | None] = Omitted()
+    """ID владельца чата"""
     participants: Omittable[dict[str, Any] | None] = Omitted()
+    """Участники чата с временем последней активности. Может быть `null`, если запрашивается список чатов"""
     pinned_message: Omittable[Message | None] = Omitted()
+    """Закреплённое сообщение в чате (возвращается только при запросе конкретного чата)"""
 
     @property
     def id(self) -> int:

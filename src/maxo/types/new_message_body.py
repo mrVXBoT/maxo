@@ -17,11 +17,16 @@ class NewMessageBody(MaxoType):
     """
 
     attachments: list[AttachmentsRequests] | None = None
+    """Вложения сообщения. Если пусто, все вложения будут удалены"""
     link: NewMessageLink | None = None
+    """Ссылка на сообщение"""
     text: str | None = None
+    """Новый текст сообщения"""
 
     format: Omittable[TextFormat | None] = Omitted()
+    """Если установлен, текст сообщения будет форматирован данным способом. Для подробной информации загляните в раздел [Форматирование](/docs-api#Форматирование%20текста)"""
     notify: Omittable[bool] = Omitted()
+    """Если false, участники чата не будут уведомлены (по умолчанию `true`)"""
 
     @property
     def unsafe_attachments(self) -> list[AttachmentsRequests]:

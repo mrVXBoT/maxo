@@ -12,8 +12,10 @@ class ChatMembersList(MaxoType):
     """
 
     members: list[ChatMember]
+    """Список участников чата с информацией о времени последней активности"""
 
     marker: Omittable[int | None] = Omitted()
+    """Указатель на следующую страницу данных"""
 
     @property
     def unsafe_marker(self) -> int:

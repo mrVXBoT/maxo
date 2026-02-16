@@ -13,6 +13,7 @@ class BotInfo(UserWithPhoto):
     """
 
     commands: Omittable[list[BotCommand] | None] = Omitted()
+    """Команды, поддерживаемые ботом"""
 
     @property
     def unsafe_commands(self) -> list[BotCommand]:

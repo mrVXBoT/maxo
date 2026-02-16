@@ -17,9 +17,12 @@ class LinkedMessage(MaxoType):
 
     message: MessageBody
     type: MessageLinkType
+    """Тип связанного сообщения"""
 
     chat_id: Omittable[int] = Omitted()
+    """Чат, в котором сообщение было изначально опубликовано. Только для пересланных сообщений"""
     sender: Omittable[User] = Omitted()
+    """Пользователь, отправивший сообщение."""
 
     @property
     def unsafe_chat_id(self) -> int:

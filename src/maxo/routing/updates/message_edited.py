@@ -15,3 +15,4 @@ class MessageEdited(MaxUpdate):
     type = UpdateType.MESSAGE_EDITED
 
     message: Message
+    """Отредактированное сообщение"""

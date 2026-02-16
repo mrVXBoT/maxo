@@ -17,7 +17,9 @@ class UserMentionMarkup(MarkupElement):
     type: MarkupElementType = MarkupElementType.USER_MENTION
 
     user_id: Omittable[int | None] = Omitted()
+    """ID упомянутого пользователя без имени"""
     user_link: Omittable[str | None] = Omitted()
+    """`@username` упомянутого пользователя"""
 
     @property
     def unsafe_user_id(self) -> int:

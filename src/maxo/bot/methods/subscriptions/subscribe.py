@@ -35,5 +35,8 @@ class Subscribe(MaxoMethod[SimpleQueryResult]):
     __method__ = "post"
 
     url: Body[str]
+    """URL HTTP(S)-эндпойнта вашего бота. Должен начинаться с `http(s)://`"""
     secret: Body[Omittable[str]] = Omitted()
+    """Cекрет, который должен быть отправлен в заголовке `X-Max-Bot-Api-Secret` в каждом запросе Webhook. Разрешены только символы `A-Z`, `a-z`, `0-9`, и дефис. Заголовок рекомендован, чтобы запрос поступал из установленного веб-узла"""
     update_types: Body[Omittable[list[str]]] = Omitted()
+    """Список типов обновлений, которые ваш бот хочет получать. Для полного списка типов см. объект [Update](https://dev.max.ru/docs-api/objects/Update)"""

@@ -12,8 +12,10 @@ class ChatAdminsList(MaxoType):
     """
 
     admins: list[ChatAdmin]
+    """Список пользователей, которые получат права администратора чата"""
 
     marker: Omittable[int | None] = Omitted()
+    """Указатель на следующую страницу данных"""
 
     @property
     def unsafe_marker(self) -> int:

@@ -37,8 +37,11 @@ class EditChat(MaxoMethod[Chat]):
     __method__ = "patch"
 
     chat_id: Path[int]
+    """ID чата"""
 
     icon: Body[Omittable[PhotoAttachmentRequestPayload | None]] = Omitted()
     notify: Body[Omittable[bool | None]] = Omitted()
+    """Если `true`, участники получат системное уведомление об изменении"""
     pin: Body[Omittable[str | None]] = Omitted()
+    """ID сообщения для закрепления в чате. Чтобы удалить закреплённое сообщение, используйте метод [unpin](https://dev.max.ru/docs-api/methods/DELETE/chats/%7BchatId%7D/pin)"""
     title: Body[Omittable[str | None]] = Omitted()

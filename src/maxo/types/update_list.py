@@ -14,8 +14,10 @@ class UpdateList(MaxoType):
     """
 
     updates: list[Updates]
+    """Страница обновлений"""
 
     marker: int | None = None
+    """Указатель на следующую страницу данных"""
 
     @property
     def unsafe_marker(self) -> int:

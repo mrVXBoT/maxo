@@ -20,10 +20,14 @@ class BotStarted(MaxUpdate):
     type = UpdateType.BOT_STARTED
 
     chat_id: int
+    """ID диалога, где произошло событие"""
     user: User
+    """Пользователь, который нажал кнопку 'Start'"""
 
     payload: Omittable[str | None] = Omitted()
+    """Дополнительные данные из дип-линков, переданные при запуске бота"""
     user_locale: Omittable[str] = Omitted()
+    """Текущий язык пользователя в формате IETF BCP 47"""
 
     @property
     def unsafe_payload(self) -> str:

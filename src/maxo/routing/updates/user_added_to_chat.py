@@ -20,10 +20,14 @@ class UserAddedToChat(MaxUpdate):
     type = UpdateType.USER_ADDED
 
     chat_id: int
+    """ID чата, где произошло событие"""
     is_channel: bool
+    """Указывает, был ли пользователь добавлен в канал или нет"""
     user: User
+    """Пользователь, добавленный в чат"""
 
     inviter_id: Omittable[int | None] = Omitted()
+    """Пользователь, который добавил пользователя в чат. Может быть `null`, если пользователь присоединился к чату по ссылке"""
 
     @property
     def unsafe_inviter_id(self) -> int:

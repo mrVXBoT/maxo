@@ -24,3 +24,4 @@ class GetVideoAttachmentDetails(MaxoMethod[VideoAttachmentDetails]):
     __method__ = "get"
 
     video_token: Path[str]
+    """Токен видео-вложения"""

@@ -28,6 +28,9 @@ class RemoveMember(MaxoMethod[SimpleQueryResult]):
     __method__ = "delete"
 
     chat_id: Path[int]
+    """ID чата"""
 
     user_id: Query[int]
+    """ID пользователя, которого нужно удалить из чата"""
     block: Query[Omittable[bool]] = Omitted()
+    """Если установлено в `true`, пользователь будет заблокирован в чате. Применяется только для чатов с публичной или приватной ссылкой. Игнорируется в остальных случаях"""

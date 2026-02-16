@@ -1,6 +1,6 @@
 from maxo.errors import AttributeIsEmptyError
 from maxo.omit import Omittable, Omitted, is_defined
-from maxo.types import PhotoToken
+from maxo.types.photo_token import PhotoToken
 from maxo.types.base import MaxoType
 
 
@@ -15,8 +15,11 @@ class PhotoAttachmentRequestPayload(MaxoType):
     """
 
     photos: Omittable[list[PhotoToken] | None] = Omitted()  # TODO: Проверить кто это
+    """Токены, полученные после загрузки изображений"""
     token: Omittable[str | None] = Omitted()
+    """Токен существующего вложения"""
     url: Omittable[str | None] = Omitted()
+    """Любой внешний URL изображения, которое вы хотите прикрепить"""
 
     @property
     def unsafe_photos(self) -> list[PhotoToken]:

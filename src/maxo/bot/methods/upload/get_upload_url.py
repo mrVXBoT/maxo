@@ -139,3 +139,4 @@ class GetUploadUrl(MaxoMethod[UploadEndpoint]):
     __method__ = "post"
 
     type: Query[UploadType]
+    """Тип загружаемого файла. Возможные значения: `"image"`, `"video"`, `"audio"`, `"file"`"""

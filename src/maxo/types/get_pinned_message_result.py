@@ -11,6 +11,7 @@ class GetPinnedMessageResult(MaxoType):
     """
 
     message: Omittable[Message | None] = Omitted()
+    """Закреплённое сообщение. Может быть `null`, если в чате нет закреплённого сообщения"""
 
     @property
     def unsafe_message(self) -> Message:

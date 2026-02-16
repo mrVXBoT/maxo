@@ -20,10 +20,14 @@ class UserRemovedFromChat(MaxUpdate):
     type = UpdateType.USER_REMOVED
 
     chat_id: int
+    """ID чата, где произошло событие"""
     is_channel: bool
+    """Указывает, был ли пользователь удалён из канала или нет"""
     user: User
+    """Пользователь, удалённый из чата"""
 
     admin_id: Omittable[int] = Omitted()
+    """Администратор, который удалил пользователя из чата. Может быть `null`, если пользователь покинул чат сам"""
 
     @property
     def unsafe_admin_id(self) -> int:

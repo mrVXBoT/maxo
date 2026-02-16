@@ -18,8 +18,11 @@ class OpenAppButton(Button):
     type: ButtonType = ButtonType.OPEN_APP
 
     contact_id: Omittable[int] = Omitted()
+    """Идентификатор бота, чьё мини-приложение надо запустить"""
     payload: Omittable[str] = Omitted()
+    """Параметр запуска, который будет передан в [initData](/docs/webapps/bridge#WebAppData) мини-приложения"""
     web_app: Omittable[str] = Omitted()
+    """Публичное имя (username) бота или ссылка на него, чьё мини-приложение надо запустить"""
 
     @property
     def unsafe_contact_id(self) -> int:

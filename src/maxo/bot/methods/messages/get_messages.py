@@ -42,7 +42,12 @@ class GetMessages(MaxoMethod[MessageList]):
     __method__ = "get"
 
     chat_id: Query[Omittable[int]] = Omitted()
+    """ID чата, чтобы получить сообщения из определённого чата. Обязательный параметр, если не указан `message_ids`"""
     count: Query[Omittable[int]] = Omitted()
+    """Максимальное количество сообщений в ответе"""
     from_: Query[Omittable[datetime]] = Omitted()
+    """Время начала для запрашиваемых сообщений (в формате Unix timestamp)"""
     message_ids: Query[Omittable[list[str] | None]] = Omitted()
+    """Список ID сообщений, которые нужно получить (через запятую). Обязательный параметр, если не указан `chat_id`"""
     to: Query[Omittable[datetime]] = Omitted()
+    """Время окончания для запрашиваемых сообщений (в формате Unix timestamp)"""

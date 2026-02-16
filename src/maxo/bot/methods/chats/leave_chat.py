@@ -25,3 +25,4 @@ class LeaveChat(MaxoMethod[SimpleQueryResult]):
     __method__ = "delete"
 
     chat_id: Path[int]
+    """ID чата"""

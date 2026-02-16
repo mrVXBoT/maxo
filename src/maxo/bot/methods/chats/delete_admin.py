@@ -26,4 +26,6 @@ class DeleteAdmin(MaxoMethod[SimpleQueryResult]):
     __method__ = "delete"
 
     chat_id: Path[int]
+    """ID чата"""
     user_id: Path[int]
+    """Идентификатор пользователя"""

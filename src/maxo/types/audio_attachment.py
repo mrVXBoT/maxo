@@ -20,6 +20,7 @@ class AudioAttachment(Attachment):
     payload: MediaAttachmentPayload
 
     transcription: Omittable[str | None] = Omitted()
+    """Аудио транскрипция"""
 
     @classmethod
     def factory(

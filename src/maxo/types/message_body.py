@@ -25,12 +25,17 @@ class MessageBody(MaxoType):
     """
 
     mid: str
+    """Уникальный ID сообщения"""
     seq: int
+    """ID последовательности сообщения в чате"""
 
     attachments: list[Attachments] | None = None
+    """Вложения сообщения. Могут быть одним из типов `Attachment`. Смотрите описание схемы"""
     text: str | None = None
+    """Новый текст сообщения"""
 
     markup: Omittable[list[MarkupElements] | None] = Omitted()
+    """Разметка текста сообщения. Для подробной информации загляните в раздел [Форматирование](/docs-api#Форматирование%20текста)"""
 
     @property
     def id(self) -> str:

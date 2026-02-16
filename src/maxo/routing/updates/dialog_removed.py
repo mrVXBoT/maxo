@@ -17,5 +17,8 @@ class DialogRemoved(MaxUpdate):
     type = UpdateType.DIALOG_REMOVED
 
     chat_id: int
+    """ID чата, где произошло событие"""
     user: User
+    """Пользователь, который удалил чат"""
     user_locale: str
+    """Текущий язык пользователя в формате IETF BCP 47"""

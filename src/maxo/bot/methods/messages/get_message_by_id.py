@@ -25,3 +25,4 @@ class GetMessageById(MaxoMethod[Message]):
     __method__ = "get"
 
     message_id: Path[str]
+    """ID сообщения (`mid`), чтобы получить одно сообщение в чате"""

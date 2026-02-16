@@ -14,8 +14,10 @@ class BotCommand(MaxoType):
     """
 
     name: str
+    """Название команды"""
 
     description: Omittable[str | None] = Omitted()
+    """Описание команды"""
 
     @property
     def unsafe_description(self) -> str:

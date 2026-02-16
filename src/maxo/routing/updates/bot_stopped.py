@@ -19,9 +19,12 @@ class BotStopped(MaxUpdate):
     type = UpdateType.BOT_STOPPED
 
     chat_id: int
+    """ID диалога, где произошло событие"""
     user: User
+    """Пользователь, который остановил чат"""
 
     user_locale: Omittable[str] = Omitted()
+    """Текущий язык пользователя в формате IETF BCP 47"""
 
     @property
     def unsafe_user_locale(self) -> str:

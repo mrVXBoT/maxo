@@ -12,7 +12,9 @@ class ContactAttachmentPayload(MaxoType):
     """
 
     max_info: Omittable[User | None] = Omitted()
+    """Информация о пользователе"""
     vcf_info: Omittable[str | None] = Omitted()
+    """Информация о пользователе в формате VCF."""
 
     @property
     def unsafe_max_info(self) -> User:

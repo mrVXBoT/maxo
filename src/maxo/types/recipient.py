@@ -15,9 +15,12 @@ class Recipient(MaxoType):
     """
 
     chat_type: ChatType
+    """Тип чата"""
 
     chat_id: int | None = None
+    """ID чата"""
     user_id: int | None = None
+    """ID пользователя, если сообщение было отправлено пользователю"""
 
     @property
     def unsafe_chat_id(self) -> int:

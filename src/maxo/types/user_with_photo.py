@@ -14,8 +14,11 @@ class UserWithPhoto(User):
     """
 
     avatar_url: Omittable[str] = Omitted()
+    """URL аватара пользователя или бота в уменьшенном размере"""
     description: Omittable[str | None] = Omitted()
+    """Описание пользователя или бота. В случае с пользователем может принимать значение `null`, если описание не заполнено"""
     full_avatar_url: Omittable[str] = Omitted()
+    """URL аватара пользователя или бота в полном размере"""
 
     @property
     def unsafe_avatar_url(self) -> str:

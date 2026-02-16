@@ -16,5 +16,8 @@ class MessageRemoved(MaxUpdate):
     type = UpdateType.MESSAGE_REMOVED
 
     chat_id: int
+    """ID чата, где сообщение было удалено"""
     message_id: str
+    """ID удаленного сообщения"""
     user_id: int
+    """Пользователь, удаливший сообщение"""

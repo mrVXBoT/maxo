@@ -13,8 +13,10 @@ class UploadEndpoint(MaxoType):
     """
 
     url: str
+    """URL для загрузки файла"""
 
     token: Omittable[str] = Omitted()
+    """Видео- или аудио-токен для отправки сообщения"""
 
     @property
     def unsafe_token(self) -> str:

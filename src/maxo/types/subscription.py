@@ -16,9 +16,12 @@ class Subscription(MaxoType):
     """
 
     time: datetime
+    """Unix-время, когда была создана подписка"""
     url: str
+    """URL вебхука"""
 
     update_types: list[str] | None = None
+    """Типы обновлений, на которые подписан бот"""
 
     @property
     def unsafe_update_types(self) -> list[str]:

@@ -23,8 +23,10 @@ class MessageCallback(MaxUpdate):
     callback: Callback
 
     message: Message | None = None
+    """Изначальное сообщение, содержащее встроенную клавиатуру. Может быть `null`, если оно было удалено к моменту, когда бот получил это обновление"""
 
     user_locale: Omittable[str | None] = Omitted()
+    """Текущий язык пользователя в формате IETF BCP 47"""
 
     @property
     def unsafe_message(self) -> Message:

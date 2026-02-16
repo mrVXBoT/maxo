@@ -25,3 +25,4 @@ class Unsubscribe(MaxoMethod[SimpleQueryResult]):
     __method__ = "delete"
 
     url: Query[str]
+    """URL, который нужно удалить из подписок на WebHook"""

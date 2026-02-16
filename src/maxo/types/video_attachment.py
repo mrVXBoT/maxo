@@ -24,9 +24,13 @@ class VideoAttachment(Attachment):
     payload: MediaAttachmentPayload
 
     duration: Omittable[int | None] = Omitted()
+    """Длина видео в секундах"""
     height: Omittable[int | None] = Omitted()
+    """Высота видео"""
     thumbnail: Omittable[VideoThumbnail | None] = Omitted()
+    """Миниатюра видео"""
     width: Omittable[int | None] = Omitted()
+    """Ширина видео"""
 
     @classmethod
     def factory(
@@ -48,7 +52,6 @@ class VideoAttachment(Attachment):
             width: Ширина видео
             height: Высота видео
             duration: Длина видео в секундах
-
         """
         thumbnail: Omittable[VideoThumbnail]
 

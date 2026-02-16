@@ -12,8 +12,10 @@ class ChatList(MaxoType):
     """
 
     chats: list[Chat]
+    """Список запрашиваемых чатов"""
 
     marker: int | None = None
+    """Указатель на следующую страницу запрашиваемых чатов"""
 
     @property
     def unsafe_marker(self) -> int:

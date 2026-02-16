@@ -17,5 +17,8 @@ class ChatTitleChanged(MaxUpdate):
     type = UpdateType.CHAT_TITLE_CHANGED
 
     chat_id: int
+    """ID чата, где произошло событие"""
     title: str
+    """Новое название"""
     user: User
+    """Пользователь, который изменил название"""

@@ -30,5 +30,6 @@ class AddMembers(MaxoMethod[SimpleQueryResult]):
     __method__ = "post"
 
     chat_id: Path[int]
+    """ID чата"""
 
     user_ids: Body[list[int]]

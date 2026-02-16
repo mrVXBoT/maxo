@@ -20,10 +20,19 @@ class ChatButton(Button):
     """
 
     chat_title: str
+    """Название чата, который будет создан"""
 
     chat_description: Omittable[str | None] = Omitted()
+    """Описание чата"""
     start_payload: Omittable[str | None] = Omitted()
+    """Стартовая полезная нагрузка будет отправлена боту, как только чат будет создан"""
     uuid: Omittable[int | None] = Omitted()
+    """
+    Уникальный ID кнопки среди всех кнопок чата на клавиатуре.
+    Если `uuid` изменён, новый чат будет создан при следующем нажатии.
+    Сервер сгенерирует его в момент, когда кнопка будет впервые размещена.
+    Используйте его при редактировании сообщения.'
+    """
 
     @property
     def unsafe_chat_description(self) -> str:

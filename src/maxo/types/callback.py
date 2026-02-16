@@ -18,10 +18,14 @@ class Callback(MaxoType):
     """
 
     callback_id: str
+    """Текущий ID клавиатуры"""
     timestamp: datetime
+    """Unix-время, когда пользователь нажал кнопку"""
     user: User
+    """Пользователь, нажавший на кнопку"""
 
     payload: Omittable[str] = Omitted()
+    """Токен кнопки"""
 
     @property
     def id(self) -> str:

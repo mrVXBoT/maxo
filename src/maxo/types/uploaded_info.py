@@ -12,6 +12,7 @@ class UploadedInfo(MaxoType):
     """
 
     token: Omittable[str] = Omitted()
+    """Токен — уникальный ID загруженного медиафайла"""
 
     @property
     def unsafe_token(self) -> str:

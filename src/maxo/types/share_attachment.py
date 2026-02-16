@@ -23,8 +23,11 @@ class ShareAttachment(Attachment):
     payload: ShareAttachmentPayload = field(default_factory=ShareAttachmentPayload)
 
     description: Omittable[str | None] = Omitted()
+    """Описание предпросмотра ссылки"""
     image_url: Omittable[str | None] = Omitted()
+    """Изображение предпросмотра ссылки"""
     title: Omittable[str | None] = Omitted()
+    """Заголовок предпросмотра ссылки."""
 
     @classmethod
     def factory(

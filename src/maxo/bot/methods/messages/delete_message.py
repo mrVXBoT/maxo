@@ -27,3 +27,4 @@ class DeleteMessage(MaxoMethod[SimpleQueryResult]):
     __method__ = "delete"
 
     message_id: Query[str]
+    """ID удаляемого сообщения"""

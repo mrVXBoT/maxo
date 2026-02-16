@@ -20,6 +20,10 @@ class DialogMuted(MaxUpdate):
     type = UpdateType.DIALOG_MUTED
 
     chat_id: int
+    """ID чата, где произошло событие"""
     muted_until: datetime
+    """Время в формате Unix, до наступления которого диалог был отключён"""
     user: User
+    """Пользователь, который отключил уведомления"""
     user_locale: str
+    """Текущий язык пользователя в формате IETF BCP 47"""

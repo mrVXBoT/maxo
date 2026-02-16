@@ -17,5 +17,8 @@ class BotAddedToChat(MaxUpdate):
     type = UpdateType.BOT_ADDED
 
     chat_id: int
+    """ID чата, куда был добавлен бот"""
     is_channel: bool
+    """Указывает, был ли бот добавлен в канал или нет"""
     user: User
+    """Пользователь, добавивший бота в чат"""

@@ -25,3 +25,4 @@ class GetChat(MaxoMethod[Chat]):
     __method__ = "get"
 
     chat_id: Path[int]
+    """ID запрашиваемого чата"""
