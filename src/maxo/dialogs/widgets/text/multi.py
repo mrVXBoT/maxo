@@ -1,10 +1,21 @@
 from collections.abc import Callable, Hashable
-from typing import Any
-
-from magic_filter import MagicFilter
+from typing import TYPE_CHECKING, Any
 
 from maxo.dialogs.api.protocols import DialogManager
+from maxo.dialogs.tools.dialog_filter import DialogFilter, is_dialog_filter
 from maxo.dialogs.widgets.common import WhenCondition
+
+if TYPE_CHECKING:
+    from maxo.dialogs.integrations.magic_filter import MagicDialogFilter
+
+
+# Try to import magic_filter
+try:
+    from magic_filter import MagicFilter as _MagicFilter
+    _HAS_MAGIC_FILTER = True
+except ImportError:  # pragma: no cover
+    _HAS_MAGIC_FILTER = False
+    _MagicFilter = None  # type: ignore[misc, assignment]
 
 from .base import Text
 
@@ -22,30 +33,34 @@ def new_case_field(fieldname: str) -> Selector:
     return case_field
 
 
-def new_magic_selector(f: MagicFilter) -> Selector:
-    def when_magic(
+def new_dialog_filter_selector(f: DialogFilter) -> Selector:
+    def filter_selector(
         data: dict,
         widget: "Case",
         manager: DialogManager,
-    ) -> bool:
+    ) -> Hashable:
         return f.resolve(data)
 
-    return when_magic
+    return filter_selector
 
 
 class Case(Text):
     def __init__(
         self,
         texts: dict[Any, Text],
-        selector: str | Selector | MagicFilter,
+        selector: str | Selector | DialogFilter,
         when: WhenCondition = None,
     ) -> None:
         super().__init__(when=when)
         self.texts = texts
         if isinstance(selector, str):
             self.selector = new_case_field(selector)
-        elif isinstance(selector, MagicFilter):
-            self.selector = new_magic_selector(selector)
+        elif is_dialog_filter(selector):
+            self.selector = new_dialog_filter_selector(selector)
+        elif _HAS_MAGIC_FILTER and isinstance(selector, _MagicFilter):
+            # Handle magic_filter.MagicFilter if available
+            from maxo.dialogs.integrations.magic_filter import MagicDialogFilter
+            self.selector = new_dialog_filter_selector(MagicDialogFilter(selector))
         else:
             self.selector = selector
         self._has_default = ... in self.texts

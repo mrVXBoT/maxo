@@ -3,14 +3,23 @@ import inspect
 from collections.abc import Callable
 from dataclasses import dataclass, field
 from functools import partial
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
-from magic_filter.magic import MagicFilter as OriginalMagicFilter
-
-from maxo.integrations.magic_filter import MagicFilter
+from maxo.dialogs.tools.dialog_filter import DialogFilter, is_dialog_filter
 from maxo.routing.interfaces import Filter
 
+if TYPE_CHECKING:
+    from maxo.dialogs.integrations.magic_filter import MagicDialogFilter
+
 CallbackType = Callable[..., Any]
+
+# Try to import magic_filter
+try:
+    from magic_filter.magic import MagicFilter as OriginalMagicFilter
+    _HAS_MAGIC_FILTER = True
+except ImportError:  # pragma: no cover
+    _HAS_MAGIC_FILTER = False
+    OriginalMagicFilter = None  # type: ignore[misc, assignment]
 
 
 @dataclass
@@ -44,10 +53,16 @@ class CallableObject:
 
 @dataclass
 class FilterObject(CallableObject):
-    magic: MagicFilter | None = None
+    magic: "MagicDialogFilter | DialogFilter | None" = None
 
     def __post_init__(self) -> None:
-        if isinstance(self.callback, OriginalMagicFilter):
+        # Check if callback is a magic_filter.MagicFilter
+        if _HAS_MAGIC_FILTER and isinstance(self.callback, OriginalMagicFilter):
+            # Import here to avoid circular imports and make it optional
+            from maxo.dialogs.integrations.magic_filter import MagicDialogFilter
+            self.magic = MagicDialogFilter(self.callback)
+            self.callback = self.magic.resolve
+        elif is_dialog_filter(self.callback):
             self.magic = self.callback
             self.callback = self.callback.resolve
 

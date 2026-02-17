@@ -1,11 +1,22 @@
 from __future__ import annotations
 
 from abc import abstractmethod
-from typing import Protocol
-
-from magic_filter import MagicFilter
+from typing import TYPE_CHECKING, Any, Protocol
 
 from maxo.dialogs.api.protocols import DialogManager
+from maxo.dialogs.tools.dialog_filter import DialogFilter, is_dialog_filter
+
+if TYPE_CHECKING:
+    from maxo.dialogs.integrations.magic_filter import MagicDialogFilter
+
+
+# Try to import magic_filter
+try:
+    from magic_filter import MagicFilter as _MagicFilter
+    _HAS_MAGIC_FILTER = True
+except ImportError:  # pragma: no cover
+    _HAS_MAGIC_FILTER = False
+    _MagicFilter = None  # type: ignore[misc, assignment]
 
 
 class Predicate(Protocol):
@@ -28,7 +39,8 @@ class Predicate(Protocol):
         raise NotImplementedError
 
 
-WhenCondition = str | MagicFilter | Predicate | None
+# Type alias that supports DialogFilter or magic_filter.MagicFilter
+WhenCondition = str | DialogFilter | Predicate | None
 
 
 def new_when_field(fieldname: str) -> Predicate:
@@ -42,15 +54,15 @@ def new_when_field(fieldname: str) -> Predicate:
     return when_field
 
 
-def new_when_magic(f: MagicFilter) -> Predicate:
-    def when_magic(
+def new_when_dialog_filter(f: DialogFilter) -> Predicate:
+    def when_filter(
         data: dict,
         widget: Whenable,
         manager: DialogManager,
     ) -> bool:
-        return f.resolve(data)
+        return bool(f.resolve(data))
 
-    return when_magic
+    return when_filter
 
 
 def true_condition(data: dict, widget: Whenable, manager: DialogManager) -> bool:
@@ -64,8 +76,12 @@ class Whenable:
             self.condition = true_condition
         elif isinstance(when, str):
             self.condition = new_when_field(when)
-        elif isinstance(when, MagicFilter):
-            self.condition = new_when_magic(when)
+        elif is_dialog_filter(when):
+            self.condition = new_when_dialog_filter(when)
+        elif _HAS_MAGIC_FILTER and isinstance(when, _MagicFilter):
+            # Handle magic_filter.MagicFilter if available
+            from maxo.dialogs.integrations.magic_filter import MagicDialogFilter
+            self.condition = new_when_dialog_filter(MagicDialogFilter(when))
         else:
             self.condition = when
 

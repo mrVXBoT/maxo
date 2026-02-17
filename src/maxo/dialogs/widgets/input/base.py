@@ -1,8 +1,6 @@
 from abc import abstractmethod
 from collections.abc import Awaitable, Callable, Sequence
-from typing import Any
-
-from magic_filter import F
+from typing import TYPE_CHECKING, Any
 
 from maxo.dialogs.api.internal import InputWidget
 from maxo.dialogs.api.protocols import (
@@ -16,9 +14,21 @@ from maxo.dialogs.widgets.widget_event import (
     ensure_event_processor,
 )
 from maxo.enums import AttachmentType
-from maxo.integrations.magic_filter import MagicFilter
 from maxo.routing.updates import MessageCreated
 from maxo.types import Message
+
+if TYPE_CHECKING:
+    from maxo.integrations.magic_filter import MagicFilter
+
+
+# Try to import magic_filter
+try:
+    from magic_filter import F as _F
+    _HAS_MAGIC_FILTER = True
+except ImportError:  # pragma: no cover
+    _HAS_MAGIC_FILTER = False
+    _F = None  # type: ignore[misc]
+
 
 MessageHandlerFunc = Callable[
     [Message, "MessageInput", DialogManager],
@@ -50,14 +60,16 @@ class MessageInput(BaseInput):
 
         # TODO: Починить. `F.content_type` не существует
         filters = []
-        if content_types is not None:
+        if content_types is not None and _HAS_MAGIC_FILTER:
+            # Only use MagicFilter integration if magic_filter is installed
+            from maxo.integrations.magic_filter import MagicFilter as _MagicFilter
             if isinstance(content_types, str):
                 filters.append(
-                    FilterObject(MagicFilter(F.content_type == content_types)),
+                    FilterObject(_MagicFilter(_F.content_type == content_types)),
                 )
             else:
                 filters.append(
-                    FilterObject(MagicFilter(F.content_type.in_(content_types))),
+                    FilterObject(_MagicFilter(_F.content_type.in_(content_types))),
                 )
         if filter is not None:
             filters.append(FilterObject(filter))
